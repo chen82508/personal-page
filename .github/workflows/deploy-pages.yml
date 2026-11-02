@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - id: pages
+        uses: actions/configure-pages@v5
+      - run: npm ci
+      - run: npx ng test --watch=false
+      # Project site 位於 /<repo>/ 子路徑
+      - run: npx ng build --base-href "${{ steps.pages.outputs.base_path }}/"
+      # 未知路徑也回到首頁（SPA fallback）
+      - run: cp dist/kaito-angular/browser/index.html dist/kaito-angular/browser/404.html
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/kaito-angular/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
