@@ -4,6 +4,8 @@ import { Status, StatusTag } from './status-tag';
 
 export type HighlightIcon = 'project' | 'stack' | 'code';
 
+export type HighlightLink = { label: string; href: string };
+
 @Component({
   selector: 'app-highlight-card',
   imports: [Card, StatusTag],
@@ -39,13 +41,17 @@ export type HighlightIcon = 'project' | 'stack' | 'code';
       </div>
       <h3 class="mb-2.5 text-[1.06rem]">{{ title() }}</h3>
       <p class="text-[.93rem] text-warm-grey">{{ body() }}</p>
-      @if (href(); as url) {
-        <a
-          class="mt-5 inline-flex items-center gap-1.5 font-mono text-[.8rem] tracking-[.04em] text-accent-soft no-underline transition-colors duration-250 hover:text-cream"
-          [href]="url"
-          target="_blank"
-          rel="noopener"
-        >{{ linkLabel() }}<span aria-hidden="true">→</span><span class="sr-only">（另開新分頁）</span></a>
+      @if (links().length) {
+        <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+          @for (link of links(); track link.href) {
+            <a
+              class="inline-flex items-center gap-1.5 font-mono text-[.8rem] tracking-[.04em] text-accent-soft no-underline transition-colors duration-250 hover:text-cream"
+              [href]="link.href"
+              target="_blank"
+              rel="noopener"
+            >{{ link.label }}<span aria-hidden="true">→</span><span class="sr-only">（另開新分頁）</span></a>
+          }
+        </div>
       }
     </p-card>
   `,
@@ -57,6 +63,5 @@ export class HighlightCard {
   readonly icon = input.required<HighlightIcon>();
   readonly title = input.required<string>();
   readonly body = input.required<string>();
-  readonly href = input<string>();
-  readonly linkLabel = input('查看原始碼');
+  readonly links = input<HighlightLink[]>([]);
 }

@@ -1,7 +1,7 @@
 import { Component, DestroyRef, ElementRef, afterNextRender, inject } from '@angular/core';
 import { ButtonDirective } from 'primeng/button';
 import { Eyebrow } from './ui/eyebrow';
-import { HighlightCard, HighlightIcon } from './ui/highlight-card';
+import { HighlightCard, HighlightIcon, HighlightLink } from './ui/highlight-card';
 import { Status } from './ui/status-tag';
 
 type Highlight = {
@@ -12,7 +12,7 @@ type Highlight = {
   title: string;
   body: string;
   delay: string;
-  href?: string;
+  links?: HighlightLink[];
 };
 
 @Component({
@@ -40,7 +40,10 @@ export class App {
       title: '預測市場資料平台',
       body: '參與一個彙整多家交易所報價的資料平台，負責資料擷取流程、資料庫容量與備份規劃，以及 API 逾時等效能問題的調查與修正。產品計劃告一段落後，經授權整理為開源的作品快照。',
       delay: 'delay-100',
-      href: 'https://github.com/chen82508/pmi-platform',
+      links: [
+        { label: '線上展示', href: 'https://chen82508.github.io/pmi-platform/' },
+        { label: '查看原始碼', href: 'https://github.com/chen82508/pmi-platform' },
+      ],
     },
     {
       index: '03',

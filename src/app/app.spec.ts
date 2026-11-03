@@ -32,14 +32,18 @@ describe('App', () => {
     expect(compiled.querySelector('section#highlights')).toBeTruthy();
   });
 
-  it('should link only the prediction-market card to its repository', async () => {
+  it('should link only the prediction-market card to its live demo and repository', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    const links = compiled.querySelectorAll<HTMLAnchorElement>('app-highlight-card a');
-    expect(links.length).toBe(1);
-    expect(links[0].getAttribute('href')).toBe('https://github.com/chen82508/pmi-platform');
-    expect(links[0].getAttribute('rel')).toBe('noopener');
+    const cards = compiled.querySelectorAll('app-highlight-card');
+    const links = Array.from(cards[1].querySelectorAll<HTMLAnchorElement>('a'));
+    expect(compiled.querySelectorAll('app-highlight-card a').length).toBe(2);
+    expect(links.map((a) => a.getAttribute('href'))).toEqual([
+      'https://chen82508.github.io/pmi-platform/',
+      'https://github.com/chen82508/pmi-platform',
+    ]);
+    expect(links.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
   });
 
   it('should render PrimeNG components for highlights and CTA', async () => {
