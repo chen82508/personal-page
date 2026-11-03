@@ -52,7 +52,7 @@
   </section>
 
   <!-- ============ Highlights ============ -->
-  <section class="relative py-[100px] max-sm:py-[72px]">
+  <section id="highlights" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
     <div class="relative z-1 mx-auto max-w-[1040px] px-6">
       <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
         <app-eyebrow>Highlights</app-eyebrow>
@@ -70,6 +70,7 @@
             [icon]="h.icon"
             [title]="h.title"
             [body]="h.body"
+            [href]="h.href"
           />
         }
       </div>
@@ -90,15 +91,14 @@
           class="bg-linear-100/srgb from-accent to-accent-soft text-[.96rem] tracking-[.01em] no-underline shadow-[0_14px_30px_-14px_rgb(223_160_110/0.55)] transition-[translate,box-shadow,border-color,color] duration-250 ease-out-expo hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-14px_rgb(223_160_110/0.7)] active:translate-y-0"
           href="mailto:chen82508@gmail.com"
         >聯絡我</a>
-        <button
+        <a
           pButton
-          type="button"
           rounded
           outlined
           severity="secondary"
-          class="text-[.96rem] tracking-[.01em] transition-[translate,box-shadow,border-color,color] duration-250 ease-out-expo hover:-translate-y-0.5 hover:border-accent-dim hover:text-cream"
-          (click)="showToast()"
-        >查看作品</button>
+          class="text-[.96rem] tracking-[.01em] no-underline transition-[translate,box-shadow,border-color,color] duration-250 ease-out-expo hover:-translate-y-0.5 hover:border-accent-dim hover:text-cream"
+          href="#highlights"
+        >查看作品</a>
       </div>
     </div>
   </section>
@@ -111,5 +111,3 @@
     <span class="h-px w-[30px] bg-linear-to-r from-transparent via-line to-transparent" aria-hidden="true"></span>
   </div>
 </footer>
-
-<p-toast position="bottom-center" />

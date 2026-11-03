@@ -23,14 +23,23 @@ describe('App', () => {
     expect(compiled.querySelectorAll('.grid > .reveal').length).toBe(3);
   });
 
-  it('should show the toast when 查看作品 is clicked', async () => {
+  it('should point 查看作品 at the highlights section', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('p-toast')?.textContent).not.toContain('作品集正在準備中');
-    compiled.querySelector<HTMLButtonElement>('button[type="button"]')?.click();
+    const cta = Array.from(compiled.querySelectorAll('a')).find((a) => a.textContent?.includes('查看作品'));
+    expect(cta?.getAttribute('href')).toBe('#highlights');
+    expect(compiled.querySelector('section#highlights')).toBeTruthy();
+  });
+
+  it('should link only the prediction-market card to its repository', async () => {
+    const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    expect(compiled.querySelector('p-toast')?.textContent).toContain('作品集正在準備中');
+    const compiled = fixture.nativeElement as HTMLElement;
+    const links = compiled.querySelectorAll<HTMLAnchorElement>('app-highlight-card a');
+    expect(links.length).toBe(1);
+    expect(links[0].getAttribute('href')).toBe('https://github.com/chen82508/pmi-platform');
+    expect(links[0].getAttribute('rel')).toBe('noopener');
   });
 
   it('should render PrimeNG components for highlights and CTA', async () => {
