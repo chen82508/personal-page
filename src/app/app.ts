@@ -38,7 +38,7 @@ export class App {
       label: 'SHIPPED',
       icon: 'project',
       title: '預測市場資料平台',
-      body: '參與一個彙整多家交易所報價的資料平台，負責資料擷取流程、資料庫容量與備份規劃，以及 API 逾時等效能問題的調查與修正。產品計劃告一段落後，經授權整理為開源的作品快照。',
+      body: '為彙整 9 家預測市場交易所的資料平台建置擷取管線，每日處理 1,270 萬至 1,790 萬筆價格快照，資料完整性提升 23%，並補齊 450 萬筆資料缺口。我主導了封存管線的效能調查，提出的方案預估可將上傳時間從 3～4 天縮短到 2 小時以內。產品下線時，我封存了 213 GB 資料、除役 16 項服務，零資料遺失；之後經授權整理為開源的作品快照。',
       delay: 'delay-100',
       links: [
         { label: '線上展示', href: 'https://chen82508.github.io/pmi-platform/' },
@@ -51,7 +51,7 @@ export class App {
       label: 'DEPLOYED',
       icon: 'stack',
       title: 'ASML Experience',
-      body: '曾受公司外派至 ASML，參與軟體開發與 Software Quality Assurance（SQA），累積企業級環境下的開發、品質驗證與跨團隊協作經驗。',
+      body: '受公司派駐 ASML，負責 e-Beam 檢測系統的模組化 .NET 架構，並主導核心模組從 .NET Framework 遷移到 .NET Core。我以 Python 與 TestComplete 建立自動化測試框架，將各機台組態的測試涵蓋率從 11% 提升到 32%；也撰寫 UML 設計文件，讓 PM、FAE 與 QA 對需求達成共識。',
       delay: 'delay-200',
     },
   ];
