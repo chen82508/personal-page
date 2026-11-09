@@ -4,7 +4,8 @@ import { KaitoPreset } from './theme/kaito-preset';
 
 // PrimeUI License key（Community License 免費，至 https://primeui.dev/licenses/community 申請）
 // 未設定時 PrimeNG 仍可運作，但右下角會顯示「Invalid PrimeUI License」提示
-const PRIMEUI_LICENSE = 'eyJpZCI6ImQ5MDY5MDFhLTUzZTgtNDQ5ZS1hNDdiLTlhZGIwZDI3YTVhZSIsInByb2R1Y3QiOiJwcmltZXVpIiwidGllciI6ImNvbW11bml0eSIsInR5cGUiOiJkZXYiLCJpYXQiOjE3OTM2MDI4NjIsImV4cCI6MTgyNTEzODg2Mn0.Z3_dGHruLDPM8MJnwfzjVmtpHVPfSBWOpw13d0911CDy20lG-zefpbea_Tq1SEPYjtpxUpCm8WS3ybDL03rhBg';
+const PRIMEUI_LICENSE =
+  'eyJpZCI6ImQ5MDY5MDFhLTUzZTgtNDQ5ZS1hNDdiLTlhZGIwZDI3YTVhZSIsInByb2R1Y3QiOiJwcmltZXVpIiwidGllciI6ImNvbW11bml0eSIsInR5cGUiOiJkZXYiLCJpYXQiOjE3OTM2MDI4NjIsImV4cCI6MTgyNTEzODg2Mn0.Z3_dGHruLDPM8MJnwfzjVmtpHVPfSBWOpw13d0911CDy20lG-zefpbea_Tq1SEPYjtpxUpCm8WS3ybDL03rhBg';
 
 export const appConfig: ApplicationConfig = {
   providers: [

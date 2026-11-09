@@ -3,38 +3,83 @@
 <div class="bg-grain pointer-events-none fixed inset-0 z-0" aria-hidden="true"></div>
 
 <!-- 落款：不做成 nav bar -->
-<div class="absolute top-7 left-7 z-5 font-mono text-[.8rem] tracking-[.06em] text-faint max-sm:top-5 max-sm:left-5" aria-hidden="true">
+<div
+  class="absolute top-7 left-7 z-5 font-mono text-[.8rem] tracking-[.06em] text-faint max-sm:top-5 max-sm:left-5"
+  aria-hidden="true"
+>
   <b class="font-semibold text-accent-soft">K</b>aito
 </div>
 
+<!-- 語言切換：與落款同一套字級，放在右上角 -->
+<nav
+  class="absolute top-7 right-7 z-5 flex items-center gap-2 font-mono text-[.8rem] tracking-[.06em] text-faint max-sm:top-5 max-sm:right-5"
+  aria-label="Language"
+>
+  <span class="text-accent-soft" aria-current="page">{{ c.switcher.current }}</span>
+  <span aria-hidden="true">/</span>
+  <a
+    class="text-faint no-underline transition-colors duration-250 hover:text-cream"
+    [href]="c.switcher.href"
+    [attr.hreflang]="c.switcher.otherLang"
+    [attr.lang]="c.switcher.otherLang"
+    >{{ c.switcher.other }}</a
+  >
+</nav>
+
 <main>
   <!-- ============ Hero ============ -->
-  <section class="relative flex min-h-[92vh] items-center overflow-hidden pt-[140px] pb-[100px] max-sm:min-h-0 max-sm:pt-[120px] max-sm:pb-20">
+  <section
+    class="relative flex min-h-[92vh] items-center overflow-hidden pt-[140px] pb-[100px] max-sm:min-h-0 max-sm:pt-[120px] max-sm:pb-20"
+  >
     <div
       class="pointer-events-none absolute top-[8%] left-1/2 z-0 size-[640px] animate-glow-drift bg-radial/srgb from-accent/16 to-accent/0 to-68% blur-[10px] [transform:translateX(-50%)]"
       aria-hidden="true"
     ></div>
     <div class="relative z-1 mx-auto max-w-[760px] px-6 text-center">
-      <span class="mb-9 inline-flex animate-fade-in items-center gap-2.5 rounded-full border border-line bg-surface-solid/50 px-[18px] py-2 font-mono text-[.76rem] tracking-[.06em] text-warm-grey [animation-delay:100ms]">
-        <span class="size-[7px] animate-pill-pulse rounded-full bg-accent" aria-hidden="true"></span>
-        目前狀態：開放 FDE 職缺與接案合作
+      <span
+        class="mb-9 inline-flex animate-fade-in items-center gap-2.5 rounded-full border border-line bg-surface-solid/50 px-[18px] py-2 font-mono text-[.76rem] tracking-[.06em] text-warm-grey [animation-delay:100ms]"
+      >
+        <span
+          class="size-[7px] animate-pill-pulse rounded-full bg-accent"
+          aria-hidden="true"
+        ></span>
+        {{ c.hero.status }}
       </span>
 
-      <h1 class="mx-auto max-w-[13em] animate-fade-up text-[clamp(2rem,5vw,3.4rem)] leading-[1.35] tracking-[-.01em] [animation-delay:250ms]">
-        走進問題現場，<br /><span class="inline-block">把需求</span><span class="inline-block">做成能上線的軟體。</span>
+      <h1
+        class="mx-auto max-w-[13em] animate-fade-up text-[clamp(2rem,5vw,3.4rem)] leading-[1.35] tracking-[-.01em] [animation-delay:250ms]"
+      >
+        @for (line of c.hero.headline; track $index; let last = $last) {
+          @for (chunk of line; track $index) {
+            <span class="inline-block">{{ chunk }}</span>
+          }
+          @if (!last) {
+            <br />
+          }
+        }
       </h1>
 
-      <p class="mx-auto mt-[26px] max-w-[46ch] animate-fade-up font-serif text-[clamp(1rem,1.8vw,1.2rem)] text-accent-soft italic [animation-delay:450ms]">
-        From the problem on the ground to software in production.
+      <p
+        class="mx-auto mt-[26px] max-w-[46ch] animate-fade-up font-serif text-[clamp(1rem,1.8vw,1.2rem)] text-accent-soft italic [animation-delay:450ms]"
+      >
+        {{ c.hero.tagline }}
       </p>
 
-      <p class="mx-auto mt-[30px] animate-fade-up font-mono text-[.82rem] text-faint [animation-delay:600ms]">
-        // open to FDE roles &amp; freelance projects<span class="ml-0.5 inline-block h-[1em] w-[7px] animate-blink bg-accent-dim align-[-2px]" aria-hidden="true"></span>
+      <p
+        class="mx-auto mt-[30px] animate-fade-up font-mono text-[.82rem] text-faint [animation-delay:600ms]"
+      >
+        {{ c.hero.comment
+        }}<span
+          class="ml-0.5 inline-block h-[1em] w-[7px] animate-blink bg-accent-dim align-[-2px]"
+          aria-hidden="true"
+        ></span>
       </p>
     </div>
 
     <div class="absolute bottom-10 left-1/2 z-1 -translate-x-1/2" aria-hidden="true">
-      <span class="block h-[42px] w-px animate-cue-fall bg-linear-to-b from-accent-dim to-transparent"></span>
+      <span
+        class="block h-[42px] w-px animate-cue-fall bg-linear-to-b from-accent-dim to-transparent"
+      ></span>
     </div>
   </section>
 
@@ -43,11 +88,12 @@
     <div class="relative z-1 mx-auto max-w-[760px] px-6">
       <div class="reveal text-center">
         <app-eyebrow>About</app-eyebrow>
-        <h2 class="mb-7 text-[clamp(1.4rem,2.4vw,1.9rem)]">關於我</h2>
+        <h2 class="mb-7 text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.about.title }}</h2>
       </div>
-      <p class="reveal mx-auto mt-[26px] max-w-[62ch] text-[1.02rem] delay-100 [&_strong]:font-semibold [&_strong]:text-cream">
-        我是 <strong>Kaito</strong>，一名軟體工程師，喜歡把一個想法一路做到能真正上線運作的產品。這幾年我在企業級軟體開發與 <strong>Software Quality Assurance（SQA）</strong> 的環境中打滾，也曾因公司外派前往 <strong>ASML</strong>，在實際的跨團隊協作裡累積了不少經驗。最近一段時間，我參與一個<strong>預測市場資料平台</strong>的開發，從資料擷取、資料庫維運到效能問題排查都親手處理過。隨著該產品計劃告一段落，我把重心放在 <strong>Forward Deployed Engineer（FDE）</strong>與<strong>自主接案</strong>：直接面對客戶的真實問題，把需求釐清、做出能用的系統，並陪它在現場穩定運作。對我來說，軟體不只是「能動」就好，而是要真的解決某個人的問題。
-      </p>
+      <p
+        class="reveal mx-auto mt-[26px] max-w-[62ch] text-[1.02rem] delay-100 [&_strong]:font-semibold [&_strong]:text-cream"
+        [innerHTML]="c.about.html"
+      ></p>
     </div>
   </section>
 
@@ -56,11 +102,11 @@
     <div class="relative z-1 mx-auto max-w-[1040px] px-6">
       <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
         <app-eyebrow>Highlights</app-eyebrow>
-        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">接下來想做的，與做過的事</h2>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.highlights.title }}</h2>
       </div>
 
       <div class="grid grid-cols-1 gap-[22px] min-[901px]:grid-cols-3">
-        @for (h of highlights; track h.index) {
+        @for (h of c.highlights.items; track h.index) {
           <app-highlight-card
             class="reveal"
             [class]="h.delay"
@@ -71,18 +117,119 @@
             [title]="h.title"
             [body]="h.body"
             [links]="h.links ?? []"
+            [newTabLabel]="c.newTab"
           />
         }
       </div>
     </div>
   </section>
 
+  <!-- ============ Experience ============ -->
+  <section
+    id="experience"
+    class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
+  >
+    <div class="relative z-1 mx-auto max-w-[760px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Experience</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.experience.title }}</h2>
+      </div>
+
+      <ol class="relative border-l border-line pl-8 max-sm:pl-6">
+        @for (job of c.experience.jobs; track job.period; let first = $first) {
+          <li class="reveal relative pb-12 last:pb-0">
+            <span
+              class="absolute top-[.55em] -left-[calc(2rem+4px)] size-[7px] rounded-full max-sm:-left-[calc(1.5rem+4px)]"
+              [class]="
+                first ? 'bg-accent shadow-[0_0_0_4px_rgb(223_160_110/0.15)]' : 'bg-accent-dim'
+              "
+              aria-hidden="true"
+            ></span>
+            <p class="font-mono text-[.76rem] tracking-[.06em] text-faint">{{ job.period }}</p>
+            <h3 class="mt-1 text-[1.06rem]">{{ job.company }}</h3>
+            <p class="text-[.93rem] text-accent-soft">{{ job.role }}</p>
+            <p class="mt-0.5 text-[.86rem] text-faint">
+              {{ c.experience.projectLabel }}{{ job.project }}
+            </p>
+            <ul class="mt-3 space-y-1.5 text-[.93rem]">
+              @for (point of job.points; track point) {
+                <li
+                  class="relative pl-4 before:absolute before:left-0 before:text-accent-dim before:content-['–']"
+                >
+                  {{ point }}
+                </li>
+              }
+            </ul>
+          </li>
+        }
+      </ol>
+
+      <dl
+        class="reveal mt-16 grid gap-6 border-t border-line-soft pt-10 text-[.93rem] sm:grid-cols-2"
+      >
+        <div>
+          <dt class="mb-1.5 font-mono text-[.74rem] tracking-[.12em] text-faint uppercase">
+            Education
+          </dt>
+          <dd class="text-cream">{{ c.experience.education.school }}</dd>
+          <dd class="font-mono text-[.76rem] text-faint">{{ c.experience.education.years }}</dd>
+        </div>
+        <div>
+          <dt class="mb-1.5 font-mono text-[.74rem] tracking-[.12em] text-faint uppercase">
+            Languages
+          </dt>
+          @for (l of c.experience.languages; track l.name) {
+            <dd>
+              {{ l.name }} <span class="text-faint">· {{ l.level }}</span>
+            </dd>
+          }
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ Skills ============ -->
+  <section id="skills" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
+    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Tech Stack</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.skills.title }}</h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-[22px] sm:grid-cols-2 min-[901px]:grid-cols-3">
+        @for (group of c.skills.groups; track group.index) {
+          <p-card
+            class="reveal h-full border border-line backdrop-blur-[6px]"
+            [class]="group.delay"
+          >
+            <span class="font-mono text-[.74rem] tracking-[.08em] text-faint">{{
+              group.index
+            }}</span>
+            <h3 class="mt-3 mb-4 text-[1.06rem]">{{ group.title }}</h3>
+            <ul class="flex flex-wrap gap-2">
+              @for (item of group.items; track item) {
+                <li
+                  class="rounded-full border border-line px-3 py-1 font-mono text-[.76rem] leading-normal text-warm-grey"
+                >
+                  {{ item }}
+                </li>
+              }
+            </ul>
+          </p-card>
+        }
+      </div>
+    </div>
+  </section>
+
   <!-- ============ CTA ============ -->
-  <section class="relative border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]">
+  <section
+    id="contact"
+    class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
+  >
     <div class="reveal relative z-1 mx-auto max-w-[760px] px-6 text-center">
       <app-eyebrow>Work With Me</app-eyebrow>
-      <h2 class="text-[clamp(1.5rem,2.6vw,2.1rem)]">有需要落地的專案或職缺？歡迎聊聊</h2>
-      <p class="mx-auto mt-[18px] max-w-[44ch]">FDE 職缺、接案合作，或只是想交流技術，都歡迎與我聯絡。</p>
+      <h2 class="text-[clamp(1.5rem,2.6vw,2.1rem)]">{{ c.contact.title }}</h2>
+      <p class="mx-auto mt-[18px] max-w-[44ch]">{{ c.contact.body }}</p>
 
       <div class="mt-10 flex flex-wrap justify-center gap-4">
         <a
@@ -90,24 +237,60 @@
           rounded
           class="bg-linear-100/srgb from-accent to-accent-soft text-[.96rem] tracking-[.01em] no-underline shadow-[0_14px_30px_-14px_rgb(223_160_110/0.55)] transition-[translate,box-shadow,border-color,color] duration-250 ease-out-expo hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-14px_rgb(223_160_110/0.7)] active:translate-y-0"
           href="mailto:chen82508@gmail.com"
-        >聯絡我</a>
+          >{{ c.contact.primary }}</a
+        >
+        <!-- 錨點需帶上本頁路徑，否則在 /en 會依 base href 跳回中文版 -->
         <a
           pButton
           rounded
           outlined
           severity="secondary"
           class="text-[.96rem] tracking-[.01em] no-underline transition-[translate,box-shadow,border-color,color] duration-250 ease-out-expo hover:-translate-y-0.5 hover:border-accent-dim hover:text-cream"
-          href="#highlights"
-        >查看作品</a>
+          [href]="c.homePath + '#highlights'"
+          >{{ c.contact.secondary }}</a
+        >
       </div>
+
+      <ul class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4">
+        @for (link of contacts; track link.label) {
+          <li>
+            <a
+              class="group inline-flex flex-col items-center gap-0.5 no-underline"
+              [href]="link.href"
+              [attr.target]="link.external ? '_blank' : null"
+              [attr.rel]="link.external ? 'noopener' : null"
+            >
+              <span class="font-mono text-[.7rem] tracking-[.12em] text-faint uppercase">{{
+                link.label
+              }}</span>
+              <span
+                class="font-mono text-[.8rem] tracking-[.04em] text-accent-soft transition-colors duration-250 group-hover:text-cream"
+                >{{ link.value }}</span
+              >
+              @if (link.external) {
+                <span class="sr-only">{{ c.newTab }}</span>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+      <p class="mt-6 font-mono text-[.76rem] text-faint">{{ c.contact.location }}</p>
     </div>
   </section>
 </main>
 
 <footer class="pt-10 pb-12">
-  <div class="relative z-1 mx-auto flex max-w-[760px] items-center justify-center gap-3.5 px-6 text-center font-mono text-[.78rem] text-faint">
-    <span class="h-px w-[30px] bg-linear-to-r from-transparent via-line to-transparent" aria-hidden="true"></span>
+  <div
+    class="relative z-1 mx-auto flex max-w-[760px] items-center justify-center gap-3.5 px-6 text-center font-mono text-[.78rem] text-faint"
+  >
+    <span
+      class="h-px w-[30px] bg-linear-to-r from-transparent via-line to-transparent"
+      aria-hidden="true"
+    ></span>
     <span>© 2026 Kaito. Open to what's next.</span>
-    <span class="h-px w-[30px] bg-linear-to-r from-transparent via-line to-transparent" aria-hidden="true"></span>
+    <span
+      class="h-px w-[30px] bg-linear-to-r from-transparent via-line to-transparent"
+      aria-hidden="true"
+    ></span>
   </div>
 </footer>
