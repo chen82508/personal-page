@@ -26,7 +26,9 @@ describe('App', () => {
 
   it('should point 查看作品 at the highlights section', async () => {
     const compiled = await render();
-    const cta = Array.from(compiled.querySelectorAll('a')).find((a) => a.textContent?.includes('查看作品'));
+    const cta = Array.from(compiled.querySelectorAll('a')).find((a) =>
+      a.textContent?.includes('查看作品'),
+    );
     expect(cta?.getAttribute('href')).toBe('#highlights');
     expect(compiled.querySelector('section#highlights')).toBeTruthy();
   });
@@ -54,7 +56,9 @@ describe('App', () => {
   it('should render the experience timeline and contact links', async () => {
     const compiled = await render();
     expect(compiled.querySelectorAll('#experience ol > li').length).toBe(8);
-    const hrefs = Array.from(compiled.querySelectorAll('#contact ul a')).map((a) => a.getAttribute('href'));
+    const hrefs = Array.from(compiled.querySelectorAll('#contact ul a')).map((a) =>
+      a.getAttribute('href'),
+    );
     expect(hrefs).toEqual([
       'mailto:chen82508@gmail.com',
       'https://github.com/chen82508',
@@ -71,11 +75,15 @@ describe('App', () => {
 
   it('should render the English page with the same structure', async () => {
     const compiled = await render('en');
-    expect(compiled.querySelector('h1')?.textContent).toContain('Ship software that holds up in production.');
+    expect(compiled.querySelector('h1')?.textContent).toContain(
+      'Ship software that holds up in production.',
+    );
     expect(compiled.querySelectorAll('#highlights app-highlight-card').length).toBe(3);
     expect(compiled.querySelectorAll('#experience ol > li').length).toBe(8);
     expect(compiled.querySelectorAll('#skills p-card').length).toBe(6);
-    const cta = Array.from(compiled.querySelectorAll('a')).find((a) => a.textContent?.includes('See my work'));
+    const cta = Array.from(compiled.querySelectorAll('a')).find((a) =>
+      a.textContent?.includes('See my work'),
+    );
     expect(cta?.getAttribute('href')).toBe('en/#highlights');
     const link = compiled.querySelector<HTMLAnchorElement>('nav[aria-label="Language"] a');
     expect(link?.getAttribute('href')).toBe('./');
@@ -86,7 +94,10 @@ describe('App', () => {
 
 describe('detectLang', () => {
   const doc = (base: string, path: string) =>
-    ({ baseURI: `https://chen82508.github.io${base}`, location: { pathname: path } }) as unknown as Document;
+    ({
+      baseURI: `https://chen82508.github.io${base}`,
+      location: { pathname: path },
+    }) as unknown as Document;
 
   it('should read the language from the path after the base href', () => {
     expect(detectLang(doc('/personal-page/', '/personal-page/'))).toBe('zh');

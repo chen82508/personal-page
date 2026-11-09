@@ -19,8 +19,7 @@ export const ZH: SiteContent = {
   },
   about: {
     title: '關於我',
-    html:
-      '我是 <strong>Kaito</strong>，一名有 <strong>9 年以上</strong>經驗的<strong>資深後端與基礎設施工程師</strong>，專長是高資料量與金融級系統。我從電子支付與銀行放款系統起步，做過公部門的資料整合，也曾受公司派駐 <strong>ASML</strong>，負責 e-Beam 檢測系統的 .NET 開發與自動化測試（SQA）。最近一段時間，我在 AWS 上為<strong>預測市場資料平台</strong>建置了橫跨 9 家交易所的資料擷取管線，並負責監控告警、效能調查，最後也親手讓產品安全下線。我也習慣以 <strong>AI 原生</strong>的方式開發：透過 CLAUDE.md 與 SKILL.md 設計 context 與工作流程，讓 AI 代理產出可靠的程式碼，把新資料源的整合時間從約 2 週縮短到 3 天。現在我把重心放在 <strong>Forward Deployed Engineer（FDE）</strong>與<strong>自主接案</strong>：直接面對客戶的真實問題，把需求釐清、做出能用的系統，並陪它在現場穩定運作。對我來說，軟體不只是「能動」就好，而是要真的解決某個人的問題。',
+    html: '我是 <strong>Kaito</strong>，一名有 <strong>9 年以上</strong>經驗的<strong>資深後端與基礎設施工程師</strong>，專長是高資料量與金融級系統。我從電子支付與銀行放款系統起步，做過公部門的資料整合，也曾受公司派駐 <strong>ASML</strong>，負責 e-Beam 檢測系統的 .NET 開發與自動化測試（SQA）。最近一段時間，我在 AWS 上為<strong>預測市場資料平台</strong>建置了橫跨 9 家交易所的資料擷取管線，並負責監控告警、效能調查，最後也親手讓產品安全下線。我也習慣以 <strong>AI 原生</strong>的方式開發：透過 CLAUDE.md 與 SKILL.md 設計 context 與工作流程，讓 AI 代理產出可靠的程式碼，把新資料源的整合時間從約 2 週縮短到 3 天。現在我把重心放在 <strong>Forward Deployed Engineer（FDE）</strong>與<strong>自主接案</strong>：直接面對客戶的真實問題，把需求釐清、做出能用的系統，並陪它在現場穩定運作。對我來說，軟體不只是「能動」就好，而是要真的解決某個人的問題。',
   },
   highlights: {
     title: '接下來想做的，與做過的事',
@@ -158,11 +157,24 @@ export const ZH: SiteContent = {
   skills: {
     title: '技術棧',
     groups: [
-      { index: '01', title: '程式語言', items: ['Python', 'C#', 'TypeScript', 'Node.js', 'SQL'], delay: '' },
+      {
+        index: '01',
+        title: '程式語言',
+        items: ['Python', 'C#', 'TypeScript', 'Node.js', 'SQL'],
+        delay: '',
+      },
       {
         index: '02',
         title: '框架與 API',
-        items: ['NestJS', 'FastAPI', 'ASP.NET Core', 'RESTful API', 'WebSocket', 'Angular', 'Vue.js'],
+        items: [
+          'NestJS',
+          'FastAPI',
+          'ASP.NET Core',
+          'RESTful API',
+          'WebSocket',
+          'Angular',
+          'Vue.js',
+        ],
         delay: 'delay-100',
       },
       {
@@ -174,7 +186,14 @@ export const ZH: SiteContent = {
       {
         index: '04',
         title: '雲端與基礎設施',
-        items: ['AWS EC2', 'AWS CloudWatch', 'GCP Cloud SQL', 'Docker Compose', 'Azure DevOps', 'Git'],
+        items: [
+          'AWS EC2',
+          'AWS CloudWatch',
+          'GCP Cloud SQL',
+          'Docker Compose',
+          'Azure DevOps',
+          'Git',
+        ],
         delay: '',
       },
       {
@@ -196,6 +215,6 @@ export const ZH: SiteContent = {
     body: 'FDE 職缺、接案合作，或只是想交流技術，都歡迎與我聯絡。',
     primary: '聯絡我',
     secondary: '查看作品',
-    location: '// based in 台灣・高雄',
+    location: '// 工作地點：高雄／遠端・可出差・接受海外遠端工作',
   },
 };

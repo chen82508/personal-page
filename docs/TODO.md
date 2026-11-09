@@ -74,7 +74,8 @@
   - [ ] 中油 CPC、內政部、凱基銀行、臺灣銀行、LINE Pay
 - [x] **LinkedIn 個人頁 URL** **（done）**（linkedin.com/in/kaitochen-15800326ta）（參考網站的聯絡方式為 Email、GitHub、LinkedIn 三項）
 - [ ] **履歷 PDF 是否開放下載**：如果開放，請提供一份**移除手機號碼**的公開版
-- [ ] **工作型態與地點**：例如「高雄／遠端／可出差」，以及是否接受海外遠端工作（參考網站在 Hero 標示「可面談 · 台北/遠端」）
+- [x] **工作型態與地點** **（done）**：高雄／遠端・可出差・接受海外遠端工作（聯絡區塊；英文版為 Kaohsiung, Taiwan / Remote · open to travel and overseas remote work）
+  - [x] 可出差、接受海外遠端工作 **（done）**
 - [ ] **pmi-platform 的「問題 / 方法 / 結果」敘述**：參考網站每個專案都用一個問句開頭，例如「遷移工具說 PASS，資料就真的對嗎？」。請提供你在這個專案中**最難的一個問題**是什麼，以及當時是怎麼判斷的
 
 ### 🟡 Medium
@@ -92,6 +93,8 @@
   - 與中文版一致：第三方客戶名稱匿名、未放 1.7s → 0.9ms 與「14% uptime」
   - 英文履歷本身待修正：「4,500K data gaps」→ 4.5M、「review time by 50」缺 %、「achieving 14% uptime」語意不通、「Chung Hsin」→ Hsing、Micah Group 期間寫「現在」但中文版為 2026.11 結束、多處「millions / hundreds of thousands」後缺 of
   - [ ] 待你校稿：About 與 Hero 的英文語氣是否符合你想呈現的樣子
+- [x] **多國語言同步機制** **（done）**：新增 `.claude/skills/i18n-sync/SKILL.md`，以及檢查各語言結構一致的測試 `src/app/i18n/content.spec.ts`
+- [ ] **日文版**：待建立日文履歷後再實作（流程見 `.claude/skills/i18n-sync/SKILL.md`）
 
 ### 🟢 Low
 
@@ -121,6 +124,7 @@
 | 🟢 Low | 文章／開發日誌 | 待提供 | 缺內容 |
 | 🟢 Low | 獎項／證照 | 待提供 | 未知是否有 |
 | 🟢 Low | 英文版（i18n） | resume_en.pdf | ✅ done（待校稿） |
+| 🟢 Low | 日文版 | 待提供日文履歷 | 未開始；建立日文履歷後再實作 |
 | 🟢 Low | 履歷 PDF 下載連結 | 待提供公開版 | 需要決定 |
 
 ---

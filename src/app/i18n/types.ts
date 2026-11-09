@@ -4,7 +4,7 @@ import { Status } from '../ui/status-tag';
 
 export type Lang = 'zh' | 'en';
 
-export type Highlight = {
+export interface Highlight {
   index: string;
   status: Status;
   label: string;
@@ -13,31 +13,31 @@ export type Highlight = {
   body: string;
   delay: string;
   links?: HighlightLink[];
-};
+}
 
-export type Job = {
+export interface Job {
   period: string;
   company: string;
   role: string;
   project: string;
   points: string[];
-};
+}
 
-export type SkillGroup = {
+export interface SkillGroup {
   index: string;
   title: string;
   items: string[];
   delay: string;
-};
+}
 
-export type ContactLink = {
+export interface ContactLink {
   label: string;
   value: string;
   href: string;
   external: boolean;
-};
+}
 
-export type SiteContent = {
+export interface SiteContent {
   htmlLang: string;
   meta: { title: string; description: string };
   /** 切換到另一個語言的連結（相對於 base href） */
@@ -69,11 +69,21 @@ export type SiteContent = {
     secondary: string;
     location: string;
   };
-};
+}
 
 export const CONTACTS: ContactLink[] = [
-  { label: 'Email', value: 'chen82508@gmail.com', href: 'mailto:chen82508@gmail.com', external: false },
-  { label: 'GitHub', value: 'github.com/chen82508', href: 'https://github.com/chen82508', external: true },
+  {
+    label: 'Email',
+    value: 'chen82508@gmail.com',
+    href: 'mailto:chen82508@gmail.com',
+    external: false,
+  },
+  {
+    label: 'GitHub',
+    value: 'github.com/chen82508',
+    href: 'https://github.com/chen82508',
+    external: true,
+  },
   {
     label: 'LinkedIn',
     value: 'in/kaitochen-15800326ta',

@@ -15,8 +15,17 @@ const STATUS_CLASS: Record<Status, { tag: string; dot: string }> = {
   imports: [Tag],
   host: { class: 'contents' },
   template: `
-    <p-tag rounded [value]="label()" class="border bg-transparent font-mono tracking-[.08em]" [class]="classes().tag">
-      <span class="size-1.5 flex-none rounded-full" [class]="classes().dot" aria-hidden="true"></span>
+    <p-tag
+      rounded
+      [value]="label()"
+      class="border bg-transparent font-mono tracking-[.08em]"
+      [class]="classes().tag"
+    >
+      <span
+        class="size-1.5 flex-none rounded-full"
+        [class]="classes().dot"
+        aria-hidden="true"
+      ></span>
     </p-tag>
   `,
 })

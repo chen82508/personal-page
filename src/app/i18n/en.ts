@@ -20,8 +20,7 @@ export const EN: SiteContent = {
   },
   about: {
     title: 'About Me',
-    html:
-      "I'm <strong>Kaito</strong>, a <strong>senior backend &amp; infrastructure engineer</strong> with <strong>9+ years</strong> of experience building data-intensive and financial systems. I started out on payment and bank lending systems, moved on to public-sector data integration, and spent over two years on site at <strong>ASML</strong>, working on .NET development and test automation for an e-Beam inspection system. Most recently, I built the ingestion pipeline behind a <strong>prediction-market data platform</strong> on AWS: 9 exchanges, production monitoring and alerting, and benchmark-driven performance work. When the product wound down, I led its shutdown too. I work <strong>AI-natively</strong>, designing the context and workflows (CLAUDE.md, SKILL.md) that let AI agents produce code I can trust. That cut new data-source integration from about two weeks to three days. Now I'm focused on <strong>Forward Deployed Engineer (FDE)</strong> roles and <strong>freelance work</strong>: sitting down with customers, pinning down what they actually need, building something that works, and staying with it until it runs reliably in the field. To me, software isn't done when it runs. It's done when it solves someone's problem.",
+    html: "I'm <strong>Kaito</strong>, a <strong>senior backend &amp; infrastructure engineer</strong> with <strong>9+ years</strong> of experience building data-intensive and financial systems. I started out on payment and bank lending systems, moved on to public-sector data integration, and spent over two years on site at <strong>ASML</strong>, working on .NET development and test automation for an e-Beam inspection system. Most recently, I built the ingestion pipeline behind a <strong>prediction-market data platform</strong> on AWS: 9 exchanges, production monitoring and alerting, and benchmark-driven performance work. When the product wound down, I led its shutdown too. I work <strong>AI-natively</strong>, designing the context and workflows (CLAUDE.md, SKILL.md) that let AI agents produce code I can trust. That cut new data-source integration from about two weeks to three days. Now I'm focused on <strong>Forward Deployed Engineer (FDE)</strong> roles and <strong>freelance work</strong>: sitting down with customers, pinning down what they actually need, building something that works, and staying with it until it runs reliably in the field. To me, software isn't done when it runs. It's done when it solves someone's problem.",
   },
   highlights: {
     title: "What's next, and what I've done",
@@ -91,7 +90,7 @@ export const EN: SiteContent = {
         role: 'Backend Developer (part-time)',
         project: 'ESG consulting platform',
         points: [
-          'Built FastAPI services with Pydantic validation, centralised logging, unified error handling and secure auth, improving 7 key service metrics by 23%.',
+          'Built FastAPI services with Pydantic validation, centralized logging, unified error handling and secure auth, improving 7 key service metrics by 23%.',
           'Processed millions of ESG records with GCP BigQuery, improving processing efficiency by 17%, and designed PostgreSQL schemas and indexes on Cloud SQL with an Alembic workflow adopted by 5 developers.',
         ],
       },
@@ -149,7 +148,10 @@ export const EN: SiteContent = {
         ],
       },
     ],
-    education: { school: 'B.S. in Applied Mathematics, National Chung Hsing University', years: '2011 – 2016' },
+    education: {
+      school: 'B.S. in Applied Mathematics, National Chung Hsing University',
+      years: '2011 – 2016',
+    },
     languages: [
       { name: 'Chinese', level: 'Native' },
       { name: 'English', level: 'Intermediate' },
@@ -159,11 +161,24 @@ export const EN: SiteContent = {
   skills: {
     title: 'Tech Stack',
     groups: [
-      { index: '01', title: 'Languages', items: ['Python', 'C#', 'TypeScript', 'Node.js', 'SQL'], delay: '' },
+      {
+        index: '01',
+        title: 'Languages',
+        items: ['Python', 'C#', 'TypeScript', 'Node.js', 'SQL'],
+        delay: '',
+      },
       {
         index: '02',
         title: 'Frameworks & APIs',
-        items: ['NestJS', 'FastAPI', 'ASP.NET Core', 'RESTful API', 'WebSocket', 'Angular', 'Vue.js'],
+        items: [
+          'NestJS',
+          'FastAPI',
+          'ASP.NET Core',
+          'RESTful API',
+          'WebSocket',
+          'Angular',
+          'Vue.js',
+        ],
         delay: 'delay-100',
       },
       {
@@ -175,7 +190,14 @@ export const EN: SiteContent = {
       {
         index: '04',
         title: 'Cloud & Infrastructure',
-        items: ['AWS EC2', 'AWS CloudWatch', 'GCP Cloud SQL', 'Docker Compose', 'Azure DevOps', 'Git'],
+        items: [
+          'AWS EC2',
+          'AWS CloudWatch',
+          'GCP Cloud SQL',
+          'Docker Compose',
+          'Azure DevOps',
+          'Git',
+        ],
         delay: '',
       },
       {
@@ -187,7 +209,13 @@ export const EN: SiteContent = {
       {
         index: '06',
         title: 'Testing & Quality',
-        items: ['pytest', 'TestComplete', 'SQA', 'UAT validation reports', 'Performance benchmarking'],
+        items: [
+          'pytest',
+          'TestComplete',
+          'SQA',
+          'UAT validation reports',
+          'Performance benchmarking',
+        ],
         delay: 'delay-200',
       },
     ],
@@ -197,6 +225,6 @@ export const EN: SiteContent = {
     body: "Whether it's an FDE role, a freelance project, or just a chat about engineering, I'd like to hear from you.",
     primary: 'Get in touch',
     secondary: 'See my work',
-    location: '// based in Kaohsiung, Taiwan',
+    location: '// Kaohsiung, Taiwan / Remote · open to travel and overseas remote work',
   },
 };

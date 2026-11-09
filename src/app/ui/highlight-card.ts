@@ -4,7 +4,10 @@ import { Status, StatusTag } from './status-tag';
 
 export type HighlightIcon = 'project' | 'stack' | 'code';
 
-export type HighlightLink = { label: string; href: string };
+export interface HighlightLink {
+  label: string;
+  href: string;
+}
 
 @Component({
   selector: 'app-highlight-card',
@@ -18,22 +21,82 @@ export type HighlightLink = { label: string; href: string };
         <span class="font-mono text-[.74rem] tracking-[.08em] text-faint">{{ index() }}</span>
         <app-status-tag [status]="status()" [label]="label()" />
       </div>
-      <div class="mb-5 flex size-11 items-center justify-center text-accent-soft" aria-hidden="true">
+      <div
+        class="mb-5 flex size-11 items-center justify-center text-accent-soft"
+        aria-hidden="true"
+      >
         <svg width="36" height="36" viewBox="0 0 40 40" fill="none">
           @switch (icon()) {
             @case ('project') {
-              <svg:rect x="6" y="6" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8" />
-              <svg:rect x="14" y="14" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 4" />
+              <svg:rect
+                x="6"
+                y="6"
+                width="20"
+                height="20"
+                rx="5"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+              <svg:rect
+                x="14"
+                y="14"
+                width="20"
+                height="20"
+                rx="5"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-dasharray="3 4"
+              />
             }
             @case ('stack') {
-              <svg:rect x="7" y="10" width="26" height="6" rx="3" stroke="currentColor" stroke-width="1.8" />
-              <svg:rect x="10" y="19" width="20" height="6" rx="3" stroke="currentColor" stroke-width="1.8" />
-              <svg:rect x="13" y="28" width="14" height="6" rx="3" stroke="currentColor" stroke-width="1.8" />
+              <svg:rect
+                x="7"
+                y="10"
+                width="26"
+                height="6"
+                rx="3"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+              <svg:rect
+                x="10"
+                y="19"
+                width="20"
+                height="6"
+                rx="3"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+              <svg:rect
+                x="13"
+                y="28"
+                width="14"
+                height="6"
+                rx="3"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
             }
             @case ('code') {
-              <svg:path d="M13 13 L7 20 L13 27" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-              <svg:path d="M19 13 L25 27" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-              <svg:path d="M27 20 L31 20" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2 3" />
+              <svg:path
+                d="M13 13 L7 20 L13 27"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <svg:path
+                d="M19 13 L25 27"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+              <svg:path
+                d="M27 20 L31 20"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-dasharray="2 3"
+              />
               <svg:circle cx="34" cy="20" r="3" stroke="currentColor" stroke-width="1.8" />
             }
           }
@@ -49,7 +112,9 @@ export type HighlightLink = { label: string; href: string };
               [href]="link.href"
               target="_blank"
               rel="noopener"
-            >{{ link.label }}<span aria-hidden="true">→</span><span class="sr-only">{{ newTabLabel() }}</span></a>
+              >{{ link.label }}<span aria-hidden="true">→</span
+              ><span class="sr-only">{{ newTabLabel() }}</span></a
+            >
           }
         </div>
       }

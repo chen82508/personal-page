@@ -1,14 +1,18 @@
-import { Component, DOCUMENT, DestroyRef, ElementRef, afterNextRender, inject } from '@angular/core';
+import {
+  Component,
+  DOCUMENT,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
+} from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ButtonDirective } from 'primeng/button';
 import { Card } from 'primeng/card';
-import { EN } from './i18n/en';
-import { CONTACTS, Lang, SITE_LANG, SiteContent } from './i18n/types';
-import { ZH } from './i18n/zh';
+import { CONTENT } from './i18n/content';
+import { CONTACTS, SITE_LANG } from './i18n/types';
 import { Eyebrow } from './ui/eyebrow';
 import { HighlightCard } from './ui/highlight-card';
-
-const CONTENT: Record<Lang, SiteContent> = { zh: ZH, en: EN };
 
 @Component({
   selector: 'app-root',
