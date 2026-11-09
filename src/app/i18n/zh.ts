@@ -1,0 +1,201 @@
+import { SiteContent } from './types';
+
+// 第三方客戶名稱暫以匿名描述，待確認可公開範圍（見 docs/TODO.md）
+export const ZH: SiteContent = {
+  htmlLang: 'zh-Hant',
+  meta: {
+    title: 'Kaito',
+    description:
+      'Kaito（陳凱樺）的個人網頁：資深後端與基礎設施工程師，9 年以上高資料量與金融級系統經驗，開放 Forward Deployed Engineer（FDE）職缺與自主接案合作。',
+  },
+  switcher: { current: '中文', other: 'EN', otherLang: 'en', href: 'en/' },
+  homePath: '',
+  newTab: '（另開新分頁）',
+  hero: {
+    status: '目前狀態：開放 FDE 職缺與接案合作',
+    headline: [['走進問題現場，'], ['把需求', '做成能上線的軟體。']],
+    tagline: 'From the problem on the ground to software in production.',
+    comment: '// open to FDE roles & freelance projects',
+  },
+  about: {
+    title: '關於我',
+    html:
+      '我是 <strong>Kaito</strong>，一名有 <strong>9 年以上</strong>經驗的<strong>資深後端與基礎設施工程師</strong>，專長是高資料量與金融級系統。我從電子支付與銀行放款系統起步，做過公部門的資料整合，也曾受公司派駐 <strong>ASML</strong>，負責 e-Beam 檢測系統的 .NET 開發與自動化測試（SQA）。最近一段時間，我在 AWS 上為<strong>預測市場資料平台</strong>建置了橫跨 9 家交易所的資料擷取管線，並負責監控告警、效能調查，最後也親手讓產品安全下線。我也習慣以 <strong>AI 原生</strong>的方式開發：透過 CLAUDE.md 與 SKILL.md 設計 context 與工作流程，讓 AI 代理產出可靠的程式碼，把新資料源的整合時間從約 2 週縮短到 3 天。現在我把重心放在 <strong>Forward Deployed Engineer（FDE）</strong>與<strong>自主接案</strong>：直接面對客戶的真實問題，把需求釐清、做出能用的系統，並陪它在現場穩定運作。對我來說，軟體不只是「能動」就好，而是要真的解決某個人的問題。',
+  },
+  highlights: {
+    title: '接下來想做的，與做過的事',
+    items: [
+      {
+        index: '01',
+        status: 'active',
+        label: 'OPEN TO WORK',
+        icon: 'code',
+        title: 'FDE × 自主接案',
+        body: '開放 Forward Deployed Engineer（FDE）職缺與接案合作：從需求訪談、問題釐清，到資料管線、後端服務的實作與上線，都能一路接手。',
+        delay: '',
+      },
+      {
+        index: '02',
+        status: 'done',
+        label: 'SHIPPED',
+        icon: 'project',
+        title: '預測市場資料平台',
+        body: '為彙整 9 家預測市場交易所的資料平台建置擷取管線，每日處理 1,270 萬至 1,790 萬筆價格快照，資料完整性提升 23%，並補齊 450 萬筆資料缺口。我主導了封存管線的效能調查，提出的方案預估可將上傳時間從 3～4 天縮短到 2 小時以內。產品下線時，我封存了 213 GB 資料、除役 16 項服務，零資料遺失；之後經授權整理為開源的作品快照。',
+        delay: 'delay-100',
+        links: [
+          { label: '線上展示', href: 'https://chen82508.github.io/pmi-platform/' },
+          { label: '查看原始碼', href: 'https://github.com/chen82508/pmi-platform' },
+        ],
+      },
+      {
+        index: '03',
+        status: 'done',
+        label: 'DEPLOYED',
+        icon: 'stack',
+        title: 'ASML Experience',
+        body: '受公司派駐 ASML，負責 e-Beam 檢測系統的模組化 .NET 架構，並主導核心模組從 .NET Framework 遷移到 .NET Core。我以 Python 與 TestComplete 建立自動化測試框架，將各機台組態的測試涵蓋率從 11% 提升到 32%；也撰寫 UML 設計文件，讓 PM、FAE 與 QA 對需求達成共識。',
+        delay: 'delay-200',
+      },
+    ],
+  },
+  experience: {
+    title: '經歷',
+    projectLabel: '專案：',
+    jobs: [
+      {
+        period: '2026.03 – 2026.11',
+        company: 'Micah Group',
+        role: '資深後端與基礎設施工程師',
+        project: '預測市場聚合指數平台',
+        points: [
+          '跨 Web 與 API 來源，建置 9 家預測市場交易所的資料擷取管線，每日維持 1,270 萬至 1,790 萬筆價格快照；以多金鑰輪替與背景 API 補值，資料完整性提升 23%。',
+          '在 Docker Compose 上運行 16 個擷取 sidecar 與多條背景工作佇列，以 Alembic 管理 PostgreSQL schema，並在上線時設定 CloudWatch 監控與 Slack 告警。',
+          '撰寫 5 個 SKILL.md 工作流程，把新交易所的整合時間從約 2 週縮短到 3 天；主導產品下線，封存 213 GB 資料、除役 16 項服務，零資料遺失。',
+        ],
+      },
+      {
+        period: '2025.12 – 2026.03',
+        company: 'GoCode Pte Ltd',
+        role: '資深後端開發工程師（Node.js，約聘）',
+        project: 'B2B／B2C 互動遊戲平台',
+        points: [
+          '以 NestJS 建構 RESTful 服務，並設計封裝遊戲邏輯、狀態轉換與規則驗證的遊戲引擎層，支援 3 項平台整合。',
+          '以 Redis 處理快取與狀態管理、以 Kafka 進行非同步事件串流，讓高吞吐量服務解耦，效能提升 26%。',
+          '主導以標準化模組範本與架構準則進行的重構，並在團隊中定期執行 code review。',
+        ],
+      },
+      {
+        period: '2025.07 – 2025.12',
+        company: '業外接案',
+        role: '後端開發工程師（兼職）',
+        project: 'ESG 顧問平台',
+        points: [
+          '建構具備 Pydantic 驗證、集中式日誌、統一例外處理與認證授權的 FastAPI 服務，7 項關鍵服務指標提升 23%。',
+          '整合 GCP BigQuery 處理數百萬筆 ESG 資料，資料處理效率提升 17%；在 Cloud SQL 上設計 PostgreSQL schema 與索引，建立被 5 位開發者採用的 Alembic 遷移流程。',
+        ],
+      },
+      {
+        period: '2023.05 – 2025.09',
+        company: 'Zealogics Taiwan',
+        role: 'Sr. C# 開發工程師',
+        project: 'ASML e-Beam 檢測系統（客戶端駐點）',
+        points: [
+          '設計並維護高精密 e-Beam 檢測系統的模組化 .NET 架構，並主導核心模組從 .NET Framework 遷移到 .NET Core。',
+          '以 Python 與 TestComplete 建立含可重用模擬函式庫的自動化框架，各機台組態的測試涵蓋率從 11% 提升到 32%。',
+          '交付 3 份 UML 設計文件，讓 PM、FAE 與 QA 對可行性與客戶需求達成共識；測試驗證報告縮短了客戶的 UAT 週期。',
+        ],
+      },
+      {
+        period: '2022.02 – 2023.04',
+        company: 'PTMB Holding',
+        role: '資深軟體工程師',
+        project: '企業與金融平台',
+        points: [
+          '開發擔保品計分卡引擎，自動化貸款審批中的信用風險評估，評估效率提升 27%，審查時間減少 50%。',
+          '以 ASP.NET Core 與 Vue.js 建構人資與統計 SPA，搭配 MSSQL 查詢調校與自動化報表，處理時間從 1.5 週縮短到 4 天。',
+          '透過跨系統 Oracle 檢視表與統一權限邏輯，在 ESP 與 ERP 之間實作 SSO，支援 3 個整合系統。',
+        ],
+      },
+      {
+        period: '2019.08 – 2022.01',
+        company: '哈瑪星科技',
+        role: '軟體工程師',
+        project: '公共部門與企業專案',
+        points: [
+          '為花蓮即時公車追蹤網站整合 PTX 與 ArcGIS API，並以排程快取降低尖峰時段的依賴，外部 API 呼叫次數減少 53%。',
+          '主導國營企業的 SharePoint 平行遷移，透過跨平台對應與驗證達到 100% 資料一致。',
+          '為政府共用平台建構整合多個機關資料集的 ETL 管線；以 Factory Pattern 與依賴注入重構多格式匯出引擎，匯出速度快 41%。',
+        ],
+      },
+      {
+        period: '2018.10 – 2019.08',
+        company: '一卡通票證（iPASS）',
+        role: '軟體工程師',
+        project: '電子支付系統',
+        points: [
+          '整合多家銀行與特約商店的支付 API，並負責設計文件、負載測試與對帳機制，支撐 24/7 的交易穩定性。',
+          '主導將交易記錄 ID 從序列值遷移到 GUID 以支援分散式環境，並建構月結儲存程序，處理數千萬筆記錄。',
+        ],
+      },
+      {
+        period: '2017.05 – 2018.10',
+        company: '驊宏資通',
+        role: '軟體工程師',
+        project: '銀行解決方案',
+        points: [
+          '開發銀行擔保品管理系統的核心模組，以 MSSQL 驗證規則確保信用評估資料的正確性。',
+          '維護銀行的授信與放款系統，負責 Oracle 資料遷移與日常的根本原因分析，系統可靠性提升 13%。',
+        ],
+      },
+    ],
+    education: { school: '國立中興大學 應用數學系 學士', years: '2011 – 2016' },
+    languages: [
+      { name: '中文', level: '母語' },
+      { name: '英文', level: '中級' },
+      { name: '日文', level: '中級' },
+    ],
+  },
+  skills: {
+    title: '技術棧',
+    groups: [
+      { index: '01', title: '程式語言', items: ['Python', 'C#', 'TypeScript', 'Node.js', 'SQL'], delay: '' },
+      {
+        index: '02',
+        title: '框架與 API',
+        items: ['NestJS', 'FastAPI', 'ASP.NET Core', 'RESTful API', 'WebSocket', 'Angular', 'Vue.js'],
+        delay: 'delay-100',
+      },
+      {
+        index: '03',
+        title: '資料與訊息',
+        items: ['PostgreSQL', 'MSSQL', 'Oracle', 'Redis', 'Kafka', 'BigQuery', 'ETL', 'Alembic'],
+        delay: 'delay-200',
+      },
+      {
+        index: '04',
+        title: '雲端與基礎設施',
+        items: ['AWS EC2', 'AWS CloudWatch', 'GCP Cloud SQL', 'Docker Compose', 'Azure DevOps', 'Git'],
+        delay: '',
+      },
+      {
+        index: '05',
+        title: 'AI 原生開發',
+        items: ['Claude Code', 'CLAUDE.md', 'SKILL.md 工作流程', 'Context 設計'],
+        delay: 'delay-100',
+      },
+      {
+        index: '06',
+        title: '測試與品質',
+        items: ['pytest', 'TestComplete', 'SQA', 'UAT 驗證報告', '效能基準測試'],
+        delay: 'delay-200',
+      },
+    ],
+  },
+  contact: {
+    title: '有需要落地的專案或職缺？歡迎聊聊',
+    body: 'FDE 職缺、接案合作，或只是想交流技術，都歡迎與我聯絡。',
+    primary: '聯絡我',
+    secondary: '查看作品',
+    location: '// based in 台灣・高雄',
+  },
+};
