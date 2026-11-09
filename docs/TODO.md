@@ -51,15 +51,15 @@
   - 測試與品質：pytest、TestComplete、SQA、UAT 驗證報告
 - [x] **新增「學歷與語言」小區塊** **（done）**（放在經歷區塊底部）：國立中興大學應用數學系學士（2011–2016）；中文（母語）、英文（中級）、日文（中級）
 - [x] **聯絡方式：補上 GitHub 連結**（github.com/chen82508）；地點：台灣・高雄 **（done）**
-- [ ] **`index.html` meta description**：加入「資深後端與基礎設施工程師」、「9 年」等關鍵字
+- [x] **`index.html` meta description**：加入「資深後端與基礎設施工程師」、「9 年」等關鍵字 **（done）**（英文版另有自己的 title 與 description）
 - [x] **⚠️ 不要上網的資訊：手機號碼** **（done）**（網站只放 Email、GitHub、LinkedIn；resume.pdf 已加入 .gitignore） `+886 988-815-690`。這只適合放在履歷上，網站上請只留 Email 與表單類的聯絡方式
 
 ### 履歷本身建議先修正的地方
 
 - [ ] 台達電 ESG 的「查詢時間 1.7 秒 → **0.9 毫秒**」：差了約 1,900 倍，請確認是否應為 0.9 秒
-- [ ] Zealogics 職稱「(.Sr) C# 開發工程師」應改為「(Sr.)」
+- [x] Zealogics 職稱「(.Sr) C# 開發工程師」應改為「(Sr.)」
 - [ ] 一卡通「達成 14% 的可用性提升」：可用性通常以 99.x% 表示，建議改寫成 uptime 從 X% 提升到 Y%
-- [ ] 中興大學英文名應為「National Chung **Hsing** University」
+- [x] 中興大學英文名應為「National Chung **Hsing** University」
 
 ---
 
@@ -88,7 +88,10 @@
   - 候選專案（履歷中已有素材，只缺故事與可公開程度）：封存管線效能調查、SKILL.md 資料源驗證工作流程、ASML 自動化測試框架、擔保品計分卡引擎、花蓮公車追蹤、台達 ESG 平台
 - [ ] **SKILL.md／CLAUDE.md 範例**：這是你和其他人差異最大的地方，可以考慮整理成一篇文章或一個開源 repo
 - [ ] **技術熟練度分級**：是否要標示 精通／進階／中級（參考網站有這樣的圖例）？如果要，請自行為每項技術評級
-- [ ] **英文版內容**：是否需要提供 EN 版本（FDE 職缺多數為外商）？如果需要，請提供或確認英文版的 About 與 Experience 文字
+- [x] **英文版內容** **（done）**：依 `resume_en.pdf` 改寫用詞與語氣，放在 `/en/`，右上角可切換中文／EN；文案在 `src/app/i18n/en.ts`
+  - 與中文版一致：第三方客戶名稱匿名、未放 1.7s → 0.9ms 與「14% uptime」
+  - 英文履歷本身待修正：「4,500K data gaps」→ 4.5M、「review time by 50」缺 %、「achieving 14% uptime」語意不通、「Chung Hsin」→ Hsing、Micah Group 期間寫「現在」但中文版為 2026.11 結束、多處「millions / hundreds of thousands」後缺 of
+  - [ ] 待你校稿：About 與 Hero 的英文語氣是否符合你想呈現的樣子
 
 ### 🟢 Low
 
@@ -117,7 +120,7 @@
 | 🟡 Medium | 學歷與語言 | 履歷 | ✅ done |
 | 🟢 Low | 文章／開發日誌 | 待提供 | 缺內容 |
 | 🟢 Low | 獎項／證照 | 待提供 | 未知是否有 |
-| 🟢 Low | 英文版（i18n） | 待提供 | 需要決定是否製作 |
+| 🟢 Low | 英文版（i18n） | resume_en.pdf | ✅ done（待校稿） |
 | 🟢 Low | 履歷 PDF 下載連結 | 待提供公開版 | 需要決定 |
 
 ---
@@ -126,4 +129,4 @@
 
 1. **High**：確認揭露範圍 → ~~改寫 About → 為 Highlights 補上數據 → 新增 Experience → 補上 LinkedIn 與 GitHub~~（done）
 2. **Medium**：數字摘要列 → ~~Skills~~（done）→ 2～3 個新專案（問題／方法／結果）→ ~~學歷與語言~~（done）
-3. **Low**：文章 → 獎項 → 英文版 → 履歷下載
+3. **Low**：文章 → 獎項 → ~~英文版~~（done）→ 履歷下載

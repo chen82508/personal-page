@@ -49,7 +49,7 @@ export type HighlightLink = { label: string; href: string };
               [href]="link.href"
               target="_blank"
               rel="noopener"
-            >{{ link.label }}<span aria-hidden="true">→</span><span class="sr-only">（另開新分頁）</span></a>
+            >{{ link.label }}<span aria-hidden="true">→</span><span class="sr-only">{{ newTabLabel() }}</span></a>
           }
         </div>
       }
@@ -64,4 +64,5 @@ export class HighlightCard {
   readonly title = input.required<string>();
   readonly body = input.required<string>();
   readonly links = input<HighlightLink[]>([]);
+  readonly newTabLabel = input('（另開新分頁）');
 }
