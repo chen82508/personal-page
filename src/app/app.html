@@ -77,8 +77,76 @@
     </div>
   </section>
 
+  <!-- ============ Experience ============ -->
+  <section id="experience" class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]">
+    <div class="relative z-1 mx-auto max-w-[760px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Experience</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">經歷</h2>
+      </div>
+
+      <ol class="relative border-l border-line pl-8 max-sm:pl-6">
+        @for (job of experience; track job.period; let first = $first) {
+          <li class="reveal relative pb-12 last:pb-0">
+            <span
+              class="absolute top-[.55em] -left-[calc(2rem+4px)] size-[7px] rounded-full max-sm:-left-[calc(1.5rem+4px)]"
+              [class]="first ? 'bg-accent shadow-[0_0_0_4px_rgb(223_160_110/0.15)]' : 'bg-accent-dim'"
+              aria-hidden="true"
+            ></span>
+            <p class="font-mono text-[.76rem] tracking-[.06em] text-faint">{{ job.period }}</p>
+            <h3 class="mt-1 text-[1.06rem]">{{ job.company }}</h3>
+            <p class="text-[.93rem] text-accent-soft">{{ job.role }}</p>
+            <p class="mt-0.5 text-[.86rem] text-faint">專案：{{ job.project }}</p>
+            <ul class="mt-3 space-y-1.5 text-[.93rem]">
+              @for (point of job.points; track point) {
+                <li class="relative pl-4 before:absolute before:left-0 before:text-accent-dim before:content-['–']">{{ point }}</li>
+              }
+            </ul>
+          </li>
+        }
+      </ol>
+
+      <dl class="reveal mt-16 grid gap-6 border-t border-line-soft pt-10 text-[.93rem] sm:grid-cols-2">
+        <div>
+          <dt class="mb-1.5 font-mono text-[.74rem] tracking-[.12em] text-faint uppercase">Education</dt>
+          <dd class="text-cream">國立中興大學 應用數學系 學士</dd>
+          <dd class="font-mono text-[.76rem] text-faint">2011 – 2016</dd>
+        </div>
+        <div>
+          <dt class="mb-1.5 font-mono text-[.74rem] tracking-[.12em] text-faint uppercase">Languages</dt>
+          <dd>中文 <span class="text-faint">· 母語</span></dd>
+          <dd>英文 <span class="text-faint">· 中級</span>　日文 <span class="text-faint">· 中級</span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ Skills ============ -->
+  <section id="skills" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
+    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Tech Stack</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">技術棧</h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-[22px] sm:grid-cols-2 min-[901px]:grid-cols-3">
+        @for (group of skills; track group.index) {
+          <p-card class="reveal h-full border border-line backdrop-blur-[6px]" [class]="group.delay">
+            <span class="font-mono text-[.74rem] tracking-[.08em] text-faint">{{ group.index }}</span>
+            <h3 class="mt-3 mb-4 text-[1.06rem]">{{ group.title }}</h3>
+            <ul class="flex flex-wrap gap-2">
+              @for (item of group.items; track item) {
+                <li class="rounded-full border border-line px-3 py-1 font-mono text-[.76rem] leading-normal text-warm-grey">{{ item }}</li>
+              }
+            </ul>
+          </p-card>
+        }
+      </div>
+    </div>
+  </section>
+
   <!-- ============ CTA ============ -->
-  <section class="relative border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]">
+  <section id="contact" class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]">
     <div class="reveal relative z-1 mx-auto max-w-[760px] px-6 text-center">
       <app-eyebrow>Work With Me</app-eyebrow>
       <h2 class="text-[clamp(1.5rem,2.6vw,2.1rem)]">有需要落地的專案或職缺？歡迎聊聊</h2>
@@ -100,6 +168,26 @@
           href="#highlights"
         >查看作品</a>
       </div>
+
+      <ul class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4">
+        @for (c of contacts; track c.label) {
+          <li>
+            <a
+              class="group inline-flex flex-col items-center gap-0.5 no-underline"
+              [href]="c.href"
+              [attr.target]="c.external ? '_blank' : null"
+              [attr.rel]="c.external ? 'noopener' : null"
+            >
+              <span class="font-mono text-[.7rem] tracking-[.12em] text-faint uppercase">{{ c.label }}</span>
+              <span class="font-mono text-[.8rem] tracking-[.04em] text-accent-soft transition-colors duration-250 group-hover:text-cream">{{ c.value }}</span>
+              @if (c.external) {
+                <span class="sr-only">（另開新分頁）</span>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+      <p class="mt-6 font-mono text-[.76rem] text-faint">// based in 台灣・高雄</p>
     </div>
   </section>
 </main>

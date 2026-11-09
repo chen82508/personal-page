@@ -11,24 +11,26 @@
 
 以下內容履歷已經寫明，可以直接改進網站。執行前只需確認第 1 節「揭露範圍」相關的項目。
 
-- [ ] **Hero／About：明確寫出職稱與年資**
+- [x] **Hero／About：明確寫出職稱與年資** **（done）**
   - 職稱：資深後端與基礎設施工程師（Senior Backend & Infrastructure Engineer）
   - 年資：9 年以上（2017 至今）；專長：高資料量（Data-intensive）與金融級系統
   - 經手的領域：支付閘道 → 銀行平台 → 半導體檢測軟體（ASML e-Beam）→ 預測市場資料平台
-- [ ] **About：把「這幾年」改寫成具體經歷**（目前的寫法太抽象）
+- [x] **About：把「這幾年」改寫成具體經歷** **（done）**
   - 補上 AI 原生開發能力：用 CLAUDE.md／SKILL.md 設計 context 與工作流程，把新資料源整合從約 2 週縮短到 3 天
-  - 修正 ASML 的描述：履歷寫的是「Zealogics Taiwan → ASML 客戶端駐點」，網站寫「外派」，兩者需要統一說法
-- [ ] **Highlights 02「預測市場資料平台」：補上量化數據**
+  - 修正 ASML 的描述：網站與經歷區塊已統一為「受公司派駐 ASML」／「客戶端駐點」
+- [x] **Highlights 02「預測市場資料平台」：補上量化數據** **（done）**
   - 9 家交易所（Kalshi, Polymarket, Gemini, Metaculus, Manifold, PredictIt, ForecastEx, Robinhood, IBKR）
   - 每日 1,270 萬至 1,790 萬筆價格快照；資料完整性提升 23%；補齊 450 萬筆資料缺口
   - 16 個擷取 sidecar；CloudWatch 監控與 Slack 告警；213 GB 價格表採用 Partitioning 的建議
   - 封存管線：7.2 至 11 億筆資料的上傳時間從 3～4 天降到 2 小時以內（預估），傳輸量減少 17 倍
   - 產品下線：封存 213 GB、除役 16 項服務，零資料遺失
-- [ ] **Highlights 03「ASML Experience」：補上具體內容**
+- [x] **Highlights 03「ASML Experience」：補上具體內容** **（done）**
   - .NET Framework → .NET Core 遷移；模組化架構；硬體整合
   - Python 與 TestComplete 自動化框架，測試涵蓋率從 11% 提升到 32%
   - 3 份 UML 設計文件，讓 PMS、FAES 與 QA 達成共識；驗證報告縮短了 UAT 週期
-- [ ] **新增「經歷 Experience」區塊（時間軸）**：共 7 段正職加 1 段業外，資料全在履歷中
+- [x] **新增「經歷 Experience」區塊（時間軸）**：共 7 段正職加 1 段業外 **（done）**
+  - 第三方客戶名稱暫時匿名：台達電子 → 業外接案、中油 → 國營企業、內政部 → 政府共用平台、凱基／臺銀 → 銀行、LINE Pay 省略；確認可公開後再改回（見第 1 節「揭露範圍確認」）
+  - 履歷中有疑問的數據暫不上網：ESG 查詢時間 1.7 秒 → 0.9 毫秒、一卡通「可用性提升 14%」
   | 期間 | 公司 | 職稱 | 一句話重點 |
   |---|---|---|---|
   | 2026.03–2026.11 | Micah Group | 資深後端與基礎設施工程師 | 9 家交易所的擷取管線，每日 1,790 萬筆快照 |
@@ -39,7 +41,7 @@
   | 2019.08–2022.01 | 哈瑪星科技 | 軟體工程師 | 花蓮公車追蹤系統，外部 API 呼叫減少 53% |
   | 2018.10–2019.08 | 一卡通 iPASS | 軟體工程師 | 支付 API（含 LINE Pay），交易 ID 改為 GUID |
   | 2017.05–2018.10 | 驊宏資通 | 軟體工程師 | 凱基／臺銀的擔保品與放款系統 |
-- [ ] **新增「技術棧 Skills」區塊（分類整理）**：依履歷的 Hard Skills 重新分組
+- [x] **新增「技術棧 Skills」區塊（分類整理）** **（done）**：實作時合併為 6 組（前端併入「框架與 API」，以 AWS EC2／CloudWatch、GCP Cloud SQL 呈現雲端）
   - 語言：Python、C#、TypeScript/Node.js、SQL
   - 後端框架：NestJS、FastAPI、ASP.NET Core、RESTful API、WebSocket
   - 資料：PostgreSQL、MSSQL、Oracle、Redis、Kafka、BigQuery、ETL、Alembic
@@ -47,10 +49,10 @@
   - 前端：Angular、Vue.js
   - AI 原生開發：Claude Code、CLAUDE.md、SKILL.md 工作流程
   - 測試與品質：pytest、TestComplete、SQA、UAT 驗證報告
-- [ ] **新增「學歷與語言」小區塊**：國立中興大學應用數學系學士（2011–2016）；中文（母語）、英文（中級）、日文（中級）
-- [ ] **聯絡方式：補上 GitHub 連結**（github.com/chen82508）；地點：台灣・高雄
+- [x] **新增「學歷與語言」小區塊** **（done）**（放在經歷區塊底部）：國立中興大學應用數學系學士（2011–2016）；中文（母語）、英文（中級）、日文（中級）
+- [x] **聯絡方式：補上 GitHub 連結**（github.com/chen82508）；地點：台灣・高雄 **（done）**
 - [ ] **`index.html` meta description**：加入「資深後端與基礎設施工程師」、「9 年」等關鍵字
-- [ ] **⚠️ 不要上網的資訊：手機號碼** `+886 988-815-690`。這只適合放在履歷上，網站上請只留 Email 與表單類的聯絡方式
+- [x] **⚠️ 不要上網的資訊：手機號碼** **（done）**（網站只放 Email、GitHub、LinkedIn；resume.pdf 已加入 .gitignore） `+886 988-815-690`。這只適合放在履歷上，網站上請只留 Email 與表單類的聯絡方式
 
 ### 履歷本身建議先修正的地方
 
@@ -70,7 +72,7 @@
   - [ ] Micah Group，以及 9 家交易所名稱
   - [ ] 台達電子（業外接案，是否受 NDA 約束）
   - [ ] 中油 CPC、內政部、凱基銀行、臺灣銀行、LINE Pay
-- [ ] **LinkedIn 個人頁 URL**（參考網站的聯絡方式為 Email、GitHub、LinkedIn 三項）
+- [x] **LinkedIn 個人頁 URL** **（done）**（linkedin.com/in/kaitochen-15800326ta）（參考網站的聯絡方式為 Email、GitHub、LinkedIn 三項）
 - [ ] **履歷 PDF 是否開放下載**：如果開放，請提供一份**移除手機號碼**的公開版
 - [ ] **工作型態與地點**：例如「高雄／遠端／可出差」，以及是否接受海外遠端工作（參考網站在 Hero 標示「可面談 · 台北/遠端」）
 - [ ] **pmi-platform 的「問題 / 方法 / 結果」敘述**：參考網站每個專案都用一個問句開頭，例如「遷移工具說 PASS，資料就真的對嗎？」。請提供你在這個專案中**最難的一個問題**是什麼，以及當時是怎麼判斷的
@@ -105,14 +107,14 @@
 
 | 優先 | 區塊 | 內容來源 | 狀態 |
 |---|---|---|---|
-| 🔴 High | About 改寫（年資、職稱、領域軌跡、AI 原生開發） | 履歷 | 可直接做 |
-| 🔴 High | Highlights 02／03 加入量化數據 | 履歷 | 可直接做（先確認揭露範圍） |
-| 🔴 High | Experience 時間軸（8 段） | 履歷 | 可直接做（先確認揭露範圍） |
-| 🔴 High | 聯絡方式：Email、GitHub、LinkedIn | 履歷＋待提供 | 缺 LinkedIn |
+| 🔴 High | About 改寫（年資、職稱、領域軌跡、AI 原生開發） | 履歷 | ✅ done |
+| 🔴 High | Highlights 02／03 加入量化數據 | 履歷 | ✅ done |
+| 🔴 High | Experience 時間軸（8 段） | 履歷 | ✅ done（客戶名稱暫時匿名） |
+| 🔴 High | 聯絡方式：Email、GitHub、LinkedIn | 履歷＋使用者提供 | ✅ done |
 | 🟡 Medium | 數字摘要列（例如：9+ 年經驗、8 家公司、6 個產業、1,790 萬筆每日快照） | 履歷 | 可直接做 |
-| 🟡 Medium | Skills 技術棧分類 | 履歷 | 可直接做；熟練度分級待提供 |
+| 🟡 Medium | Skills 技術棧分類 | 履歷 | ✅ done；熟練度分級待提供 |
 | 🟡 Medium | 專案作品集（問題／方法／結果格式） | 待提供 | 缺故事與可公開範圍 |
-| 🟡 Medium | 學歷與語言 | 履歷 | 可直接做 |
+| 🟡 Medium | 學歷與語言 | 履歷 | ✅ done |
 | 🟢 Low | 文章／開發日誌 | 待提供 | 缺內容 |
 | 🟢 Low | 獎項／證照 | 待提供 | 未知是否有 |
 | 🟢 Low | 英文版（i18n） | 待提供 | 需要決定是否製作 |
@@ -122,6 +124,6 @@
 
 ## 3. 建議執行順序
 
-1. **High**：確認揭露範圍 → 改寫 About → 為 Highlights 補上數據 → 新增 Experience → 補上 LinkedIn 與 GitHub
-2. **Medium**：數字摘要列 → Skills → 2～3 個新專案（問題／方法／結果）→ 學歷與語言
+1. **High**：確認揭露範圍 → ~~改寫 About → 為 Highlights 補上數據 → 新增 Experience → 補上 LinkedIn 與 GitHub~~（done）
+2. **Medium**：數字摘要列 → ~~Skills~~（done）→ 2～3 個新專案（問題／方法／結果）→ ~~學歷與語言~~（done）
 3. **Low**：文章 → 獎項 → 英文版 → 履歷下載
