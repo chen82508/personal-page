@@ -24,12 +24,13 @@ import {
   techStats,
 } from './i18n/stack';
 import { CONTACTS, Job, SITE_LANG, Unit } from './i18n/types';
+import { ContactIconView } from './ui/contact-icon';
 import { Eyebrow } from './ui/eyebrow';
 import { HighlightCard } from './ui/highlight-card';
 
 @Component({
   selector: 'app-root',
-  imports: [ButtonDirective, Eyebrow, HighlightCard, NgTemplateOutlet],
+  imports: [ButtonDirective, ContactIconView, Eyebrow, HighlightCard, NgTemplateOutlet],
   styleUrl: './app.css',
   templateUrl: './app.html',
 })

@@ -487,22 +487,24 @@
         >
       </div>
 
-      <ul class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4">
+      <ul
+        class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4 max-sm:mx-auto max-sm:w-fit max-sm:flex-col max-sm:items-start max-sm:gap-y-2"
+      >
         @for (link of contacts; track link.label) {
           <li>
+            <!-- 圖示取代原本的小標；標籤留給螢幕閱讀器 -->
             <a
-              class="group inline-flex flex-col items-center gap-0.5 no-underline"
+              class="group inline-flex items-center gap-2.5 py-1 text-accent-soft no-underline transition-colors duration-250 hover:text-cream"
               [href]="link.href"
               [attr.target]="link.external ? '_blank' : null"
               [attr.rel]="link.external ? 'noopener' : null"
             >
-              <span class="font-mono text-[.7rem] tracking-[.12em] text-faint uppercase">{{
-                link.label
-              }}</span>
-              <span
-                class="font-mono text-[.8rem] tracking-[.04em] text-accent-soft transition-colors duration-250 group-hover:text-cream"
-                >{{ link.value }}</span
-              >
+              <app-contact-icon
+                class="text-accent transition-colors duration-250 group-hover:text-cream"
+                [name]="link.icon"
+              />
+              <span class="sr-only">{{ link.label }}</span>
+              <span class="font-mono text-[.8rem] tracking-[.04em]">{{ link.value }}</span>
               @if (link.external) {
                 <span class="sr-only">{{ c.newTab }}</span>
               }
