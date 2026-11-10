@@ -35,9 +35,9 @@ function shape(c: SiteContent) {
       delay: h.delay,
       links: (h.links ?? []).map((l) => l.href),
     })),
-    jobs: c.experience.jobs.map((j) => j.points.length),
+    jobs: c.experience.jobs.map((j) => ({ key: j.key, points: j.points.length })),
     languages: c.experience.languages.length,
-    skills: c.skills.groups.map((g) => ({ index: g.index, delay: g.delay, items: g.items.length })),
+    tiers: Object.keys(c.skills.tiers),
   };
 }
 

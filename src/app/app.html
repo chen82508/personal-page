@@ -125,6 +125,7 @@
   </section>
 
   <!-- ============ Experience ============ -->
+  <!-- 成果優先：每段以一個成果數字為主，細節收合；2022 年以前的經歷收進「更早的經歷」 -->
   <section
     id="experience"
     class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
@@ -135,38 +136,128 @@
         <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.experience.title }}</h2>
       </div>
 
-      <ol class="relative border-l border-line pl-8 max-sm:pl-6">
-        @for (job of c.experience.jobs; track job.period; let first = $first) {
-          <li class="reveal relative pb-12 last:pb-0">
+      <!-- 甘特總覽：正職在主軌，兼職／業外在第二軌，讓重疊的期間一眼可見；進入畫面時由舊到新依序畫出 -->
+      <figure class="reveal group/gantt mb-12" [attr.aria-label]="c.experience.timeline.label">
+        <div class="relative h-[50px]">
+          @for (t of ganttYears; track t.year) {
             <span
-              class="absolute top-[.55em] -left-[calc(2rem+4px)] size-[7px] rounded-full max-sm:-left-[calc(1.5rem+4px)]"
-              [class]="
-                first ? 'bg-accent shadow-[0_0_0_4px_rgb(223_160_110/0.15)]' : 'bg-accent-dim'
-              "
+              class="absolute top-0 bottom-0 w-px bg-line-soft"
+              [style.left.%]="t.left"
               aria-hidden="true"
             ></span>
-            <p class="font-mono text-[.76rem] tracking-[.06em] text-faint">{{ job.period }}</p>
-            <h3 class="mt-1 text-[1.06rem]">{{ job.company }}</h3>
-            <p class="text-[.93rem] text-accent-soft">{{ job.role }}</p>
-            <p class="mt-0.5 text-[.86rem] text-faint">
-              {{ c.experience.projectLabel }}{{ job.project }}
+          }
+          @for (b of ganttBars; track b.job.key) {
+            <a
+              class="group/bar absolute block h-3.5 px-[1.5px] transition-opacity duration-300"
+              [class]="b.lane === 1 ? 'top-[30px]' : 'top-2.5'"
+              [class.opacity-35]="isDimmed(b.job)"
+              [style.left.%]="b.left"
+              [style.width.%]="b.width"
+              [href]="c.homePath + '#job-' + b.job.key"
+              [attr.aria-label]="b.job.company + ' · ' + b.job.period"
+              (mouseenter)="hovered.set(b.job)"
+              (mouseleave)="hovered.set(null)"
+              (focus)="hovered.set(b.job)"
+              (blur)="hovered.set(null)"
+            >
+              <span
+                class="block size-full origin-left scale-x-0 rounded-[2px] transition-[transform,background-color,border-color,color] duration-[900ms] ease-out-expo group-[.in-view]/gantt:scale-x-100"
+                [class]="employmentStyles[b.employment]"
+                [style.transition-delay.ms]="b.delay"
+              ></span>
+            </a>
+          }
+        </div>
+        <div class="relative mt-1.5 h-5 font-mono text-[.68rem] text-faint" aria-hidden="true">
+          @for (t of ganttYears; track t.year) {
+            <span
+              class="absolute -translate-x-1/2"
+              [class.max-sm:hidden]="t.year % 2 === 1"
+              [style.left.%]="t.left"
+              >{{ t.year }}</span
+            >
+          }
+        </div>
+        <figcaption
+          class="mt-3 flex min-h-[1.6em] flex-wrap items-center gap-x-5 gap-y-1 text-[.8rem] text-faint"
+        >
+          @if (hovered(); as h) {
+            <span
+              ><span class="text-cream">{{ h.company }}</span>
+              <span class="font-mono text-[.74rem]">&nbsp;· {{ h.period }}</span></span
+            >
+          } @else {
+            @for (t of employmentTypes; track t) {
+              <span class="inline-flex items-center gap-2"
+                ><span
+                  class="h-2 w-4 rounded-[2px]"
+                  [class]="employmentStyles[t]"
+                  aria-hidden="true"
+                ></span
+                >{{ c.experience.timeline[t] }}</span
+              >
+            }
+          }
+        </figcaption>
+      </figure>
+
+      <div aria-live="polite">
+        @if (selectedStat(); as s) {
+          <div
+            class="mb-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-lg border border-line bg-surface px-4 py-3 text-[.86rem]"
+          >
+            <p>
+              {{ c.experience.filterLabel
+              }}<span class="font-mono text-accent-soft">{{ s.name }}</span>
+              <span class="text-faint">&nbsp;· {{ statText(s) }}</span>
             </p>
-            <ul class="mt-3 space-y-1.5 text-[.93rem]">
-              @for (point of job.points; track point) {
-                <li
-                  class="relative pl-4 before:absolute before:left-0 before:text-accent-dim before:content-['–']"
-                >
-                  {{ point }}
-                </li>
-              }
-            </ul>
-          </li>
+            <button
+              type="button"
+              class="cursor-pointer font-mono text-[.76rem] text-faint transition-colors hover:text-cream"
+              (click)="selected.set(null)"
+            >
+              {{ c.experience.clearLabel }} ×
+            </button>
+          </div>
+        }
+      </div>
+
+      <ol>
+        @for (job of recentJobs; track job.key) {
+          <ng-container *ngTemplateOutlet="jobRow; context: { $implicit: job }" />
         }
       </ol>
 
-      <dl
-        class="reveal mt-16 grid gap-6 border-t border-line-soft pt-10 text-[.93rem] sm:grid-cols-2"
-      >
+      @if (earlierJobs.length) {
+        <details
+          class="group/earlier border-y border-line-soft"
+          [open]="earlierOpen()"
+          (toggle)="onEarlierToggle($event)"
+        >
+          <summary
+            class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 transition-colors hover:text-cream [&::-webkit-details-marker]:hidden"
+          >
+            <span class="flex items-center gap-3 text-[.98rem] text-cream">
+              <span
+                class="inline-block text-accent-dim transition-transform group-open/earlier:rotate-90"
+                aria-hidden="true"
+                >›</span
+              >
+              {{ c.experience.earlierLabel }}
+            </span>
+            <span class="font-mono text-[.76rem] tracking-[.06em] text-faint"
+              >{{ earlierRange }} · {{ earlierJobs.length }}</span
+            >
+          </summary>
+          <ol>
+            @for (job of earlierJobs; track job.key) {
+              <ng-container *ngTemplateOutlet="jobRow; context: { $implicit: job }" />
+            }
+          </ol>
+        </details>
+      }
+
+      <dl class="reveal mt-16 grid gap-6 pt-2 text-[.93rem] sm:grid-cols-2">
         <div>
           <dt class="mb-1.5 font-mono text-[.74rem] tracking-[.12em] text-faint uppercase">
             Education
@@ -188,39 +279,184 @@
     </div>
   </section>
 
+  <ng-template #jobRow let-job>
+    <li
+      class="reveal scroll-mt-6 border-t border-line-soft first:border-t-0"
+      [id]="'job-' + job.key"
+    >
+      <article
+        class="grid gap-x-8 gap-y-1 py-8 transition-opacity duration-300 sm:grid-cols-[128px_1fr]"
+        [class.opacity-35]="isDimmed(job)"
+      >
+        <p class="font-mono text-[.76rem] leading-[2.2] tracking-[.04em] text-faint">
+          {{ job.period }}
+        </p>
+        <div class="min-w-0">
+          <h3 class="text-[1.06rem]">{{ job.company }}</h3>
+          <p class="text-[.93rem] text-accent-soft">{{ job.role }}</p>
+          <p class="mt-0.5 text-[.86rem] text-faint">
+            {{ c.experience.projectLabel }}{{ job.project }}
+          </p>
+
+          <p class="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <span class="font-serif text-[1.65rem] leading-tight text-accent">{{
+              job.headline.value
+            }}</span>
+            <span class="text-[.86rem]">{{ job.headline.label }}</span>
+          </p>
+
+          <ul class="mt-4 flex flex-wrap gap-1.5" [attr.aria-label]="c.experience.stackLabel">
+            @for (t of techOf(job); track t) {
+              <li>
+                <button
+                  type="button"
+                  class="cursor-pointer rounded-full border px-2.5 py-0.5 font-mono text-[.72rem] leading-normal transition-colors"
+                  [class]="
+                    t === selected()
+                      ? 'border-accent bg-accent/12 text-accent-soft'
+                      : 'border-line text-warm-grey hover:border-accent-dim hover:text-cream'
+                  "
+                  [attr.aria-pressed]="t === selected()"
+                  (click)="toggleTech(t)"
+                >
+                  {{ t }}
+                </button>
+              </li>
+            }
+          </ul>
+
+          <details class="group/details mt-4">
+            <summary
+              class="inline-flex cursor-pointer list-none items-center gap-2 font-mono text-[.76rem] tracking-[.06em] text-faint transition-colors hover:text-cream [&::-webkit-details-marker]:hidden"
+            >
+              <span
+                class="inline-block transition-transform group-open/details:rotate-90"
+                aria-hidden="true"
+                >›</span
+              >
+              {{ c.experience.detailsLabel }}
+            </summary>
+            <ul class="mt-3 space-y-1.5 text-[.93rem]">
+              @for (point of job.points; track point) {
+                <li
+                  class="relative pl-5 before:absolute before:left-0 before:text-[.8em] before:text-accent before:content-['▸']"
+                >
+                  {{ point }}
+                </li>
+              }
+            </ul>
+          </details>
+        </div>
+      </article>
+    </li>
+  </ng-template>
+
   <!-- ============ Skills ============ -->
+  <!-- 熟悉度不用自評分數：分層依履歷，年資與段數由 stack.ts 從任職期間計算 -->
   <section id="skills" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
     <div class="relative z-1 mx-auto max-w-[1040px] px-6">
       <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
         <app-eyebrow>Tech Stack</app-eyebrow>
         <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.skills.title }}</h2>
+        <p class="mt-4 text-[.93rem]">{{ c.skills.intro }}</p>
       </div>
 
-      <div class="grid grid-cols-1 gap-[22px] sm:grid-cols-2 min-[901px]:grid-cols-3">
-        @for (group of c.skills.groups; track group.index) {
-          <p-card
-            class="reveal h-full border border-line backdrop-blur-[6px]"
-            [class]="group.delay"
+      <div class="border-t border-line">
+        @for (g of tierGroups; track g.tier; let i = $index) {
+          <div
+            class="reveal grid gap-x-10 gap-y-5 border-b border-line py-9 md:grid-cols-[220px_1fr]"
+            [attr.data-tier]="g.tier"
           >
-            <span class="font-mono text-[.74rem] tracking-[.08em] text-faint">{{
-              group.index
-            }}</span>
-            <h3 class="mt-3 mb-4 text-[1.06rem]">{{ group.title }}</h3>
-            <ul class="flex flex-wrap gap-2">
-              @for (item of group.items; track item) {
-                <li
-                  class="rounded-full border border-line px-3 py-1 font-mono text-[.76rem] leading-normal text-warm-grey"
-                >
-                  {{ item }}
-                </li>
-              }
-            </ul>
-          </p-card>
+            <div>
+              <span class="font-mono text-[.74rem] tracking-[.08em] text-faint">0{{ i + 1 }}</span>
+              <h3 class="mt-2 text-[1.06rem]">{{ g.text.title }}</h3>
+              <p class="mt-1 text-[.86rem] text-faint">{{ g.text.note }}</p>
+            </div>
+
+            <div class="min-w-0">
+              <ul class="flex flex-wrap gap-2.5">
+                @for (s of g.stats; track s.name) {
+                  <li>
+                    @if (s.jobs.length) {
+                      <button
+                        type="button"
+                        class="flex cursor-pointer flex-col items-start rounded-lg border text-left transition-colors"
+                        [class]="
+                          (g.tier === 'core' ? 'px-4 py-2.5 ' : 'px-3 py-1.5 ') +
+                          (s.name === selected()
+                            ? 'border-accent bg-accent/12'
+                            : g.tier === 'core'
+                              ? 'border-line bg-surface hover:border-accent-dim'
+                              : 'border-line hover:border-accent-dim')
+                        "
+                        [attr.aria-pressed]="s.name === selected()"
+                        (click)="toggleTech(s.name)"
+                      >
+                        <span
+                          class="font-mono leading-snug"
+                          [class]="
+                            (g.tier === 'core' ? 'text-[.92rem] ' : 'text-[.8rem] ') +
+                            (s.name === selected() ? 'text-accent-soft' : 'text-cream')
+                          "
+                          >{{ s.name }}</span
+                        >
+                        <span class="font-mono text-[.7rem] leading-snug text-faint">{{
+                          statText(s)
+                        }}</span>
+                      </button>
+                    } @else {
+                      <span
+                        class="inline-block rounded-full border border-line-soft px-3 py-1 font-mono text-[.76rem] text-faint"
+                        >{{ s.name }}</span
+                      >
+                    }
+                  </li>
+                }
+              </ul>
+
+              <div aria-live="polite">
+                @if (selectedStat()?.tier === g.tier) {
+                  @let s = selectedStat()!;
+                  <div class="mt-6 rounded-lg border border-line bg-ink-alt p-5">
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <p class="font-mono text-[.74rem] tracking-[.12em] text-faint uppercase">
+                        {{ c.skills.usedIn }}
+                      </p>
+                      <button
+                        type="button"
+                        class="cursor-pointer font-mono text-[.76rem] text-faint transition-colors hover:text-cream"
+                        (click)="selected.set(null)"
+                      >
+                        {{ c.experience.clearLabel }} ×
+                      </button>
+                    </div>
+                    <ul class="mt-2 divide-y divide-line-soft">
+                      @for (key of s.jobs; track key) {
+                        @if (job(key); as j) {
+                          <li>
+                            <a
+                              class="flex flex-wrap items-baseline justify-between gap-x-4 py-2.5 text-[.9rem] text-warm-grey no-underline transition-colors hover:text-cream"
+                              [href]="c.homePath + '#job-' + key"
+                            >
+                              <span
+                                >{{ j.company }}
+                                <span class="text-faint">· {{ j.role }}</span></span
+                              >
+                              <span class="font-mono text-[.74rem] text-faint">{{ j.period }}</span>
+                            </a>
+                          </li>
+                        }
+                      }
+                    </ul>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
         }
       </div>
     </div>
   </section>
-
   <!-- ============ CTA ============ -->
   <section
     id="contact"

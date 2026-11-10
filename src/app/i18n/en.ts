@@ -61,12 +61,25 @@ export const EN: SiteContent = {
   experience: {
     title: 'Experience',
     projectLabel: 'Project: ',
+    detailsLabel: 'Details',
+    earlierLabel: 'Earlier roles',
+    filterLabel: 'Filtered by ',
+    clearLabel: 'Clear filter',
+    stackLabel: 'Tech used',
+    timeline: {
+      label: 'Timeline overview',
+      permanent: 'Full-time',
+      contract: 'Contract',
+      partTime: 'Part-time & freelance',
+    },
     jobs: [
       {
+        key: 'micah',
         period: 'Mar 2026 – Nov 2026',
         company: 'Micah Group',
         role: 'Senior Backend & Infrastructure Engineer',
         project: 'Prediction-market aggregate index platform',
+        headline: { value: '2 wks → 3 days', label: 'New-exchange integration time' },
         points: [
           'Built ingestion for 9 prediction-market exchanges across web and API sources, sustaining 12.7–17.9M price snapshots a day. Multi-key rotation and background API backfills lifted data completeness by 23%.',
           'Ran the platform on Docker Compose with 16 ingest sidecars and several worker queue lanes, managed PostgreSQL migrations with Alembic, and set up CloudWatch monitoring with Slack alerts at launch.',
@@ -74,10 +87,12 @@ export const EN: SiteContent = {
         ],
       },
       {
+        key: 'gocode',
         period: 'Dec 2025 – Mar 2026',
         company: 'GoCode Pte Ltd',
         role: 'Senior Backend Developer (Node.js, contract)',
         project: 'B2B/B2C interactive game platform',
+        headline: { value: '+26%', label: 'Performance of high-throughput services' },
         points: [
           'Built NestJS REST services for platform integrations and designed a game-engine layer for gameplay logic, state transitions and rule validation, supporting 3 integrations.',
           'Used Redis for caching and session state and Kafka for async event streaming, decoupling high-throughput services and improving performance by 26%.',
@@ -85,20 +100,24 @@ export const EN: SiteContent = {
         ],
       },
       {
+        key: 'freelance-esg',
         period: 'Jul 2025 – Dec 2025',
         company: 'Freelance',
         role: 'Backend Developer (part-time)',
         project: 'ESG consulting platform',
+        headline: { value: '+23%', label: 'Across 7 key service metrics' },
         points: [
           'Built FastAPI services with Pydantic validation, centralized logging, unified error handling and secure auth, improving 7 key service metrics by 23%.',
-          'Processed millions of ESG records with GCP BigQuery, improving processing efficiency by 17%, and designed PostgreSQL schemas and indexes on Cloud SQL with an Alembic workflow adopted by 5 developers.',
+          'Processed millions of ESG records with GCP BigQuery, improving processing efficiency by 17%, and designed PostgreSQL schemas and indexes on Cloud SQL that cut dashboard queries from 1.1s to 0.7s, with an Alembic workflow adopted by 5 developers.',
         ],
       },
       {
+        key: 'zealogics',
         period: 'May 2023 – Sep 2025',
         company: 'Zealogics Taiwan',
         role: 'Senior C# Developer',
         project: 'ASML e-Beam inspection system (on site at client)',
+        headline: { value: '11% → 32%', label: 'Test coverage across machine configurations' },
         points: [
           'Designed and maintained the modular .NET architecture of a high-precision e-Beam inspection system, and led core modules through the migration from .NET Framework to .NET Core.',
           'Built a Python and TestComplete automation framework with a reusable simulation library, raising test coverage from 11% to 32% across machine configurations.',
@@ -106,10 +125,12 @@ export const EN: SiteContent = {
         ],
       },
       {
+        key: 'ptmb',
         period: 'Feb 2022 – Apr 2023',
         company: 'PTMB Holding',
         role: 'Senior Software Engineer',
         project: 'Enterprise and financial platforms',
+        headline: { value: '−50%', label: 'Loan review time' },
         points: [
           'Built a collateral scorecard engine that automated credit-risk assessment for loan approvals, making assessments 27% more efficient and halving review time.',
           'Built an HR and statistics SPA (ASP.NET Core, Vue.js) with MSSQL tuning and automated reports, cutting processing time from 1.5 weeks to 4 days.',
@@ -117,10 +138,12 @@ export const EN: SiteContent = {
         ],
       },
       {
+        key: 'hamastar',
         period: 'Aug 2019 – Jan 2022',
         company: 'Hamastar',
         role: 'Software Engineer',
         project: 'Public-sector and enterprise projects',
+        headline: { value: '−53%', label: 'External API calls at traffic peaks' },
         points: [
           "Integrated PTX and ArcGIS APIs into Hualien's real-time bus tracking portal, with scheduled caching that cut external API calls by 53% during traffic peaks.",
           'Led a parallel SharePoint migration for a state-owned enterprise, reaching 100% data consistency through cross-platform mapping and validation.',
@@ -128,20 +151,24 @@ export const EN: SiteContent = {
         ],
       },
       {
+        key: 'ipass',
         period: 'Oct 2018 – Aug 2019',
         company: 'iPASS Corporation',
         role: 'Software Engineer',
         project: 'Electronic payment systems',
+        headline: { value: 'Tens of millions', label: 'Records in monthly settlement runs' },
         points: [
-          'Integrated secure payment APIs with multiple banks and merchants, owning design docs, load testing and reconciliation for 24/7 transaction stability.',
+          'Integrated secure payment APIs with multiple banks and merchants, owning design docs, load testing and reconciliation for 24/7 transaction stability at 99.9% availability.',
           'Led the move of transaction IDs from serial values to GUIDs for distributed growth, and built monthly settlement procedures handling tens of millions of records.',
         ],
       },
       {
+        key: 'azion',
         period: 'May 2017 – Oct 2018',
         company: 'Azion Corporation',
         role: 'Software Engineer',
         project: 'Banking solutions',
+        headline: { value: '+13%', label: 'Credit and lending system reliability' },
         points: [
           "Developed core modules of a bank's collateral management system, with MSSQL validation rules that kept credit-appraisal data accurate.",
           "Maintained a bank's credit and lending system through Oracle data migrations and daily root-cause analysis, improving reliability by 13%.",
@@ -160,65 +187,19 @@ export const EN: SiteContent = {
   },
   skills: {
     title: 'Tech Stack',
-    groups: [
-      {
-        index: '01',
-        title: 'Languages',
-        items: ['Python', 'C#', 'TypeScript', 'Node.js', 'SQL'],
-        delay: '',
-      },
-      {
-        index: '02',
-        title: 'Frameworks & APIs',
-        items: [
-          'NestJS',
-          'FastAPI',
-          'ASP.NET Core',
-          'RESTful API',
-          'WebSocket',
-          'Angular',
-          'Vue.js',
-        ],
-        delay: 'delay-100',
-      },
-      {
-        index: '03',
-        title: 'Data & Messaging',
-        items: ['PostgreSQL', 'MSSQL', 'Oracle', 'Redis', 'Kafka', 'BigQuery', 'ETL', 'Alembic'],
-        delay: 'delay-200',
-      },
-      {
-        index: '04',
-        title: 'Cloud & Infrastructure',
-        items: [
-          'AWS EC2',
-          'AWS CloudWatch',
-          'GCP Cloud SQL',
-          'Docker Compose',
-          'Azure DevOps',
-          'Git',
-        ],
-        delay: '',
-      },
-      {
-        index: '05',
-        title: 'AI-Native Development',
-        items: ['Claude Code', 'CLAUDE.md', 'SKILL.md workflows', 'Context design'],
-        delay: 'delay-100',
-      },
-      {
-        index: '06',
-        title: 'Testing & Quality',
-        items: [
-          'pytest',
-          'TestComplete',
-          'SQA',
-          'UAT validation reports',
-          'Performance benchmarking',
-        ],
-        delay: 'delay-200',
-      },
-    ],
+    intro:
+      'Years and role counts come from my work history, with overlapping periods counted once. Pick a technology to see where I used it.',
+    tiers: {
+      core: { title: 'Core stack', note: 'What I build with day to day.' },
+      shipped: { title: 'Shipped with', note: 'Used in production projects.' },
+      other: { title: 'Also use', note: 'Everyday tooling and AI-native development.' },
+    },
+    units: {
+      year: { one: 'yr', other: 'yrs' },
+      month: { one: 'mo', other: 'mo' },
+      role: { one: 'role', other: 'roles' },
+    },
+    usedIn: 'Used in',
   },
   contact: {
     title: "Have something to ship or a role to fill? Let's talk.",

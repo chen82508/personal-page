@@ -161,6 +161,11 @@
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
+/* 約聘的斜紋填色：用 currentColor，色調跟著 text-* 變化 */
+@utility bg-hatch {
+  background-image: repeating-linear-gradient(135deg, currentColor 0 2px, transparent 2px 5px);
+}
+
 /* ============================================================
    Scroll reveal — JS 進入視窗時加上 in-view；延遲用 delay-* utility
    ============================================================ */
