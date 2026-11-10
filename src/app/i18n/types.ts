@@ -1,4 +1,5 @@
 import { DOCUMENT, InjectionToken, inject } from '@angular/core';
+import { ContactIcon } from '../ui/contact-icon';
 import { HighlightIcon, HighlightLink } from '../ui/highlight-card';
 import { Status } from '../ui/status-tag';
 import { Employment, JobKey, TechTier } from './stack';
@@ -35,7 +36,9 @@ export interface Unit {
 }
 
 export interface ContactLink {
+  /** 畫面上以圖示呈現，文字只給螢幕閱讀器 */
   label: string;
+  icon: ContactIcon;
   value: string;
   href: string;
   external: boolean;
@@ -94,18 +97,21 @@ export interface SiteContent {
 export const CONTACTS: ContactLink[] = [
   {
     label: 'Email',
+    icon: 'mail',
     value: 'chen82508@gmail.com',
     href: 'mailto:chen82508@gmail.com',
     external: false,
   },
   {
     label: 'GitHub',
+    icon: 'github',
     value: 'github.com/chen82508',
     href: 'https://github.com/chen82508',
     external: true,
   },
   {
     label: 'LinkedIn',
+    icon: 'linkedin',
     value: 'in/kaitochen-15800326ta',
     href: 'https://www.linkedin.com/in/kaitochen-15800326ta/',
     external: true,

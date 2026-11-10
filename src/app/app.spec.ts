@@ -68,6 +68,14 @@ describe('App', () => {
       'https://github.com/chen82508',
       'https://www.linkedin.com/in/kaitochen-15800326ta/',
     ]);
+    // 每個連結都有圖示，標籤以螢幕閱讀器文字保留
+    const links = compiled.querySelectorAll('#contact ul a');
+    expect(Array.from(links).every((a) => a.querySelector('app-contact-icon svg'))).toBe(true);
+    expect(Array.from(links).map((a) => a.querySelector('.sr-only')?.textContent)).toEqual([
+      'Email',
+      'GitHub',
+      'LinkedIn',
+    ]);
   });
 
   it('should draw overlapping roles on a second timeline lane', async () => {
