@@ -1,6 +1,8 @@
 import { DOCUMENT, InjectionToken, inject } from '@angular/core';
+import { ContactIcon } from '../ui/contact-icon';
 import { HighlightIcon, HighlightLink } from '../ui/highlight-card';
 import { Status } from '../ui/status-tag';
+import { Employment, JobKey, TechTier } from './stack';
 
 export type Lang = 'zh' | 'en';
 
@@ -16,22 +18,27 @@ export interface Highlight {
 }
 
 export interface Job {
+  /** 對應 stack.ts 的 ROLE_STACKS（任職月份與使用的技術） */
+  key: JobKey;
   period: string;
   company: string;
   role: string;
   project: string;
+  /** 這段經歷最具代表性的成果數字，例如「2 週 → 3 天」 */
+  headline: { value: string; label: string };
   points: string[];
 }
 
-export interface SkillGroup {
-  index: string;
-  title: string;
-  items: string[];
-  delay: string;
+/** 單複數不同的單位（中文兩者相同） */
+export interface Unit {
+  one: string;
+  other: string;
 }
 
 export interface ContactLink {
+  /** 畫面上以圖示呈現，文字只給螢幕閱讀器 */
   label: string;
+  icon: ContactIcon;
   value: string;
   href: string;
   external: boolean;
@@ -57,11 +64,27 @@ export interface SiteContent {
   experience: {
     title: string;
     projectLabel: string;
+    detailsLabel: string;
+    earlierLabel: string;
+    /** 篩選列的前綴，例如「篩選：」 */
+    filterLabel: string;
+    clearLabel: string;
+    /** 每段經歷技術清單的 aria-label */
+    stackLabel: string;
+    /** 甘特總覽：aria-label 與圖例 */
+    timeline: { label: string } & Record<Employment, string>;
     jobs: Job[];
     education: { school: string; years: string };
     languages: { name: string; level: string }[];
   };
-  skills: { title: string; groups: SkillGroup[] };
+  skills: {
+    title: string;
+    intro: string;
+    tiers: Record<TechTier, { title: string; note: string }>;
+    units: { year: Unit; month: Unit; role: Unit };
+    /** 選取技術後，列出經歷的標題 */
+    usedIn: string;
+  };
   contact: {
     title: string;
     body: string;
@@ -74,18 +97,21 @@ export interface SiteContent {
 export const CONTACTS: ContactLink[] = [
   {
     label: 'Email',
+    icon: 'mail',
     value: 'chen82508@gmail.com',
     href: 'mailto:chen82508@gmail.com',
     external: false,
   },
   {
     label: 'GitHub',
+    icon: 'github',
     value: 'github.com/chen82508',
     href: 'https://github.com/chen82508',
     external: true,
   },
   {
     label: 'LinkedIn',
+    icon: 'linkedin',
     value: 'in/kaitochen-15800326ta',
     href: 'https://www.linkedin.com/in/kaitochen-15800326ta/',
     external: true,

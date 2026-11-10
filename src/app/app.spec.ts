@@ -2,14 +2,18 @@ import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { Lang, SITE_LANG, detectLang } from './i18n/types';
 
-async function render(lang: Lang = 'zh') {
+async function setup(lang: Lang = 'zh') {
   await TestBed.configureTestingModule({
     imports: [App],
     providers: [{ provide: SITE_LANG, useValue: lang }],
   }).compileComponents();
   const fixture = TestBed.createComponent(App);
   await fixture.whenStable();
-  return fixture.nativeElement as HTMLElement;
+  return fixture;
+}
+
+async function render(lang: Lang = 'zh') {
+  return (await setup(lang)).nativeElement as HTMLElement;
 }
 
 describe('App', () => {
@@ -45,17 +49,17 @@ describe('App', () => {
     expect(links.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
   });
 
-  it('should render PrimeNG components for highlights, skills and CTA', async () => {
+  it('should render PrimeNG components for highlights and CTA', async () => {
     const compiled = await render();
     expect(compiled.querySelectorAll('#highlights p-card').length).toBe(3);
-    expect(compiled.querySelectorAll('#skills p-card').length).toBe(6);
     expect(compiled.querySelectorAll('p-tag').length).toBe(3);
     expect(compiled.querySelectorAll('.p-button').length).toBe(2);
   });
 
   it('should render the experience timeline and contact links', async () => {
     const compiled = await render();
-    expect(compiled.querySelectorAll('#experience ol > li').length).toBe(8);
+    expect(compiled.querySelectorAll('#experience li[id^="job-"]').length).toBe(8);
+    expect(compiled.querySelectorAll('#experience details[open] li[id^="job-"]').length).toBe(0);
     const hrefs = Array.from(compiled.querySelectorAll('#contact ul a')).map((a) =>
       a.getAttribute('href'),
     );
@@ -64,6 +68,77 @@ describe('App', () => {
       'https://github.com/chen82508',
       'https://www.linkedin.com/in/kaitochen-15800326ta/',
     ]);
+    // 每個連結都有圖示，標籤以螢幕閱讀器文字保留
+    const links = compiled.querySelectorAll('#contact ul a');
+    expect(Array.from(links).every((a) => a.querySelector('app-contact-icon svg'))).toBe(true);
+    expect(Array.from(links).map((a) => a.querySelector('.sr-only')?.textContent)).toEqual([
+      'Email',
+      'GitHub',
+      'LinkedIn',
+    ]);
+  });
+
+  it('should draw overlapping roles on a second timeline lane', async () => {
+    const compiled = await render();
+    const bars = Array.from(compiled.querySelectorAll<HTMLAnchorElement>('#experience figure a'));
+    expect(bars.length).toBe(8);
+    // 與前一段同時進行的經歷在第二軌；樣式依任職類型：兼職／業外虛線、約聘斜紋
+    const secondLane = bars.filter((a) => a.classList.contains('top-[30px]'));
+    expect(secondLane.map((a) => a.getAttribute('href'))).toEqual([
+      '#job-freelance-esg',
+      '#job-micah',
+    ]);
+    const dashed = bars.filter((a) => a.querySelector('.border-dashed'));
+    expect(dashed.map((a) => a.getAttribute('href'))).toEqual(['#job-freelance-esg']);
+    const hatched = bars.filter((a) => a.querySelector('.bg-hatch'));
+    expect(hatched.map((a) => a.getAttribute('href'))).toEqual(['#job-gocode']);
+    expect(compiled.querySelector('#experience figcaption')?.textContent).toMatch(
+      /正職.*約聘.*兼職／業外/s,
+    );
+    // 由舊到新排列：第一條是最早的經歷，從左邊緣開始
+    expect(bars[0].getAttribute('href')).toBe('#job-azion');
+    expect(bars[0].style.left).toBe('0%');
+
+    // 交接月（例如驊宏資通 → iPASS 的 2018.10）從中間切開：同一軌的長條不重疊
+    const mainLane = bars
+      .filter((a) => !a.classList.contains('top-[30px]'))
+      .map((a) => [parseFloat(a.style.left), parseFloat(a.style.left) + parseFloat(a.style.width)]);
+    mainLane
+      .slice(1)
+      .forEach(([left], i) => expect(left).toBeGreaterThanOrEqual(mainLane[i][1] - 1e-9));
+  });
+
+  it('should filter experience by a technology picked in the tech stack', async () => {
+    const fixture = await setup();
+    const compiled = fixture.nativeElement as HTMLElement;
+    const tierButtons = compiled.querySelectorAll<HTMLButtonElement>('#skills [data-tier] button');
+    const etl = Array.from(tierButtons).find((b) => b.textContent?.includes('ETL'));
+    etl?.click();
+    await fixture.whenStable();
+
+    // ETL 只用在哈瑪星：其他經歷淡化，收合的「更早的經歷」自動展開
+    const rows = Array.from(compiled.querySelectorAll('#experience li[id^="job-"]'));
+    const visible = rows.filter(
+      (li) => !li.querySelector('article')?.classList.contains('opacity-35'),
+    );
+    expect(visible.map((li) => li.id)).toEqual(['job-hamastar']);
+    expect(compiled.querySelector('#experience details[open]')).toBeTruthy();
+    expect(etl?.getAttribute('aria-pressed')).toBe('true');
+    const links = compiled.querySelectorAll('#skills [data-tier] a[href*="#job-"]');
+    expect(Array.from(links).map((a) => a.getAttribute('href'))).toEqual(['#job-hamastar']);
+
+    // 再點一次取消篩選
+    etl?.click();
+    await fixture.whenStable();
+    expect(compiled.querySelectorAll('#experience article.opacity-35').length).toBe(0);
+  });
+
+  it('should show only tiered stack items that have evidence as filter buttons', async () => {
+    const compiled = await render();
+    const other = compiled.querySelector('#skills [data-tier="other"]');
+    expect(other?.querySelectorAll('button').length).toBe(0);
+    const core = compiled.querySelector('#skills [data-tier="core"] button');
+    expect(core?.textContent).toMatch(/年 · \d 段經歷/);
   });
 
   it('should link the Chinese page to the English page', async () => {
@@ -79,8 +154,8 @@ describe('App', () => {
       'Ship software that holds up in production.',
     );
     expect(compiled.querySelectorAll('#highlights app-highlight-card').length).toBe(3);
-    expect(compiled.querySelectorAll('#experience ol > li').length).toBe(8);
-    expect(compiled.querySelectorAll('#skills p-card').length).toBe(6);
+    expect(compiled.querySelectorAll('#experience li[id^="job-"]').length).toBe(8);
+    expect(compiled.querySelectorAll('#skills [data-tier]').length).toBe(3);
     const cta = Array.from(compiled.querySelectorAll('a')).find((a) =>
       a.textContent?.includes('See my work'),
     );

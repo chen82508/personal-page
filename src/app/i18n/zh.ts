@@ -60,12 +60,25 @@ export const ZH: SiteContent = {
   experience: {
     title: '經歷',
     projectLabel: '專案：',
+    detailsLabel: '細節',
+    earlierLabel: '更早的經歷',
+    filterLabel: '篩選：',
+    clearLabel: '清除篩選',
+    stackLabel: '使用的技術',
+    timeline: {
+      label: '任職時間總覽',
+      permanent: '正職',
+      contract: '約聘',
+      partTime: '兼職／業外',
+    },
     jobs: [
       {
+        key: 'micah',
         period: '2026.03 – 2026.11',
         company: 'Micah Group',
         role: '資深後端與基礎設施工程師',
         project: '預測市場聚合指數平台',
+        headline: { value: '2 週 → 3 天', label: '新交易所的整合時間' },
         points: [
           '跨 Web 與 API 來源，建置 9 家預測市場交易所的資料擷取管線，每日維持 1,270 萬至 1,790 萬筆價格快照；以多金鑰輪替與背景 API 補值，資料完整性提升 23%。',
           '在 Docker Compose 上運行 16 個擷取 sidecar 與多條背景工作佇列，以 Alembic 管理 PostgreSQL schema，並在上線時設定 CloudWatch 監控與 Slack 告警。',
@@ -73,10 +86,12 @@ export const ZH: SiteContent = {
         ],
       },
       {
+        key: 'gocode',
         period: '2025.12 – 2026.03',
         company: 'GoCode Pte Ltd',
         role: '資深後端開發工程師（Node.js，約聘）',
         project: 'B2B／B2C 互動遊戲平台',
+        headline: { value: '+26%', label: '高吞吐量服務的效能' },
         points: [
           '以 NestJS 建構 RESTful 服務，並設計封裝遊戲邏輯、狀態轉換與規則驗證的遊戲引擎層，支援 3 項平台整合。',
           '以 Redis 處理快取與狀態管理、以 Kafka 進行非同步事件串流，讓高吞吐量服務解耦，效能提升 26%。',
@@ -84,20 +99,24 @@ export const ZH: SiteContent = {
         ],
       },
       {
+        key: 'freelance-esg',
         period: '2025.07 – 2025.12',
         company: '業外接案',
         role: '後端開發工程師（兼職）',
         project: 'ESG 顧問平台',
+        headline: { value: '+23%', label: '7 項關鍵服務指標' },
         points: [
           '建構具備 Pydantic 驗證、集中式日誌、統一例外處理與認證授權的 FastAPI 服務，7 項關鍵服務指標提升 23%。',
-          '整合 GCP BigQuery 處理數百萬筆 ESG 資料，資料處理效率提升 17%；在 Cloud SQL 上設計 PostgreSQL schema 與索引，建立被 5 位開發者採用的 Alembic 遷移流程。',
+          '整合 GCP BigQuery 處理數百萬筆 ESG 資料，資料處理效率提升 17%；在 Cloud SQL 上設計 PostgreSQL schema 與索引，讓儀表板查詢時間從 1.1 秒縮短到 0.7 秒，並建立被 5 位開發者採用的 Alembic 遷移流程。',
         ],
       },
       {
+        key: 'zealogics',
         period: '2023.05 – 2025.09',
         company: 'Zealogics Taiwan',
         role: 'Sr. C# 開發工程師',
         project: 'ASML e-Beam 檢測系統（客戶端駐點）',
+        headline: { value: '11% → 32%', label: '各機台組態的測試涵蓋率' },
         points: [
           '設計並維護高精密 e-Beam 檢測系統的模組化 .NET 架構，並主導核心模組從 .NET Framework 遷移到 .NET Core。',
           '以 Python 與 TestComplete 建立含可重用模擬函式庫的自動化框架，各機台組態的測試涵蓋率從 11% 提升到 32%。',
@@ -105,10 +124,12 @@ export const ZH: SiteContent = {
         ],
       },
       {
+        key: 'ptmb',
         period: '2022.02 – 2023.04',
         company: 'PTMB Holding',
         role: '資深軟體工程師',
         project: '企業與金融平台',
+        headline: { value: '−50%', label: '貸款審查時間' },
         points: [
           '開發擔保品計分卡引擎，自動化貸款審批中的信用風險評估，評估效率提升 27%，審查時間減少 50%。',
           '以 ASP.NET Core 與 Vue.js 建構人資與統計 SPA，搭配 MSSQL 查詢調校與自動化報表，處理時間從 1.5 週縮短到 4 天。',
@@ -116,10 +137,12 @@ export const ZH: SiteContent = {
         ],
       },
       {
+        key: 'hamastar',
         period: '2019.08 – 2022.01',
         company: '哈瑪星科技',
         role: '軟體工程師',
         project: '公共部門與企業專案',
+        headline: { value: '−53%', label: '尖峰時段的外部 API 呼叫' },
         points: [
           '為花蓮即時公車追蹤網站整合 PTX 與 ArcGIS API，並以排程快取降低尖峰時段的依賴，外部 API 呼叫次數減少 53%。',
           '主導國營企業的 SharePoint 平行遷移，透過跨平台對應與驗證達到 100% 資料一致。',
@@ -127,20 +150,24 @@ export const ZH: SiteContent = {
         ],
       },
       {
+        key: 'ipass',
         period: '2018.10 – 2019.08',
         company: '一卡通票證（iPASS）',
         role: '軟體工程師',
         project: '電子支付系統',
+        headline: { value: '數千萬筆', label: '月結儲存程序處理的交易記錄' },
         points: [
-          '整合多家銀行與特約商店的支付 API，並負責設計文件、負載測試與對帳機制，支撐 24/7 的交易穩定性。',
+          '整合多家銀行與特約商店的支付 API，並負責設計文件、負載測試與對帳機制，支撐 24/7 的交易穩定性，可用性達 99.9%。',
           '主導將交易記錄 ID 從序列值遷移到 GUID 以支援分散式環境，並建構月結儲存程序，處理數千萬筆記錄。',
         ],
       },
       {
+        key: 'azion',
         period: '2017.05 – 2018.10',
         company: '驊宏資通',
         role: '軟體工程師',
         project: '銀行解決方案',
+        headline: { value: '+13%', label: '授信與放款系統的可靠性' },
         points: [
           '開發銀行擔保品管理系統的核心模組，以 MSSQL 驗證規則確保信用評估資料的正確性。',
           '維護銀行的授信與放款系統，負責 Oracle 資料遷移與日常的根本原因分析，系統可靠性提升 13%。',
@@ -156,59 +183,18 @@ export const ZH: SiteContent = {
   },
   skills: {
     title: '技術棧',
-    groups: [
-      {
-        index: '01',
-        title: '程式語言',
-        items: ['Python', 'C#', 'TypeScript', 'Node.js', 'SQL'],
-        delay: '',
-      },
-      {
-        index: '02',
-        title: '框架與 API',
-        items: [
-          'NestJS',
-          'FastAPI',
-          'ASP.NET Core',
-          'RESTful API',
-          'WebSocket',
-          'Angular',
-          'Vue.js',
-        ],
-        delay: 'delay-100',
-      },
-      {
-        index: '03',
-        title: '資料與訊息',
-        items: ['PostgreSQL', 'MSSQL', 'Oracle', 'Redis', 'Kafka', 'BigQuery', 'ETL', 'Alembic'],
-        delay: 'delay-200',
-      },
-      {
-        index: '04',
-        title: '雲端與基礎設施',
-        items: [
-          'AWS EC2',
-          'AWS CloudWatch',
-          'GCP Cloud SQL',
-          'Docker Compose',
-          'Azure DevOps',
-          'Git',
-        ],
-        delay: '',
-      },
-      {
-        index: '05',
-        title: 'AI 原生開發',
-        items: ['Claude Code', 'CLAUDE.md', 'SKILL.md 工作流程', 'Context 設計'],
-        delay: 'delay-100',
-      },
-      {
-        index: '06',
-        title: '測試與品質',
-        items: ['pytest', 'TestComplete', 'SQA', 'UAT 驗證報告', '效能基準測試'],
-        delay: 'delay-200',
-      },
-    ],
+    intro: '年資與經歷段數依任職期間計算，重疊的期間只算一次。點選技術，可以看到它用在哪幾段經歷。',
+    tiers: {
+      core: { title: '核心技術', note: '目前主力使用的技術。' },
+      shipped: { title: '實戰經驗', note: '在正式專案中使用過。' },
+      other: { title: '其他工具', note: '日常開發與 AI 原生開發的工具。' },
+    },
+    units: {
+      year: { one: '年', other: '年' },
+      month: { one: '個月', other: '個月' },
+      role: { one: '段經歷', other: '段經歷' },
+    },
+    usedIn: '用在這些經歷',
   },
   contact: {
     title: '有需要落地的專案或職缺？歡迎聊聊',
