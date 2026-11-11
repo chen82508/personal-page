@@ -2,16 +2,16 @@ import { Component, input, signal } from '@angular/core';
 import { ButtonDirective } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 
-/** 示範動畫：GIF 路徑（相對於 base href）、替代文字與原始尺寸 */
+/** 示範動畫：動態 WebP 的路徑（相對於 base href）、替代文字與原始尺寸 */
 export interface DemoMedia {
-  gif: string;
+  src: string;
   alt: string;
   width: number;
   height: number;
 }
 
 // 「觀看操作示範」按鈕 + 對話框，作品集卡片與 Highlights 卡片共用。
-// 示範動畫不直接放在卡片上：按下按鈕才開啟對話框並載入 GIF，
+// 示範動畫不直接放在卡片上：按下按鈕才開啟對話框並載入動畫，
 // 讓有興趣的人主動觀看，也省下沒打開時的下載量。
 @Component({
   selector: 'app-demo-button',
@@ -54,7 +54,7 @@ export interface DemoMedia {
         @if (open()) {
           <img
             class="block h-auto w-full rounded-md border border-line-soft"
-            [src]="media().gif"
+            [src]="media().src"
             [alt]="media().alt"
             [width]="media().width"
             [height]="media().height"
@@ -76,7 +76,7 @@ export class DemoButton {
   /** 對話框標題 */
   readonly header = input.required<string>();
   readonly media = input.required<DemoMedia>();
-  /** GIF 下方的說明，例如作品集的「試試看：」 */
+  /** 動畫下方的說明，例如作品集的「試試看：」 */
   readonly caption = input<{ label: string; text: string } | null>(null);
 
   protected readonly open = signal(false);

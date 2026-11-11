@@ -46,7 +46,7 @@ describe('App', () => {
       'https://github.com/chen82508/pmi-platform',
     ]);
     expect(links.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
-    // 平台已下線，改以示範動畫呈現；GIF 只在對話框開啟後才載入
+    // 平台已下線，改以示範動畫呈現；動畫只在對話框開啟後才載入
     const demo = compiled.querySelectorAll('#highlights button[aria-haspopup="dialog"]');
     expect(demo.length).toBe(1);
     expect(cards[1].contains(demo[0])).toBe(true);
@@ -62,19 +62,19 @@ describe('App', () => {
       'https://www.moi.gov.tw/',
     ]);
     expect(visit.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
-    // GIF 只在按下按鈕、對話框開啟後才載入
+    // 動畫只在按下按鈕、對話框開啟後才載入
     expect(compiled.querySelectorAll('#projects img').length).toBe(0);
     expect(compiled.querySelectorAll('#projects button[aria-haspopup="dialog"]').length).toBe(2);
   });
 
-  it('should open the demo dialog with the GIF when the button is pressed', async () => {
+  it('should open the demo dialog with the animation when the button is pressed', async () => {
     const fixture = await setup();
     const compiled = fixture.nativeElement as HTMLElement;
     compiled.querySelector<HTMLButtonElement>('#projects button[aria-haspopup="dialog"]')!.click();
     fixture.detectChanges();
     await fixture.whenStable();
     const img = document.querySelector<HTMLImageElement>('.p-dialog img');
-    expect(img?.getAttribute('src')).toBe('projects/hualien-bus.gif');
+    expect(img?.getAttribute('src')).toBe('projects/hualien-bus.webp');
     expect(img?.getAttribute('alt')).toBeTruthy();
   });
 

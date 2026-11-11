@@ -33,7 +33,7 @@ function shape(c: SiteContent) {
       label: h.label,
       icon: h.icon,
       delay: h.delay,
-      demo: h.demo?.gif,
+      demo: h.demo?.src,
       links: (h.links ?? []).map((l) => l.href),
     })),
     jobs: c.experience.jobs.map((j) => ({ key: j.key, points: j.points.length })),
@@ -41,7 +41,7 @@ function shape(c: SiteContent) {
     projects: c.projects.items.map((p) => ({
       key: p.key,
       href: p.href,
-      gif: p.media.gif,
+      media: p.media.src,
       job: p.job,
       tech: p.tech,
     })),

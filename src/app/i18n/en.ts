@@ -44,10 +44,10 @@ export const EN: SiteContent = {
         body: 'Built the ingestion pipeline for a platform aggregating 9 prediction-market exchanges, sustaining 12.7M–17.9M price snapshots a day and cutting missing index-input fields from 33% to 10%, with 4.5M records filled through cross-source reconciliation. I profiled the archive pipeline and traced its bottleneck to the Google Drive API write limit; the fix cut transfer volume 17x, and each run after the initial archive finished in under 3 hours. At shutdown I decommissioned 16 services and archived 213 GB with zero data loss, then open-sourced a snapshot of the work with permission.',
         delay: 'delay-100',
         demo: {
-          gif: 'projects/pmi-platform.gif',
+          src: 'projects/pmi-platform.webp',
           alt: 'Walkthrough of the prediction-market platform: the index list, the war index history with its tooltip, the markets behind the score, and a backtest replay',
-          width: 960,
-          height: 570,
+          width: 1600,
+          height: 950,
         },
         links: [{ label: 'Source code', href: 'https://github.com/chen82508/pmi-platform' }],
       },
@@ -211,10 +211,10 @@ export const EN: SiteContent = {
         tryIt:
           '查公車 (Bus) → 公車動態 (Real-time bus) → 花蓮市區線 (city lines) → route 311, 311A or 301',
         media: {
-          gif: 'projects/hualien-bus.gif',
+          src: 'projects/hualien-bus.webp',
           alt: "Picking route 311 under Hualien's city lines on the traffic portal, which lists estimated arrival times for each stop and shows buses on a map",
-          width: 800,
-          height: 500,
+          width: 1600,
+          height: 1000,
         },
         href: 'https://110traffic.hl.gov.tw/',
         tech: ['C# / .NET', 'ASP.NET Web Forms', 'PTX API', 'ArcGIS API'],
@@ -228,10 +228,10 @@ export const EN: SiteContent = {
         tryIt:
           'the 主題服務 (Services) menu and the tabs under 訊息快遞 (News) and 快捷服務 (Quick links) on the home page',
         media: {
-          gif: 'projects/moi.gif',
+          src: 'projects/moi.webp',
           alt: 'The Ministry of the Interior home page: opening the Services menu, switching the News and Quick links tabs, and scrolling through the sections',
-          width: 800,
-          height: 500,
+          width: 1600,
+          height: 1000,
         },
         href: 'https://www.moi.gov.tw/',
         tech: ['C# / .NET', 'ETL'],

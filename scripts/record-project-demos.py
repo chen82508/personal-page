@@ -1,21 +1,34 @@
-"""錄製「專案作品集」的示範 GIF（Playwright 逐格截圖 + Pillow 合成）。
+"""錄製示範動畫（Playwright 逐格截圖 + Pillow 合成動態 WebP）。
 
 用法（在 repo 根目錄執行，使用本機的 Google Chrome，不需另外下載瀏覽器）：
 
     python3 -m venv /tmp/rec-venv && /tmp/rec-venv/bin/pip install playwright pillow
-    /tmp/rec-venv/bin/python scripts/record-project-demos.py hualien public/projects/hualien-bus.gif
-    /tmp/rec-venv/bin/python scripts/record-project-demos.py moi public/projects/moi.gif
+    /tmp/rec-venv/bin/python scripts/record-project-demos.py hualien public/projects/hualien-bus.webp
+    /tmp/rec-venv/bin/python scripts/record-project-demos.py moi public/projects/moi.webp
+
+預測市場資料平台的畫面由 pmi-platform repo 的 scripts/screenshots/capture.mjs 擷取
+（GIF 用的分頁需設 deviceScaleFactor: 2），再用 encode 轉成同樣規格：
+
+    /tmp/rec-venv/bin/python scripts/record-project-demos.py encode <frames 目錄> public/projects/pmi-platform.webp
+
+為什麼不用 GIF：對話框在 Retina 螢幕上需要約 1,656 個實體像素寬，
+GIF 只有 256 色，做到這個寬度要 14 MB 以上；動態 WebP 全彩、約 1 MB，同樣用 <img> 自動循環播放。
+所以以 2 倍像素密度截圖，輸出 1600 px 寬。
 
 滾動頁面用 scrollBy 而不是滑鼠滾輪，因為滑鼠停在地圖上時，滾輪會縮放地圖。
 """
 import io
+import json
 import sys
+from pathlib import Path
 
 from PIL import Image
 from playwright.sync_api import sync_playwright
 
 W, H = 1280, 800
-OUT_W = 800
+# 截圖為 2 倍像素密度（2560 px），輸出寬度對應對話框在 Retina 上的實際像素
+OUT_W = 1600
+QUALITY = 80
 
 CURSOR_JS = """
 (() => {
@@ -45,9 +58,7 @@ class Rec:
 
     def snap(self, ms=150):
         png = self.page.screenshot(type="png")
-        im = Image.open(io.BytesIO(png)).convert("RGB")
-        im = im.resize((OUT_W, int(OUT_W * H / W)), Image.LANCZOS)
-        self.frames.append((im, ms))
+        self.frames.append((Image.open(io.BytesIO(png)).convert("RGB"), ms))
 
     def hold(self, ms):
         self.snap(ms)
@@ -79,14 +90,17 @@ class Rec:
             self.page.wait_for_timeout(60)
             self.snap(80)
 
-    def save(self, path, colors=128):
-        imgs, durs = [], []
-        for im, ms in self.frames:
-            imgs.append(im.quantize(colors=colors, method=Image.MEDIANCUT, dither=Image.NONE))
-            durs.append(ms)
-        imgs[0].save(path, save_all=True, append_images=imgs[1:], duration=durs, loop=0,
-                     optimize=True, disposal=1)
+    def save(self, path):
+        save_webp(self.frames, path)
 
+
+def save_webp(frames, path):
+    """frames: [(image, ms)]；縮成 OUT_W 寬後存成循環播放的動態 WebP"""
+    imgs = [im.resize((OUT_W, round(im.height * OUT_W / im.width)), Image.LANCZOS) for im, _ in frames]
+    imgs[0].save(path, save_all=True, append_images=imgs[1:], duration=[ms for _, ms in frames],
+                 loop=0, quality=QUALITY, method=6)
+    print(path, f"{imgs[0].width}x{imgs[0].height}", len(imgs), "frames",
+          sum(ms for _, ms in frames) / 1000, "s")
 
 def hualien(rec):
     pg = rec.page
@@ -123,6 +137,8 @@ def hualien(rec):
         pg.mouse.wheel(0, 140)
         pg.wait_for_timeout(250)
         rec.snap(250)
+    # 等地圖圖磚載入，避免最後一格出現灰色區塊
+    pg.wait_for_timeout(1500)
     rec.hold(1800)
 
 
@@ -158,18 +174,21 @@ def moi(rec):
 
 def main():
     which, out = sys.argv[1], sys.argv[2]
+    if which == "encode":
+        # capture.mjs 的 frames.json：[[檔案路徑, 毫秒], ...]
+        log = json.loads((Path(out) / "frames.json").read_text())
+        save_webp([(Image.open(f).convert("RGB"), ms) for f, ms in log], sys.argv[3])
+        return
     with sync_playwright() as p:
         b = p.chromium.launch(channel="chrome")
-        ctx = b.new_context(viewport={"width": W, "height": H}, locale="zh-TW", device_scale_factor=1)
+        ctx = b.new_context(viewport={"width": W, "height": H}, locale="zh-TW", device_scale_factor=2)
         ctx.add_init_script(CURSOR_JS)
         page = ctx.new_page()
         page.set_default_timeout(15000)
         rec = Rec(page)
         {"hualien": hualien, "moi": moi}[which](rec)
-        rec.save(out, colors=96 if which == "moi" else 128)
-        print(which, len(rec.frames), "frames", sum(ms for _, ms in rec.frames) / 1000, "s")
+        rec.save(out)
         b.close()
-
 
 if __name__ == "__main__":
     main()
