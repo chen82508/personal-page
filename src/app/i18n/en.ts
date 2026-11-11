@@ -148,7 +148,7 @@ export const EN: SiteContent = {
         headline: { value: '−53%', label: 'External API calls at traffic peaks' },
         points: [
           "Integrated PTX and ArcGIS APIs into Hualien's real-time bus-tracking portal and built its front end in ASP.NET Web Forms from Figma designs; scheduled caching cut peak-hour external API calls by 53%.",
-          'Built ETL pipelines merging hundreds of thousands of records from multiple agencies for a government shared platform, saving 3.5 hours of work a day.',
+          "Built ETL pipelines merging hundreds of thousands of records from multiple agencies for the Ministry of the Interior's shared platform, saving 3.5 hours of work a day.",
           "Led a state-owned enterprise's parallel SharePoint migration, reaching 100% data consistency through cross-platform mapping and validation. Built a multi-format export engine (XLSX, ODS, PDF) and decoupled its mobile-office APIs with the Factory pattern and DI, making exports 41% faster.",
         ],
       },
@@ -186,6 +186,46 @@ export const EN: SiteContent = {
       { name: 'Taiwanese Hokkien', level: 'Native' },
       { name: 'English', level: 'Intermediate' },
       { name: 'Japanese', level: 'Basic' },
+    ],
+  },
+  projects: {
+    title: 'Selected Projects',
+    intro:
+      'Public-sector websites I helped build that are still live and look much as they did when I worked on them. The clips are recordings of the live sites from November 2026.',
+    tryLabel: 'Try it: ',
+    visitLabel: 'Visit site',
+    stackLabel: 'Tech used',
+    items: [
+      {
+        key: 'hualien-bus',
+        title: 'Hualien Real-Time Bus Tracking',
+        meta: 'Hualien County Government · Hamastar Technology',
+        body: "Integrated PTX and ArcGIS APIs into the county traffic portal's real-time bus tracking and built its front end in ASP.NET Web Forms from Figma designs. Scheduled caching cut peak-hour external API calls by 53%.",
+        tryIt:
+          '查公車 (Bus) → 公車動態 (Real-time bus) → 花蓮市區線 (city lines) → route 311, 311A or 301',
+        media: {
+          gif: 'projects/hualien-bus.gif',
+          still: 'projects/hualien-bus.webp',
+          alt: "Picking route 311 under Hualien's city lines on the traffic portal, which lists estimated arrival times for each stop and shows buses on a map",
+        },
+        href: 'https://110traffic.hl.gov.tw/',
+        tech: ['C# / .NET', 'ASP.NET Web Forms', 'PTX API', 'ArcGIS API'],
+      },
+      {
+        key: 'moi',
+        title: 'Ministry of the Interior Website',
+        meta: 'Ministry of the Interior · Hamastar Technology',
+        body: "Built ETL pipelines for the Ministry of the Interior's shared platform, merging hundreds of thousands of records from multiple agencies and saving 3.5 hours of work a day.",
+        tryIt:
+          'the 主題服務 (Services) menu and the tabs under 訊息快遞 (News) and 快捷服務 (Quick links) on the home page',
+        media: {
+          gif: 'projects/moi.gif',
+          still: 'projects/moi.webp',
+          alt: 'The Ministry of the Interior home page: opening the Services menu, switching the News and Quick links tabs, and scrolling through the sections',
+        },
+        href: 'https://www.moi.gov.tw/',
+        tech: ['C# / .NET', 'ETL'],
+      },
     ],
   },
   skills: {

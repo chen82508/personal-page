@@ -34,7 +34,7 @@ description: 讓個人網站的每個語言版本（目前為中文 zh、英文 
 
 以下文字所有語言都相同，不必放進語言檔：
 
-- 區塊上方的英文小標（`About`、`Highlights`、`Experience`、`Tech Stack`、`Work With Me`、`Education`、`Languages`）
+- 區塊上方的英文小標（`About`、`Highlights`、`Experience`、`Tech Stack`、`Projects`、`Work With Me`、`Education`、`Languages`）
 - 頁尾 `© 2026 Kaito. Open to what's next.`
 - Highlights 卡片的狀態標籤（`OPEN TO WORK`、`SHIPPED`、`DEPLOYED`）
 - `CONTACTS` 的標籤與網址

@@ -29,6 +29,20 @@ export interface Job {
   points: string[];
 }
 
+export interface Project {
+  key: string;
+  title: string;
+  /** 委託單位與當時任職的公司，例如「花蓮縣政府 · 哈瑪星科技」 */
+  meta: string;
+  body: string;
+  /** 在網站上可以親自操作的路徑 */
+  tryIt: string;
+  /** 示範動畫（public/projects/），減少動畫偏好下改用靜態圖 */
+  media: { gif: string; still: string; alt: string };
+  href: string;
+  tech: string[];
+}
+
 /** 單複數不同的單位（中文兩者相同） */
 export interface Unit {
   one: string;
@@ -76,6 +90,15 @@ export interface SiteContent {
     jobs: Job[];
     education: { school: string; years: string };
     languages: { name: string; level: string }[];
+  };
+  projects: {
+    title: string;
+    intro: string;
+    /** 「試試看：」等前綴 */
+    tryLabel: string;
+    visitLabel: string;
+    stackLabel: string;
+    items: Project[];
   };
   skills: {
     title: string;

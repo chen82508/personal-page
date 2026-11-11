@@ -37,6 +37,13 @@ function shape(c: SiteContent) {
     })),
     jobs: c.experience.jobs.map((j) => ({ key: j.key, points: j.points.length })),
     languages: c.experience.languages.length,
+    projects: c.projects.items.map((p) => ({
+      key: p.key,
+      href: p.href,
+      gif: p.media.gif,
+      still: p.media.still,
+      tech: p.tech,
+    })),
     tiers: Object.keys(c.skills.tiers),
   };
 }

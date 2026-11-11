@@ -49,6 +49,25 @@ describe('App', () => {
     expect(links.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
   });
 
+  it('should render the project cards with demo media and external links', async () => {
+    const compiled = await render();
+    const cards = compiled.querySelectorAll('#projects app-project-card');
+    expect(cards.length).toBe(2);
+    const links = Array.from(compiled.querySelectorAll<HTMLAnchorElement>('#projects a'));
+    expect(links.map((a) => a.getAttribute('href'))).toEqual([
+      'https://110traffic.hl.gov.tw/',
+      'https://www.moi.gov.tw/',
+    ]);
+    expect(links.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
+    const imgs = Array.from(compiled.querySelectorAll<HTMLImageElement>('#projects img'));
+    expect(imgs.map((i) => i.getAttribute('src'))).toEqual([
+      'projects/hualien-bus.gif',
+      'projects/moi.gif',
+    ]);
+    expect(imgs.every((i) => i.getAttribute('alt'))).toBeTruthy();
+    expect(compiled.querySelectorAll('#projects source[media]').length).toBe(2);
+  });
+
   it('should render PrimeNG components for highlights and CTA', async () => {
     const compiled = await render();
     expect(compiled.querySelectorAll('#highlights p-card').length).toBe(3);

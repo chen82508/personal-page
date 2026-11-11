@@ -27,10 +27,18 @@ import { CONTACTS, Job, SITE_LANG, Unit } from './i18n/types';
 import { ContactIconView } from './ui/contact-icon';
 import { Eyebrow } from './ui/eyebrow';
 import { HighlightCard } from './ui/highlight-card';
+import { ProjectCard } from './ui/project-card';
 
 @Component({
   selector: 'app-root',
-  imports: [ButtonDirective, ContactIconView, Eyebrow, HighlightCard, NgTemplateOutlet],
+  imports: [
+    ButtonDirective,
+    ContactIconView,
+    Eyebrow,
+    HighlightCard,
+    NgTemplateOutlet,
+    ProjectCard,
+  ],
   styleUrl: './app.css',
   templateUrl: './app.html',
 })

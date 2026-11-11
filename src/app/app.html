@@ -457,11 +457,38 @@
       </div>
     </div>
   </section>
-  <!-- ============ CTA ============ -->
+  <!-- ============ Projects ============ -->
+  <!-- 仍在線上的網站：示範動畫由 scripts/record-project-demos.py 錄製 -->
   <section
-    id="contact"
+    id="projects"
     class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
   >
+    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Projects</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.projects.title }}</h2>
+        <p class="mt-4 text-[.93rem]">{{ c.projects.intro }}</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-[22px] min-[901px]:grid-cols-2">
+        @for (p of c.projects.items; track p.key; let i = $index) {
+          <app-project-card
+            class="reveal"
+            [class.delay-100]="i === 1"
+            [project]="p"
+            [tryLabel]="c.projects.tryLabel"
+            [visitLabel]="c.projects.visitLabel"
+            [stackLabel]="c.projects.stackLabel"
+            [newTabLabel]="c.newTab"
+          />
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <!-- Projects 之後輪到 bg-ink，維持區塊背景交錯 -->
+  <section id="contact" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
     <div class="reveal relative z-1 mx-auto max-w-[760px] px-6 text-center">
       <app-eyebrow>Work With Me</app-eyebrow>
       <h2 class="text-[clamp(1.5rem,2.6vw,2.1rem)]">{{ c.contact.title }}</h2>
