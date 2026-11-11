@@ -122,7 +122,7 @@ export const ROLE_STACKS: Record<JobKey, RoleStack> = {
   },
   zealogics: {
     start: '2023-05',
-    end: '2025-09',
+    end: '2025-07',
     earlier: false,
     lane: 0,
     employment: 'permanent',
