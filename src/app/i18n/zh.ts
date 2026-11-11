@@ -11,6 +11,7 @@ export const ZH: SiteContent = {
   switcher: { current: '中文', other: 'EN', otherLang: 'en', href: 'en/' },
   homePath: '',
   newTab: '（另開新分頁）',
+  demo: { label: '觀看操作示範', close: '關閉' },
   hero: {
     status: '目前狀態：開放 FDE 職缺與接案合作',
     headline: [['走進問題現場，'], ['把需求', '做成能上線的軟體。']],
@@ -41,10 +42,13 @@ export const ZH: SiteContent = {
         title: '預測市場資料平台',
         body: '為彙整 9 家預測市場交易所的資料平台建置擷取管線，每日維持 1,270 萬至 1,790 萬筆價格快照，並以跨來源核對填補 450 萬筆資料，將指數必要欄位缺漏率從 33% 降至 10%。我剖析封存管線、找出 Google 雲端硬碟 API 的寫入瓶頸，改善後傳輸量減少 17 倍，首次封存之後每次 3 小時內完成。產品下線時，我除役 16 項服務、封存 213 GB 資料，零資料遺失；之後經授權整理為開源的作品快照。',
         delay: 'delay-100',
-        links: [
-          { label: '線上展示', href: 'https://chen82508.github.io/pmi-platform/' },
-          { label: '查看原始碼', href: 'https://github.com/chen82508/pmi-platform' },
-        ],
+        demo: {
+          gif: 'projects/pmi-platform.gif',
+          alt: '預測市場資料平台的操作示範：指數列表、戰爭指數的歷史走勢與提示框、構成分數的各個市場，以及回測重播',
+          width: 960,
+          height: 570,
+        },
+        links: [{ label: '查看原始碼', href: 'https://github.com/chen82508/pmi-platform' }],
       },
       {
         index: '03',
@@ -191,8 +195,6 @@ export const ZH: SiteContent = {
     intro:
       '我參與開發、至今仍在線上運作的公部門網站，畫面大致維持我負責時的樣貌。動畫是 2026 年 11 月實際操作網站的錄影。',
     tryLabel: '試試看：',
-    demoLabel: '觀看操作示範',
-    closeLabel: '關閉',
     visitLabel: '前往網站',
     stackLabel: '使用的技術',
     items: [
@@ -206,6 +208,8 @@ export const ZH: SiteContent = {
         media: {
           gif: 'projects/hualien-bus.gif',
           alt: '在花蓮交通e點通選擇花蓮市區線的 311 路線，畫面列出各站牌的預估到站時間，並在地圖上標示公車位置',
+          width: 800,
+          height: 500,
         },
         href: 'https://110traffic.hl.gov.tw/',
         tech: ['C# / .NET', 'ASP.NET Web Forms', 'PTX API', 'ArcGIS API'],
@@ -220,6 +224,8 @@ export const ZH: SiteContent = {
         media: {
           gif: 'projects/moi.gif',
           alt: '內政部全球資訊網首頁：展開主題服務選單、切換訊息快遞與快捷服務的分頁，並向下瀏覽各區塊',
+          width: 800,
+          height: 500,
         },
         href: 'https://www.moi.gov.tw/',
         tech: ['C# / .NET', 'ETL'],

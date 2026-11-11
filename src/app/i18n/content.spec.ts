@@ -33,6 +33,7 @@ function shape(c: SiteContent) {
       label: h.label,
       icon: h.icon,
       delay: h.delay,
+      demo: h.demo?.gif,
       links: (h.links ?? []).map((l) => l.href),
     })),
     jobs: c.experience.jobs.map((j) => ({ key: j.key, points: j.points.length })),

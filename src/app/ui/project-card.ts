@@ -1,15 +1,12 @@
-import { Component, input, signal } from '@angular/core';
-import { ButtonDirective } from 'primeng/button';
+import { Component, input } from '@angular/core';
 import { Card } from 'primeng/card';
-import { Dialog } from 'primeng/dialog';
 import { Project } from '../i18n/types';
+import { DemoButton } from './demo-button';
 
-// 外框沿用 app-highlight-card 的 p-card 樣式。
-// 示範動畫不直接放在卡片上：按下按鈕才開啟對話框並載入 GIF，
-// 讓有興趣的人主動觀看，也省下沒打開時的下載量。
+// 外框沿用 app-highlight-card 的 p-card 樣式；示範動畫由 app-demo-button 開啟
 @Component({
   selector: 'app-project-card',
-  imports: [ButtonDirective, Card, Dialog],
+  imports: [Card, DemoButton],
   host: { class: 'block h-full' },
   template: `
     <p-card
@@ -39,22 +36,13 @@ import { Project } from '../i18n/types';
         }
       </ul>
       <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
-        <button
-          pButton
-          type="button"
-          rounded
-          outlined
-          severity="secondary"
-          size="small"
-          class="gap-2 text-[.86rem] transition-[border-color,color] duration-250 hover:border-accent-dim hover:text-cream"
-          aria-haspopup="dialog"
-          (click)="open.set(true)"
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-            <path d="M3 1.5 L10.5 6 L3 10.5 Z" fill="currentColor" />
-          </svg>
-          {{ demoLabel() }}
-        </button>
+        <app-demo-button
+          [label]="demoLabel()"
+          [closeLabel]="closeLabel()"
+          [header]="project().title"
+          [media]="project().media"
+          [caption]="{ label: tryLabel(), text: project().tryIt }"
+        />
         <a
           class="inline-flex items-center gap-1.5 font-mono text-[.8rem] tracking-[.04em] text-accent-soft no-underline transition-colors duration-250 hover:text-cream"
           [href]="project().href"
@@ -65,39 +53,6 @@ import { Project } from '../i18n/types';
         >
       </div>
     </p-card>
-
-    <!-- Dialog 的程式碼延後到第一次開啟時才載入，不增加首頁的 bundle -->
-    <!-- appendTo body：卡片有 transform（淡入、hover 位移），留在卡片內時 fixed 定位會被限制在卡片範圍 -->
-    @defer (when open()) {
-      <p-dialog
-        [header]="project().title"
-        [(visible)]="open"
-        modal
-        dismissableMask
-        [draggable]="false"
-        [resizable]="false"
-        maskStyleClass="bg-ink/80 backdrop-blur-[2px]"
-        appendTo="body"
-        [closeAriaLabel]="closeLabel()"
-        [style]="{ width: '880px' }"
-        [breakpoints]="{ '960px': '94vw' }"
-      >
-        <!-- 只在對話框開啟時才放入 img，關閉後移除，下次開啟會從頭播放 -->
-        @if (open()) {
-          <img
-            class="block h-auto w-full rounded-md border border-line-soft"
-            [src]="project().media.gif"
-            [alt]="project().media.alt"
-            width="800"
-            height="500"
-          />
-        }
-        <p class="mt-4 text-[.86rem] text-warm-grey">
-          <span class="font-mono text-[.76rem] tracking-[.06em] text-faint">{{ tryLabel() }}</span
-          >{{ project().tryIt }}
-        </p>
-      </p-dialog>
-    }
   `,
 })
 export class ProjectCard {
@@ -111,6 +66,4 @@ export class ProjectCard {
   readonly visitLabel = input.required<string>();
   readonly stackLabel = input.required<string>();
   readonly newTabLabel = input.required<string>();
-
-  protected readonly open = signal(false);
 }

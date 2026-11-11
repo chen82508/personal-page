@@ -12,6 +12,7 @@ export const EN: SiteContent = {
   switcher: { current: 'EN', other: '中文', otherLang: 'zh-Hant', href: './' },
   homePath: 'en/',
   newTab: '(opens in a new tab)',
+  demo: { label: 'Watch demo', close: 'Close' },
   hero: {
     status: 'Open to FDE roles & freelance work',
     headline: [['Start where the problem is.'], ['Ship software that holds up in production.']],
@@ -42,10 +43,13 @@ export const EN: SiteContent = {
         title: 'Prediction-Market Data Platform',
         body: 'Built the ingestion pipeline for a platform aggregating 9 prediction-market exchanges, sustaining 12.7M–17.9M price snapshots a day and cutting missing index-input fields from 33% to 10%, with 4.5M records filled through cross-source reconciliation. I profiled the archive pipeline and traced its bottleneck to the Google Drive API write limit; the fix cut transfer volume 17x, and each run after the initial archive finished in under 3 hours. At shutdown I decommissioned 16 services and archived 213 GB with zero data loss, then open-sourced a snapshot of the work with permission.',
         delay: 'delay-100',
-        links: [
-          { label: 'Live demo', href: 'https://chen82508.github.io/pmi-platform/' },
-          { label: 'Source code', href: 'https://github.com/chen82508/pmi-platform' },
-        ],
+        demo: {
+          gif: 'projects/pmi-platform.gif',
+          alt: 'Walkthrough of the prediction-market platform: the index list, the war index history with its tooltip, the markets behind the score, and a backtest replay',
+          width: 960,
+          height: 570,
+        },
+        links: [{ label: 'Source code', href: 'https://github.com/chen82508/pmi-platform' }],
       },
       {
         index: '03',
@@ -195,8 +199,6 @@ export const EN: SiteContent = {
     intro:
       'Public-sector websites I helped build that are still live and look much as they did when I worked on them. The clips are recordings of the live sites from November 2026.',
     tryLabel: 'Try it: ',
-    demoLabel: 'Watch demo',
-    closeLabel: 'Close',
     visitLabel: 'Visit site',
     stackLabel: 'Tech used',
     items: [
@@ -211,6 +213,8 @@ export const EN: SiteContent = {
         media: {
           gif: 'projects/hualien-bus.gif',
           alt: "Picking route 311 under Hualien's city lines on the traffic portal, which lists estimated arrival times for each stop and shows buses on a map",
+          width: 800,
+          height: 500,
         },
         href: 'https://110traffic.hl.gov.tw/',
         tech: ['C# / .NET', 'ASP.NET Web Forms', 'PTX API', 'ArcGIS API'],
@@ -226,6 +230,8 @@ export const EN: SiteContent = {
         media: {
           gif: 'projects/moi.gif',
           alt: 'The Ministry of the Interior home page: opening the Services menu, switching the News and Quick links tabs, and scrolling through the sections',
+          width: 800,
+          height: 500,
         },
         href: 'https://www.moi.gov.tw/',
         tech: ['C# / .NET', 'ETL'],

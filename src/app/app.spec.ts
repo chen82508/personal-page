@@ -37,16 +37,20 @@ describe('App', () => {
     expect(compiled.querySelector('section#highlights')).toBeTruthy();
   });
 
-  it('should link only the prediction-market card to its live demo and repository', async () => {
+  it('should give the prediction-market card a demo button and a repository link', async () => {
     const compiled = await render();
-    const cards = compiled.querySelectorAll('app-highlight-card');
+    const cards = compiled.querySelectorAll('#highlights app-highlight-card');
     const links = Array.from(cards[1].querySelectorAll<HTMLAnchorElement>('a'));
-    expect(compiled.querySelectorAll('app-highlight-card a').length).toBe(2);
+    expect(compiled.querySelectorAll('#highlights app-highlight-card a').length).toBe(1);
     expect(links.map((a) => a.getAttribute('href'))).toEqual([
-      'https://chen82508.github.io/pmi-platform/',
       'https://github.com/chen82508/pmi-platform',
     ]);
     expect(links.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
+    // 平台已下線，改以示範動畫呈現；GIF 只在對話框開啟後才載入
+    const demo = compiled.querySelectorAll('#highlights button[aria-haspopup="dialog"]');
+    expect(demo.length).toBe(1);
+    expect(cards[1].contains(demo[0])).toBe(true);
+    expect(compiled.querySelectorAll('#highlights img').length).toBe(0);
   });
 
   it('should render the project cards with a demo button and external links', async () => {

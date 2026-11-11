@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { Card } from 'primeng/card';
+import { DemoButton, DemoMedia } from './demo-button';
 import { Status, StatusTag } from './status-tag';
 
 export type HighlightIcon = 'project' | 'stack' | 'code';
@@ -11,7 +12,7 @@ export interface HighlightLink {
 
 @Component({
   selector: 'app-highlight-card',
-  imports: [Card, StatusTag],
+  imports: [Card, DemoButton, StatusTag],
   host: { class: 'block h-full' },
   template: `
     <p-card
@@ -104,8 +105,16 @@ export interface HighlightLink {
       </div>
       <h3 class="mb-2.5 text-[1.06rem]">{{ title() }}</h3>
       <p class="text-[.93rem] text-warm-grey">{{ body() }}</p>
-      @if (links().length) {
-        <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+      @if (demo() || links().length) {
+        <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+          @if (demo(); as media) {
+            <app-demo-button
+              [label]="demoLabel()"
+              [closeLabel]="closeLabel()"
+              [header]="title()"
+              [media]="media"
+            />
+          }
           @for (link of links(); track link.href) {
             <a
               class="inline-flex items-center gap-1.5 font-mono text-[.8rem] tracking-[.04em] text-accent-soft no-underline transition-colors duration-250 hover:text-cream"
@@ -128,6 +137,10 @@ export class HighlightCard {
   readonly icon = input.required<HighlightIcon>();
   readonly title = input.required<string>();
   readonly body = input.required<string>();
+  /** 示範動畫；有的話顯示「觀看操作示範」按鈕 */
+  readonly demo = input<DemoMedia | null>(null);
+  readonly demoLabel = input('');
+  readonly closeLabel = input('');
   readonly links = input<HighlightLink[]>([]);
   readonly newTabLabel = input('（另開新分頁）');
 }

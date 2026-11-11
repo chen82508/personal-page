@@ -24,8 +24,10 @@ npm run build         # 正式版 build → dist/kaito-angular/browser
 - **內容與版型分離**：所有文案都在 `src/app/i18n/<lang>.ts`，型別是 `types.ts` 的 `SiteContent`；`app.html` 只透過 `c.*` 讀取。`CONTACTS`（Email、GitHub、LinkedIn）各語言共用。
 - **語言判斷**：`detectLang` 取網址在 base href 之後的路徑，`en/` 開頭就是英文，其餘是中文（基準語言 `zh`）。結果透過 `SITE_LANG` injection token 提供；測試裡可以直接 provide 指定語言。`App` 會依語言設定 `<html lang>`、`document.title` 與 meta description。
 - **頁內錨點**：`index.html` 有 `<base href>`，所以 `href="#id"` 會回到根路徑（中文版）。頁內錨點一律寫成 `c.homePath + '#id'`。
-- **UI 元件**（`src/app/ui/`）：`app-eyebrow`（區塊小標）、`app-highlight-card`（包住 `p-card`）、`app-project-card`（作品集卡片，同樣包住 `p-card`；按鈕開啟 `p-dialog` 播放示範 GIF）、`app-status-tag`（包住 `p-tag`，狀態有 `active` / `done` / `explore`）。
-- **作品集示範動畫**：GIF 放在 `public/projects/`，只在對話框開啟時才載入。網站改版或要重錄時，用 `scripts/record-project-demos.py`（Python Playwright＋Pillow，以本機 Chrome 執行）。
+- **UI 元件**（`src/app/ui/`）：`app-eyebrow`（區塊小標）、`app-highlight-card`（包住 `p-card`）、`app-project-card`（作品集卡片，同樣包住 `p-card`）、`app-demo-button`（「觀看操作示範」按鈕＋`p-dialog`，作品集與 Highlights 共用；Dialog 以 `@defer` 延後載入）、`app-status-tag`（包住 `p-tag`，狀態有 `active` / `done` / `explore`）。
+- **示範動畫**：GIF 放在 `public/projects/`，只在對話框開啟時才載入。
+  - 作品集的兩個公部門網站：網站改版或要重錄時，用 `scripts/record-project-demos.py`（Python Playwright＋Pillow，以本機 Chrome 執行）。
+  - 預測市場資料平台（Highlights 02）：平台已下線，GIF 直接取自 `pmi-platform` repo 的 `docs/images/walkthrough.gif`；那邊更新時再複製過來。
 - **作品集與經歷互相連結**：`Project.job` 對應經歷的 `JobKey`；卡片上的公司名稱連到 `#job-<key>`，經歷下方的「相關作品」連到 `#project-<key>`。目標在「更早的經歷」裡時，`App` 會在 `hashchange` 時先展開再捲動。
 - **捲動淡入**：帶有 `.reveal` class 的元素進入視窗時，`App` 用 IntersectionObserver 加上 `in-view`；使用者偏好減少動畫時直接全部顯示。延遲用 `delay-100` / `delay-200`。
 

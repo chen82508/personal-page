@@ -1,5 +1,6 @@
 import { DOCUMENT, InjectionToken, inject } from '@angular/core';
 import { ContactIcon } from '../ui/contact-icon';
+import { DemoMedia } from '../ui/demo-button';
 import { HighlightIcon, HighlightLink } from '../ui/highlight-card';
 import { Status } from '../ui/status-tag';
 import { Employment, JobKey, TechTier } from './stack';
@@ -14,6 +15,8 @@ export interface Highlight {
   title: string;
   body: string;
   delay: string;
+  /** 示範動畫：按下按鈕才在對話框中載入 */
+  demo?: DemoMedia;
   links?: HighlightLink[];
 }
 
@@ -40,7 +43,7 @@ export interface Project {
   /** 對應的正職經歷：專案卡片與經歷互相以錨點連結 */
   job: JobKey;
   /** 示範動畫（public/projects/），按下按鈕才在對話框中載入 */
-  media: { gif: string; alt: string };
+  media: DemoMedia;
   href: string;
   tech: string[];
 }
@@ -68,6 +71,8 @@ export interface SiteContent {
   /** 本頁相對於 base href 的路徑，用來組出頁內錨點 */
   homePath: string;
   newTab: string;
+  /** 開啟示範動畫對話框的按鈕，以及對話框的關閉按鈕 */
+  demo: { label: string; close: string };
   hero: {
     status: string;
     /** 每一行由不可斷開的片段組成，片段之間不加空白 */
@@ -102,9 +107,6 @@ export interface SiteContent {
     intro: string;
     /** 「試試看：」等前綴 */
     tryLabel: string;
-    /** 開啟示範動畫對話框的按鈕 */
-    demoLabel: string;
-    closeLabel: string;
     visitLabel: string;
     stackLabel: string;
     items: Project[];
