@@ -32,13 +32,15 @@ export interface Job {
 export interface Project {
   key: string;
   title: string;
-  /** 委託單位與當時任職的公司，例如「花蓮縣政府 · 哈瑪星科技」 */
-  meta: string;
+  /** 委託單位；任職公司從 job 對應的經歷取得 */
+  client: string;
   body: string;
   /** 在網站上可以親自操作的路徑 */
   tryIt: string;
-  /** 示範動畫（public/projects/），減少動畫偏好下改用靜態圖 */
-  media: { gif: string; still: string; alt: string };
+  /** 對應的正職經歷：專案卡片與經歷互相以錨點連結 */
+  job: JobKey;
+  /** 示範動畫（public/projects/），按下按鈕才在對話框中載入 */
+  media: { gif: string; alt: string };
   href: string;
   tech: string[];
 }
@@ -85,6 +87,10 @@ export interface SiteContent {
     clearLabel: string;
     /** 每段經歷技術清單的 aria-label */
     stackLabel: string;
+    /** 經歷下方連到作品集的前綴，例如「相關作品：」 */
+    relatedLabel: string;
+    /** 相關作品之間的分隔，例如「、」 */
+    relatedSeparator: string;
     /** 甘特總覽：aria-label 與圖例 */
     timeline: { label: string } & Record<Employment, string>;
     jobs: Job[];
@@ -96,6 +102,9 @@ export interface SiteContent {
     intro: string;
     /** 「試試看：」等前綴 */
     tryLabel: string;
+    /** 開啟示範動畫對話框的按鈕 */
+    demoLabel: string;
+    closeLabel: string;
     visitLabel: string;
     stackLabel: string;
     items: Project[];

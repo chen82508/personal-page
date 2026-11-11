@@ -65,6 +65,8 @@ export const ZH: SiteContent = {
     filterLabel: '篩選：',
     clearLabel: '清除篩選',
     stackLabel: '使用的技術',
+    relatedLabel: '相關作品：',
+    relatedSeparator: '、',
     timeline: {
       label: '任職時間總覽',
       permanent: '正職',
@@ -189,18 +191,20 @@ export const ZH: SiteContent = {
     intro:
       '我參與開發、至今仍在線上運作的公部門網站，畫面大致維持我負責時的樣貌。動畫是 2026 年 11 月實際操作網站的錄影。',
     tryLabel: '試試看：',
+    demoLabel: '觀看操作示範',
+    closeLabel: '關閉',
     visitLabel: '前往網站',
     stackLabel: '使用的技術',
     items: [
       {
         key: 'hualien-bus',
+        job: 'hamastar',
         title: '花蓮交通e點通：公車動態',
-        meta: '花蓮縣政府 · 哈瑪星科技',
+        client: '花蓮縣政府',
         body: '將 PTX 與 ArcGIS API 整合進即時公車動態查詢，並依設計師的 Figma 稿以 ASP.NET Web Forms 開發前端；以排程快取讓尖峰時段的外部 API 呼叫減少 53%。',
         tryIt: '查公車 → 公車動態 → 花蓮市區線 → 311、311A 或 301',
         media: {
           gif: 'projects/hualien-bus.gif',
-          still: 'projects/hualien-bus.webp',
           alt: '在花蓮交通e點通選擇花蓮市區線的 311 路線，畫面列出各站牌的預估到站時間，並在地圖上標示公車位置',
         },
         href: 'https://110traffic.hl.gov.tw/',
@@ -208,13 +212,13 @@ export const ZH: SiteContent = {
       },
       {
         key: 'moi',
+        job: 'hamastar',
         title: '內政部全球資訊網',
-        meta: '內政部 · 哈瑪星科技',
+        client: '內政部',
         body: '為內政部共用平台建構 ETL，整合多個機關的數十萬筆資料，每日節省 3.5 小時作業時間。',
         tryIt: '首頁的主題服務選單，以及訊息快遞、快捷服務的分頁',
         media: {
           gif: 'projects/moi.gif',
-          still: 'projects/moi.webp',
           alt: '內政部全球資訊網首頁：展開主題服務選單、切換訊息快遞與快捷服務的分頁，並向下瀏覽各區塊',
         },
         href: 'https://www.moi.gov.tw/',

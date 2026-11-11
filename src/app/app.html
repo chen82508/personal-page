@@ -297,6 +297,23 @@
           <p class="mt-0.5 text-[.86rem] text-faint">
             {{ c.experience.projectLabel }}{{ job.project }}
           </p>
+          @let related = projectsOf(job);
+          @if (related.length) {
+            <!-- 標籤與分隔放在 span 裡，避免範本換行在「、」前後多出空白 -->
+            <p class="mt-0.5 text-[.86rem] text-faint">
+              <span>{{ c.experience.relatedLabel }}</span>
+              @for (p of related; track p.key; let last = $last) {
+                <a
+                  class="text-accent-soft underline decoration-accent-dim/50 underline-offset-4 transition-colors duration-250 hover:text-cream"
+                  [href]="c.homePath + '#project-' + p.key"
+                  >{{ p.title }}</a
+                >
+                @if (!last) {
+                  <span>{{ c.experience.relatedSeparator }}</span>
+                }
+              }
+            </p>
+          }
 
           <p class="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span class="font-serif text-[1.65rem] leading-tight text-accent">{{
@@ -351,9 +368,43 @@
     </li>
   </ng-template>
 
+  <!-- ============ Projects ============ -->
+  <!-- 仍在線上的網站，接在經歷之後並與對應的經歷互相連結；示範動畫由 scripts/record-project-demos.py 錄製 -->
+  <section id="projects" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
+    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Projects</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.projects.title }}</h2>
+        <p class="mt-4 text-[.93rem]">{{ c.projects.intro }}</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-[22px] min-[901px]:grid-cols-2">
+        @for (p of c.projects.items; track p.key; let i = $index) {
+          <app-project-card
+            class="reveal scroll-mt-6"
+            [class.delay-100]="i === 1"
+            [id]="'project-' + p.key"
+            [project]="p"
+            [jobLabel]="job(p.job)?.company ?? ''"
+            [jobHref]="c.homePath + '#job-' + p.job"
+            [tryLabel]="c.projects.tryLabel"
+            [demoLabel]="c.projects.demoLabel"
+            [closeLabel]="c.projects.closeLabel"
+            [visitLabel]="c.projects.visitLabel"
+            [stackLabel]="c.projects.stackLabel"
+            [newTabLabel]="c.newTab"
+          />
+        }
+      </div>
+    </div>
+  </section>
+
   <!-- ============ Skills ============ -->
   <!-- 熟悉度不用自評分數：分層依履歷，年資與段數由 stack.ts 從任職期間計算 -->
-  <section id="skills" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
+  <section
+    id="skills"
+    class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
+  >
     <div class="relative z-1 mx-auto max-w-[1040px] px-6">
       <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
         <app-eyebrow>Tech Stack</app-eyebrow>
@@ -417,7 +468,7 @@
               <div aria-live="polite">
                 @if (selectedStat()?.tier === g.tier) {
                   @let s = selectedStat()!;
-                  <div class="mt-6 rounded-lg border border-line bg-ink-alt p-5">
+                  <div class="mt-6 rounded-lg border border-line bg-ink p-5">
                     <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                       <p class="font-mono text-[.74rem] tracking-[.12em] text-faint uppercase">
                         {{ c.skills.usedIn }}
@@ -457,37 +508,8 @@
       </div>
     </div>
   </section>
-  <!-- ============ Projects ============ -->
-  <!-- 仍在線上的網站：示範動畫由 scripts/record-project-demos.py 錄製 -->
-  <section
-    id="projects"
-    class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
-  >
-    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
-      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
-        <app-eyebrow>Projects</app-eyebrow>
-        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.projects.title }}</h2>
-        <p class="mt-4 text-[.93rem]">{{ c.projects.intro }}</p>
-      </div>
-
-      <div class="grid grid-cols-1 gap-[22px] min-[901px]:grid-cols-2">
-        @for (p of c.projects.items; track p.key; let i = $index) {
-          <app-project-card
-            class="reveal"
-            [class.delay-100]="i === 1"
-            [project]="p"
-            [tryLabel]="c.projects.tryLabel"
-            [visitLabel]="c.projects.visitLabel"
-            [stackLabel]="c.projects.stackLabel"
-            [newTabLabel]="c.newTab"
-          />
-        }
-      </div>
-    </div>
-  </section>
-
   <!-- ============ CTA ============ -->
-  <!-- Projects 之後輪到 bg-ink，維持區塊背景交錯 -->
+  <!-- 區塊背景交錯：Tech Stack 之後輪到 bg-ink -->
   <section id="contact" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
     <div class="reveal relative z-1 mx-auto max-w-[760px] px-6 text-center">
       <app-eyebrow>Work With Me</app-eyebrow>

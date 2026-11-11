@@ -41,7 +41,7 @@ function shape(c: SiteContent) {
       key: p.key,
       href: p.href,
       gif: p.media.gif,
-      still: p.media.still,
+      job: p.job,
       tech: p.tech,
     })),
     tiers: Object.keys(c.skills.tiers),

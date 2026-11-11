@@ -49,30 +49,53 @@ describe('App', () => {
     expect(links.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
   });
 
-  it('should render the project cards with demo media and external links', async () => {
+  it('should render the project cards with a demo button and external links', async () => {
     const compiled = await render();
-    const cards = compiled.querySelectorAll('#projects app-project-card');
-    expect(cards.length).toBe(2);
-    const links = Array.from(compiled.querySelectorAll<HTMLAnchorElement>('#projects a'));
-    expect(links.map((a) => a.getAttribute('href'))).toEqual([
+    expect(compiled.querySelectorAll('#projects app-project-card').length).toBe(2);
+    const visit = Array.from(compiled.querySelectorAll<HTMLAnchorElement>('#projects a[target]'));
+    expect(visit.map((a) => a.getAttribute('href'))).toEqual([
       'https://110traffic.hl.gov.tw/',
       'https://www.moi.gov.tw/',
     ]);
-    expect(links.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
-    const imgs = Array.from(compiled.querySelectorAll<HTMLImageElement>('#projects img'));
-    expect(imgs.map((i) => i.getAttribute('src'))).toEqual([
-      'projects/hualien-bus.gif',
-      'projects/moi.gif',
+    expect(visit.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
+    // GIF 只在按下按鈕、對話框開啟後才載入
+    expect(compiled.querySelectorAll('#projects img').length).toBe(0);
+    expect(compiled.querySelectorAll('#projects button[aria-haspopup="dialog"]').length).toBe(2);
+  });
+
+  it('should open the demo dialog with the GIF when the button is pressed', async () => {
+    const fixture = await setup();
+    const compiled = fixture.nativeElement as HTMLElement;
+    compiled.querySelector<HTMLButtonElement>('#projects button[aria-haspopup="dialog"]')!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const img = document.querySelector<HTMLImageElement>('.p-dialog img');
+    expect(img?.getAttribute('src')).toBe('projects/hualien-bus.gif');
+    expect(img?.getAttribute('alt')).toBeTruthy();
+  });
+
+  it('should cross-link projects and the related job', async () => {
+    const compiled = await render();
+    const jobLinks = Array.from(compiled.querySelectorAll('#projects a:not([target])')).map((a) =>
+      a.getAttribute('href'),
+    );
+    expect(jobLinks).toEqual(['#job-hamastar', '#job-hamastar']);
+    const related = Array.from(compiled.querySelectorAll('#job-hamastar a[href^="#project-"]'));
+    expect(related.map((a) => a.getAttribute('href'))).toEqual([
+      '#project-hualien-bus',
+      '#project-moi',
     ]);
-    expect(imgs.every((i) => i.getAttribute('alt'))).toBeTruthy();
-    expect(compiled.querySelectorAll('#projects source[media]').length).toBe(2);
+    for (const key of ['hualien-bus', 'moi']) {
+      expect(compiled.querySelector(`#project-${key}`)).toBeTruthy();
+    }
   });
 
   it('should render PrimeNG components for highlights and CTA', async () => {
     const compiled = await render();
     expect(compiled.querySelectorAll('#highlights p-card').length).toBe(3);
     expect(compiled.querySelectorAll('p-tag').length).toBe(3);
-    expect(compiled.querySelectorAll('.p-button').length).toBe(2);
+    expect(compiled.querySelectorAll('#contact .p-button').length).toBe(2);
+    expect(compiled.querySelectorAll('#projects .p-button').length).toBe(2);
   });
 
   it('should render the experience timeline and contact links', async () => {

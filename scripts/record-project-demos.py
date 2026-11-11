@@ -6,7 +6,6 @@
     /tmp/rec-venv/bin/python scripts/record-project-demos.py hualien public/projects/hualien-bus.gif
     /tmp/rec-venv/bin/python scripts/record-project-demos.py moi public/projects/moi.gif
 
-錄完後從 GIF 挑一格存成同名 .webp，作為減少動畫偏好時的靜態圖。
 滾動頁面用 scrollBy 而不是滑鼠滾輪，因為滑鼠停在地圖上時，滾輪會縮放地圖。
 """
 import io
