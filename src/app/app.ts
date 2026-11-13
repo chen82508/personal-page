@@ -24,11 +24,12 @@ import {
   TechStat,
   techStats,
 } from './i18n/stack';
-import { CONTACTS, Job, Project, SITE_LANG, Unit } from './i18n/types';
+import { CONTACTS, Job, Project, SITE_LANG, STORY_KINDS, Story, Unit } from './i18n/types';
 import { ContactIconView } from './ui/contact-icon';
 import { Eyebrow } from './ui/eyebrow';
 import { HighlightCard } from './ui/highlight-card';
 import { ProjectCard } from './ui/project-card';
+import { StoryCard, StoryJobLink } from './ui/story-card';
 
 @Component({
   selector: 'app-root',
@@ -39,6 +40,7 @@ import { ProjectCard } from './ui/project-card';
     HighlightCard,
     NgTemplateOutlet,
     ProjectCard,
+    StoryCard,
   ],
   styleUrl: './app.css',
   templateUrl: './app.html',
@@ -100,6 +102,25 @@ export class App {
   /** 經歷 → 作品集：與專案卡片上的經歷連結互相對應 */
   protected projectsOf(job: Job): Project[] {
     return this.c.projects.items.filter((p) => p.job === job.key);
+  }
+
+  /** 解題故事依類別分組：Solution workflow 在前，Domain know-how 在後 */
+  protected readonly storyGroups = STORY_KINDS.map((kind) => ({
+    kind,
+    text: this.c.stories.groups[kind],
+    items: this.c.stories.items.filter((s) => s.kind === kind),
+  }));
+
+  /** 經歷 → 解題故事：與故事卡片上的經歷連結互相對應 */
+  protected storiesOf(job: Job): Story[] {
+    return this.c.stories.items.filter((s) => s.jobs.includes(job.key));
+  }
+
+  protected storyJobs(story: Story): StoryJobLink[] {
+    return story.jobs.map((key) => ({
+      label: this.job(key)?.company ?? '',
+      href: this.c.homePath + '#job-' + key,
+    }));
   }
 
   /**

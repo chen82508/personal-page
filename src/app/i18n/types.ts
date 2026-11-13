@@ -48,6 +48,34 @@ export interface Project {
   tech: string[];
 }
 
+/** 解題故事的兩類：跨經歷反覆用到的作法，以及在產業裡學到的規則 */
+export type StoryKind = 'workflow' | 'domain';
+
+export const STORY_KINDS: StoryKind[] = ['workflow', 'domain'];
+
+export interface Story {
+  key: string;
+  kind: StoryKind;
+  title: string;
+  /** 經歷下方「解題故事」連結用的短名 */
+  short: string;
+  /** 卡片上的一句話摘要 */
+  summary: string;
+  /** 代表性成果；沒有可查證的數字時為 null，卡片不顯示 */
+  metric: { value: string; label: string } | null;
+  /** 對應的經歷：卡片與經歷互相以錨點連結 */
+  jobs: JobKey[];
+  /** 對話框中的完整過程 */
+  steps: StorySteps;
+}
+
+export interface StorySteps {
+  context: string;
+  judgment: string;
+  options: string;
+  result: string;
+}
+
 /** 單複數不同的單位（中文兩者相同） */
 export interface Unit {
   one: string;
@@ -96,6 +124,8 @@ export interface SiteContent {
     relatedLabel: string;
     /** 相關作品之間的分隔，例如「、」 */
     relatedSeparator: string;
+    /** 經歷下方連到解題故事的前綴，例如「解題故事：」 */
+    storiesLabel: string;
     /** 甘特總覽：aria-label 與圖例 */
     timeline: { label: string } & Record<Employment, string>;
     jobs: Job[];
@@ -110,6 +140,17 @@ export interface SiteContent {
     visitLabel: string;
     stackLabel: string;
     items: Project[];
+  };
+  stories: {
+    title: string;
+    intro: string;
+    groups: Record<StoryKind, { title: string; note: string }>;
+    /** 開啟完整過程對話框的按鈕 */
+    readLabel: string;
+    stepLabels: StorySteps;
+    /** 卡片上對應經歷的 aria-label */
+    jobsLabel: string;
+    items: Story[];
   };
   skills: {
     title: string;

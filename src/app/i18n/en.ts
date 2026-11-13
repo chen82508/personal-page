@@ -72,6 +72,7 @@ export const EN: SiteContent = {
     stackLabel: 'Tech used',
     relatedLabel: 'Related projects: ',
     relatedSeparator: ', ',
+    storiesLabel: 'Problem-solving stories: ',
     timeline: {
       label: 'Timeline overview',
       permanent: 'Full-time',
@@ -235,6 +236,164 @@ export const EN: SiteContent = {
         },
         href: 'https://www.moi.gov.tw/',
         tech: ['C# / .NET', 'ETL'],
+      },
+    ],
+  },
+  stories: {
+    title: 'How I solve problems',
+    intro:
+      'What I learned from the work itself: how I size up a problem and decide what to do. Open a card for the context, diagnosis, options and outcome.',
+    groups: {
+      workflow: { title: 'Solution workflow', note: 'Methods I keep reusing across roles' },
+      domain: { title: 'Domain know-how', note: 'Rules and constraints I learned on the job' },
+    },
+    readLabel: 'Read the full story',
+    stepLabels: {
+      context: 'Context',
+      judgment: 'Diagnosis',
+      options: 'Options weighed',
+      result: 'Outcome',
+    },
+    jobsLabel: 'Related roles',
+    items: [
+      {
+        key: 'measure-first',
+        kind: 'workflow',
+        title: 'Measure first: why the archive ran slow',
+        short: 'Archive bottleneck',
+        summary:
+          'Uploads took far longer than planned. Measuring showed the limit was Drive write count, not file size.',
+        metric: { value: '17×', label: 'less upload traffic' },
+        jobs: ['micah'],
+        steps: {
+          context:
+            'The prediction-market platform had to archive 720M–1.1B price snapshots to Google Drive. Rows were deleted from the database only after their file uploaded, so upload speed set how fast the database freed space.',
+          judgment:
+            'Slack notifications showed the gap between writing a file and finishing its upload was much longer than expected, and files were going up as uncompressed JSON. Rather than spend time exploring alone, I asked the CTO for quick guidance and started gzipping every file.',
+          options:
+            'I benchmarked gzip, zstd, xz and a columnar format on real archive files: file-level compression alone gave 17–38x. But Drive allows about 3 writes per second, so upload time depends on file count, not bytes. Compression saves traffic, not time. I chose gzip over zstd: it ships with the standard library, and the host was bound by disk I/O, so compression speed did not change total time. I also ruled out staging data in Redis, which would have competed for memory with a PostgreSQL instance already using swap.',
+          result:
+            'Cut upload traffic and Drive usage about 17x. The initial archive took 3–4 days; after that, each run archived only new data and finished in under 3 hours, alongside other services.',
+        },
+      },
+      {
+        key: 'data-quality',
+        kind: 'workflow',
+        title: 'Closing the data-quality loop: 33% → 10% missing',
+        short: 'Missing data',
+        summary:
+          'Define which fields matter, sort the gaps by cause, fix each cause, and accept what the source never provides.',
+        metric: { value: '33% → 10%', label: 'missing index-input fields' },
+        jobs: ['micah'],
+        steps: {
+          context:
+            'The platform computed indexes from 9 prediction-market exchanges, but 33% of the required index inputs were missing. Those inputs are what investors watch: 24-hour volume, the current traded probability, and the yes and no probabilities of each contract in an index.',
+          judgment:
+            'Most gaps came from never comparing each API schema and field meaning early on. Volume was the clearest case: Kalshi reports only lifetime volume, Polymarket also reports 24-hour volume, and exchanges scraped with Playwright expose no volume at all.',
+          options:
+            'I fixed each cause on its own: multi-key rotation, background API calls to fill web-only sources, 24-hour volume derived from the snapshot table, and cross-source matching on external contract IDs. Derived volume filled the most. For Kalshi I rejected two designs: a history API call per market (it already polled 80k–140k markets every 60 seconds, so load would double) and a Redis checkpoint store (the backend deliberately uses only PostgreSQL). Instead, each poll cycle reads the lifetime volume from 24 hours earlier in one indexed query and takes the difference, writing NULL rather than 0 when no reference exists so index weights stay clean.',
+          result:
+            'Cut missing fields from 33% to 10% and filled 4.5M records through cross-source matching. The remaining 10% is data the sources never provide.',
+        },
+      },
+      {
+        key: 'zero-downtime',
+        kind: 'workflow',
+        title: 'Migrating without downtime: sequence IDs to GUIDs',
+        short: 'Zero-downtime migration',
+        summary:
+          'GUIDs were the easy part. The hard part was switching a 24/7 payment system without stopping it.',
+        metric: { value: '0', label: 'records lost' },
+        jobs: ['ipass', 'micah'],
+        steps: {
+          context:
+            'The e-payment system ran around the clock and keyed transaction records on an auto-increment sequence. I proposed moving to GUIDs to support distributed growth.',
+          judgment:
+            'The real question was how to swap the ID without interrupting service. After my manager and the DBA reviewed the proposal, I carried it out with my team lead.',
+          options:
+            'We switched in five steps: add a nullable GUID column with a unique index → dual-write from the application → backfill history in background batches → move reads and external references to the GUID → convert the primary key and drop the old auto-increment column. I used the same thinking for the Micah shutdown: after each archive file uploaded, its MD5 and size had to match what Drive reported before the matching rows were deleted.',
+          result:
+            'Migrated to GUIDs with zero data loss. At the Micah shutdown, decommissioned 16 services and archived 213 GB, also with zero data loss.',
+        },
+      },
+      {
+        key: 'skill-gates',
+        kind: 'workflow',
+        title: 'Writing quality gates as SKILL.md',
+        short: 'SKILL.md quality gates',
+        summary:
+          'Turn every past incident into a process the AI must follow, so onboarding an exchange no longer means checking fields by hand.',
+        metric: { value: '2 wks → 3 days', label: 'integration time per exchange' },
+        jobs: ['micah'],
+        steps: {
+          context:
+            'Each new exchange took about 2 weeks, mostly spent matching fields by hand: the prompts used to build the early scrapers never spelled out which fields the index needed.',
+          judgment:
+            'I wrote the integration rules as 5 SKILL.md workflows for Claude Code: documentation standards, refactor design, a quality gate, exchange onboarding, and async loop safety. Onboarding requires probing the upstream API before writing code, and every rule cites an incident where health checks stayed green while data went wrong, such as a query that silently returned only 20 rows, or paging on a non-unique field that dropped 500–800 contracts per sweep.',
+          options:
+            'AI output had to pass the quality gate: ruff and strict mypy on the changed files only, done only when it printed PASSED, then the full pytest suite. New exchanges also needed tests that mimic real upstream behavior (default row caps, 429 and 5xx responses, malformed payloads), new features shipped off by default with tests for the off state, and new SQL on hot tables had its query plan checked against about 8M synthetic rows.',
+          result:
+            'Cut integration time for each of the first 7 exchanges from ~2 weeks to 3 days, reaching 9 exchanges in all.',
+        },
+      },
+      {
+        key: 'reconciliation',
+        kind: 'domain',
+        title: 'E-payments: a wrong settlement report is a security incident',
+        short: 'Payment reconciliation',
+        summary:
+          'After two reconciliation incidents, I built the fixes into the code structure and release process so the same mistakes could not recur.',
+        metric: null,
+        jobs: ['ipass'],
+        steps: {
+          context:
+            'The e-payment system settled tens of millions of transactions a month and sent reconciliation reports to the banks and merchants that requested them.',
+          judgment:
+            'Two incidents were classed as security issues. First, a .NET DataSet used as a buffer was not cleared before querying and reporting the next merchant. Second, when a mobile-payment partner moved settlement from monthly to weekly, our test cases missed scenarios and our totals did not match theirs.',
+          options:
+            'For the first, I moved "clear the buffer before each merchant query" into a base class with the Factory pattern and required related features to implement a matching interface, so one merchant\'s records could never reach another\'s report. For the second, I reviewed the stored procedure line by line with my mentor, added broader weekly-settlement cases including destructive tests, and checked each against expected results. We filed the deployment only after every item on the checklist passed.',
+          result:
+            'Clearing the buffer became a fixed step in the base class, and weekly settlement shipped only after passing the expanded test checklist.',
+        },
+      },
+      {
+        key: 'scorecard',
+        kind: 'domain',
+        title: 'Collateral scorecards: let appraisers own the formula',
+        short: 'Collateral scorecard',
+        summary:
+          'Scoring rules change with appraisal practice, so I kept them out of the code and handed them to the people who know them best.',
+        metric: { value: '−50%', label: 'review time' },
+        jobs: ['ptmb'],
+        steps: {
+          context:
+            'I built a collateral scorecard engine to automate credit-risk assessment for loan approvals.',
+          judgment:
+            'Scoring rules change with appraisal practice, so instead of hard-coding them I built formula setup and maintenance into the back office: addition with positive and negative coefficients, plus multiplication and division, so appraisers could weight each factor and set its bonuses and penalties themselves.',
+          options:
+            'After saving a formula, appraisers could run a trial calculation to confirm the factors, coefficients and operators were right. Once the feature shipped, I ran training sessions on how to use it.',
+          result:
+            "Per the appraisers' weekly reports, assessment efficiency rose 27% and review time fell 50%.",
+        },
+      },
+      {
+        key: 'defect-colormap',
+        kind: 'domain',
+        title: 'Semiconductor inspection: colorizing grayscale defect images',
+        short: 'Defect image colorization',
+        summary:
+          "On ASML's e-Beam inspection system, a component that shows each image's gray-level distribution and lets users define their own color scale.",
+        metric: null,
+        jobs: ['zealogics'],
+        steps: {
+          context: "Defect images from ASML's e-Beam inspection system are 0–255 grayscale.",
+          judgment:
+            "I split the work with a colleague: I built the user interface and its features, and they built the service that reads the color settings and maps them to each pixel. The UI used the system's existing WinForms with the open-source OxyPlot library.",
+          options:
+            'A histogram shows how many pixels the current image has at each gray level from 0 to 255, with a default jet color scale below it. Users can apply it as is, or click points on the x-axis to define their own scale, and the color mapping below updates right away. OxyPlot was hard to extend, and I worked out a fix for each limit.',
+          result:
+            "The client did not share quantitative results on defect review. On the same assignment, I built test automation from the SQA team's manual test cases, raising code coverage from 11% to 32% and cutting regression runs from over 1 hour to ~20 minutes.",
+        },
       },
     ],
   },

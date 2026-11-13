@@ -317,6 +317,22 @@
               }
             </p>
           }
+          @let stories = storiesOf(job);
+          @if (stories.length) {
+            <p class="mt-0.5 text-[.86rem] text-faint">
+              <span>{{ c.experience.storiesLabel }}</span>
+              @for (s of stories; track s.key; let last = $last) {
+                <a
+                  class="text-accent-soft underline decoration-accent-dim/50 underline-offset-4 transition-colors duration-250 hover:text-cream"
+                  [href]="c.homePath + '#story-' + s.key"
+                  >{{ s.short }}</a
+                >
+                @if (!last) {
+                  <span>{{ c.experience.relatedSeparator }}</span>
+                }
+              }
+            </p>
+          }
 
           <p class="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span class="font-serif text-[1.65rem] leading-tight text-accent">{{
@@ -402,12 +418,55 @@
     </div>
   </section>
 
-  <!-- ============ Skills ============ -->
-  <!-- 熟悉度不用自評分數：分層依履歷，年資與段數由 stack.ts 從任職期間計算 -->
+  <!-- ============ Stories ============ -->
+  <!-- 解題故事：卡片放摘要，完整過程在對話框；與對應的經歷互相連結 -->
   <section
-    id="skills"
+    id="stories"
     class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
   >
+    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Approach</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.stories.title }}</h2>
+        <p class="mt-4 text-[.93rem]">{{ c.stories.intro }}</p>
+      </div>
+
+      @for (g of storyGroups; track g.kind; let first = $first) {
+        <div [class.mt-16]="!first">
+          <div class="reveal mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <h3 class="font-mono text-[.86rem] tracking-[.08em] text-accent-soft">
+              {{ g.text.title }}
+            </h3>
+            <p class="text-[.86rem] text-faint">{{ g.text.note }}</p>
+          </div>
+          <div
+            class="grid grid-cols-1 gap-[22px]"
+            [class]="g.kind === 'workflow' ? 'min-[901px]:grid-cols-2' : 'min-[901px]:grid-cols-3'"
+          >
+            @for (s of g.items; track s.key; let i = $index) {
+              <app-story-card
+                class="reveal scroll-mt-6"
+                [class.delay-100]="i % 3 === 1"
+                [class.delay-200]="i % 3 === 2"
+                [id]="'story-' + s.key"
+                [story]="s"
+                [jobs]="storyJobs(s)"
+                [jobsLabel]="c.stories.jobsLabel"
+                [separator]="c.experience.relatedSeparator"
+                [readLabel]="c.stories.readLabel"
+                [closeLabel]="c.demo.close"
+                [stepLabels]="c.stories.stepLabels"
+              />
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ============ Skills ============ -->
+  <!-- 熟悉度不用自評分數：分層依履歷，年資與段數由 stack.ts 從任職期間計算 -->
+  <section id="skills" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
     <div class="relative z-1 mx-auto max-w-[1040px] px-6">
       <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
         <app-eyebrow>Tech Stack</app-eyebrow>
@@ -471,7 +530,7 @@
               <div aria-live="polite">
                 @if (selectedStat()?.tier === g.tier) {
                   @let s = selectedStat()!;
-                  <div class="mt-6 rounded-lg border border-line bg-ink p-5">
+                  <div class="mt-6 rounded-lg border border-line bg-ink-alt p-5">
                     <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                       <p class="font-mono text-[.74rem] tracking-[.12em] text-faint uppercase">
                         {{ c.skills.usedIn }}
@@ -512,8 +571,11 @@
     </div>
   </section>
   <!-- ============ CTA ============ -->
-  <!-- 區塊背景交錯：Tech Stack 之後輪到 bg-ink -->
-  <section id="contact" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
+  <!-- 區塊背景交錯：Tech Stack 之後輪到 bg-ink-alt -->
+  <section
+    id="contact"
+    class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
+  >
     <div class="reveal relative z-1 mx-auto max-w-[760px] px-6 text-center">
       <app-eyebrow>Work With Me</app-eyebrow>
       <h2 class="text-[clamp(1.5rem,2.6vw,2.1rem)]">{{ c.contact.title }}</h2>

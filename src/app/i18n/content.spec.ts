@@ -45,6 +45,12 @@ function shape(c: SiteContent) {
       job: p.job,
       tech: p.tech,
     })),
+    stories: c.stories.items.map((s) => ({
+      key: s.key,
+      kind: s.kind,
+      jobs: s.jobs,
+      metric: s.metric !== null,
+    })),
     tiers: Object.keys(c.skills.tiers),
   };
 }
