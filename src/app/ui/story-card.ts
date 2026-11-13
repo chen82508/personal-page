@@ -18,10 +18,12 @@ export interface StoryJobLink {
   imports: [ButtonDirective, Card, Dialog],
   host: { class: 'block h-full' },
   template: `
+    <!-- p-card 內層的 body 與 content 預設不會撐滿卡片高度；同一列裡內容較短的卡片，
+         按鈕列會比其他卡片高幾 px。讓兩層都 grow，按鈕列才會貼齊卡片底部 -->
     <p-card
-      class="h-full border border-line backdrop-blur-[6px] transition-[translate,border-color,box-shadow] duration-350 ease-out-expo hover:-translate-y-[5px] hover:border-accent-dim hover:shadow-[0_20px_44px_-24px_rgb(223_160_110/0.35)]"
+      class="h-full border border-line backdrop-blur-[6px] transition-[translate,border-color,box-shadow] duration-350 ease-out-expo *:grow hover:-translate-y-[5px] hover:border-accent-dim hover:shadow-[0_20px_44px_-24px_rgb(223_160_110/0.35)] [&_.p-card-content]:flex [&_.p-card-content]:grow [&_.p-card-content]:flex-col"
     >
-      <div class="flex h-full flex-col">
+      <div class="flex grow flex-col">
         <!-- 標籤與分隔放在 span 裡，避免範本換行在分隔符號前後多出空白 -->
         <p class="font-mono text-[.74rem] tracking-[.08em] text-faint">
           <span class="sr-only">{{ jobsLabel() }}</span>
@@ -39,7 +41,8 @@ export interface StoryJobLink {
         <h3 class="mt-2 mb-2.5 text-[1.06rem]">{{ story().title }}</h3>
         <p class="text-[.93rem] text-warm-grey">{{ story().summary }}</p>
 
-        <div class="mt-auto flex flex-wrap items-end justify-between gap-x-5 gap-y-4 pt-6">
+        <!-- 按鈕固定在卡片右下角：有沒有代表數字都在同一位置，同一列的卡片才對齊（見 site-design skill） -->
+        <div class="mt-auto flex flex-wrap items-end gap-x-5 gap-y-4 pt-6">
           @if (story().metric; as m) {
             <p class="flex flex-col">
               <span class="font-serif text-[1.5rem] leading-tight text-accent">{{ m.value }}</span>
@@ -53,7 +56,7 @@ export interface StoryJobLink {
             outlined
             severity="secondary"
             size="small"
-            class="gap-2 text-[.86rem] transition-[border-color,color] duration-250 hover:border-accent-dim hover:text-cream"
+            class="ml-auto gap-2 text-[.86rem] transition-[border-color,color] duration-250 hover:border-accent-dim hover:text-cream"
             aria-haspopup="dialog"
             (click)="open.set(true)"
           >
