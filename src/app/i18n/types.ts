@@ -67,7 +67,7 @@ export interface Story {
   jobs: JobKey[];
   /** 對話框中的完整過程 */
   steps: StorySteps;
-  /** 對話框中的前、後對照圖（public/stories/）；沒有時為 null */
+  /** 對話框中的前、後對照圖（public/stories/，模擬影像，非客戶資料）；沒有時為 null */
   figure: StoryFigure | null;
 }
 

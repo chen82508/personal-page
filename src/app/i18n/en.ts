@@ -403,17 +403,17 @@ export const EN: SiteContent = {
         },
         figure: {
           width: 640,
-          height: 400,
+          height: 360,
           images: [
             {
               src: 'stories/defect-gray.webp',
               label: 'Original grayscale (0–255)',
-              alt: 'Simulated e-Beam grayscale image: evenly spaced dark lines with a dark bridging defect between two of them, above a 0–255 gray ramp',
+              alt: 'Simulated e-Beam grayscale image: evenly spaced dark lines with a dark bridging defect between two of them',
             },
             {
               src: 'stories/defect-jet.webp',
               label: 'With the jet color scale',
-              alt: 'The same image with the jet color scale: blue lines on a yellow-green background, the defect deep blue with a red halo, above the matching jet color bar',
+              alt: 'The same image with the jet color scale: blue lines on a yellow-green background, the defect deep blue with a red halo',
             },
           ],
           note: 'Illustration only: a simulated image generated in code, not real ASML inspection data.',

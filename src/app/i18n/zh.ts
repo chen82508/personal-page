@@ -385,17 +385,17 @@ export const ZH: SiteContent = {
         },
         figure: {
           width: 640,
-          height: 400,
+          height: 360,
           images: [
             {
               src: 'stories/defect-gray.webp',
               label: '原始灰階影像（0–255）',
-              alt: '模擬的 e-Beam 灰階影像：等距的暗色直線之間有一處暗色橋接缺陷，下方是 0 到 255 的灰階色帶',
+              alt: '模擬的 e-Beam 灰階影像：等距的暗色直線之間有一處暗色橋接缺陷',
             },
             {
               src: 'stories/defect-jet.webp',
               label: '套用 jet 色階後',
-              alt: '同一張影像套用 jet 色階：直線呈藍色、背景呈黃綠色，缺陷中心為深藍、周圍的亮暈為紅色，下方是對應的 jet 色帶',
+              alt: '同一張影像套用 jet 色階：直線呈藍色、背景呈黃綠色，缺陷中心為深藍、周圍的亮暈為紅色',
             },
           ],
           note: '示意圖：以程式產生的模擬影像呈現，並非 ASML 的實際檢測資料。',
