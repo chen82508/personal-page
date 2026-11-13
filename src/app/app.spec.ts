@@ -37,23 +37,126 @@ describe('App', () => {
     expect(compiled.querySelector('section#highlights')).toBeTruthy();
   });
 
-  it('should link only the prediction-market card to its live demo and repository', async () => {
+  it('should give the prediction-market card a demo button and a repository link', async () => {
     const compiled = await render();
-    const cards = compiled.querySelectorAll('app-highlight-card');
+    const cards = compiled.querySelectorAll('#highlights app-highlight-card');
     const links = Array.from(cards[1].querySelectorAll<HTMLAnchorElement>('a'));
-    expect(compiled.querySelectorAll('app-highlight-card a').length).toBe(2);
+    expect(compiled.querySelectorAll('#highlights app-highlight-card a').length).toBe(1);
     expect(links.map((a) => a.getAttribute('href'))).toEqual([
-      'https://chen82508.github.io/pmi-platform/',
       'https://github.com/chen82508/pmi-platform',
     ]);
     expect(links.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
+    // 平台已下線，改以示範動畫呈現；動畫只在對話框開啟後才載入
+    const demo = compiled.querySelectorAll('#highlights button[aria-haspopup="dialog"]');
+    expect(demo.length).toBe(1);
+    expect(cards[1].contains(demo[0])).toBe(true);
+    expect(compiled.querySelectorAll('#highlights img').length).toBe(0);
+  });
+
+  it('should render the project cards with a demo button and external links', async () => {
+    const compiled = await render();
+    expect(compiled.querySelectorAll('#projects app-project-card').length).toBe(2);
+    const visit = Array.from(compiled.querySelectorAll<HTMLAnchorElement>('#projects a[target]'));
+    expect(visit.map((a) => a.getAttribute('href'))).toEqual([
+      'https://110traffic.hl.gov.tw/',
+      'https://www.moi.gov.tw/',
+    ]);
+    expect(visit.every((a) => a.getAttribute('rel') === 'noopener')).toBe(true);
+    // 動畫只在按下按鈕、對話框開啟後才載入
+    expect(compiled.querySelectorAll('#projects img').length).toBe(0);
+    expect(compiled.querySelectorAll('#projects button[aria-haspopup="dialog"]').length).toBe(2);
+  });
+
+  it('should open the demo dialog with the animation when the button is pressed', async () => {
+    const fixture = await setup();
+    const compiled = fixture.nativeElement as HTMLElement;
+    compiled.querySelector<HTMLButtonElement>('#projects button[aria-haspopup="dialog"]')!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const img = document.querySelector<HTMLImageElement>('.p-dialog img');
+    expect(img?.getAttribute('src')).toBe('projects/hualien-bus.webp');
+    expect(img?.getAttribute('alt')).toBeTruthy();
+  });
+
+  it('should cross-link projects and the related job', async () => {
+    const compiled = await render();
+    const jobLinks = Array.from(compiled.querySelectorAll('#projects a:not([target])')).map((a) =>
+      a.getAttribute('href'),
+    );
+    expect(jobLinks).toEqual(['#job-hamastar', '#job-hamastar']);
+    const related = Array.from(compiled.querySelectorAll('#job-hamastar a[href^="#project-"]'));
+    expect(related.map((a) => a.getAttribute('href'))).toEqual([
+      '#project-hualien-bus',
+      '#project-moi',
+    ]);
+    for (const key of ['hualien-bus', 'moi']) {
+      expect(compiled.querySelector(`#project-${key}`)).toBeTruthy();
+    }
+  });
+
+  it('should group the problem-solving stories into workflow and domain cards', async () => {
+    const compiled = await render();
+    const groups = compiled.querySelectorAll('#stories h3.font-mono');
+    expect(Array.from(groups).map((h) => h.textContent?.trim())).toEqual([
+      'Solution workflow',
+      'Domain know-how',
+    ]);
+    expect(compiled.querySelectorAll('#stories app-story-card').length).toBe(7);
+    // 完整過程只在對話框裡，卡片上只有開啟按鈕
+    expect(compiled.querySelectorAll('#stories button[aria-haspopup="dialog"]').length).toBe(7);
+    expect(compiled.querySelector('#stories dl')).toBeNull();
+  });
+
+  it('should open a story dialog with the four steps', async () => {
+    const fixture = await setup();
+    const compiled = fixture.nativeElement as HTMLElement;
+    compiled.querySelector<HTMLButtonElement>('#stories button[aria-haspopup="dialog"]')!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const labels = Array.from(document.querySelectorAll('.p-dialog dt')).map((dt) =>
+      dt.textContent?.trim(),
+    );
+    expect(labels).toEqual(['背景', '判斷', '考慮過的做法', '結果']);
+  });
+
+  it('should show the before/after figure only in the colorization story dialog', async () => {
+    const fixture = await setup();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelectorAll('#stories img').length).toBe(0);
+    compiled.querySelector<HTMLButtonElement>('#story-defect-colormap button')!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const imgs = Array.from(document.querySelectorAll<HTMLImageElement>('.p-dialog figure img'));
+    expect(imgs.map((i) => i.getAttribute('src'))).toEqual([
+      'stories/defect-gray.webp',
+      'stories/defect-jet.webp',
+    ]);
+    expect(imgs.every((i) => i.getAttribute('alt'))).toBe(true);
+  });
+
+  it('should cross-link stories and their jobs, including earlier roles', async () => {
+    const compiled = await render();
+    const zeroDowntime = compiled.querySelector('#story-zero-downtime')!;
+    expect(
+      Array.from(zeroDowntime.querySelectorAll('a')).map((a) => a.getAttribute('href')),
+    ).toEqual(['#job-ipass', '#job-micah']);
+    const fromMicah = Array.from(compiled.querySelectorAll('#job-micah a[href^="#story-"]'));
+    expect(fromMicah.map((a) => a.getAttribute('href'))).toEqual([
+      '#story-measure-first',
+      '#story-data-quality',
+      '#story-zero-downtime',
+      '#story-skill-gates',
+    ]);
+    // iPASS 收在「更早的經歷」裡，連結仍要存在
+    expect(compiled.querySelector('#job-ipass a[href="#story-reconciliation"]')).toBeTruthy();
   });
 
   it('should render PrimeNG components for highlights and CTA', async () => {
     const compiled = await render();
     expect(compiled.querySelectorAll('#highlights p-card').length).toBe(3);
     expect(compiled.querySelectorAll('p-tag').length).toBe(3);
-    expect(compiled.querySelectorAll('.p-button').length).toBe(2);
+    expect(compiled.querySelectorAll('#contact .p-button').length).toBe(2);
+    expect(compiled.querySelectorAll('#projects .p-button').length).toBe(2);
   });
 
   it('should render the experience timeline and contact links', async () => {

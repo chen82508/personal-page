@@ -116,6 +116,9 @@
             [icon]="h.icon"
             [title]="h.title"
             [body]="h.body"
+            [demo]="h.demo ?? null"
+            [demoLabel]="c.demo.label"
+            [closeLabel]="c.demo.close"
             [links]="h.links ?? []"
             [newTabLabel]="c.newTab"
           />
@@ -297,6 +300,39 @@
           <p class="mt-0.5 text-[.86rem] text-faint">
             {{ c.experience.projectLabel }}{{ job.project }}
           </p>
+          @let related = projectsOf(job);
+          @if (related.length) {
+            <!-- 標籤與分隔放在 span 裡，避免範本換行在「、」前後多出空白 -->
+            <p class="mt-0.5 text-[.86rem] text-faint">
+              <span>{{ c.experience.relatedLabel }}</span>
+              @for (p of related; track p.key; let last = $last) {
+                <a
+                  class="text-accent-soft underline decoration-accent-dim/50 underline-offset-4 transition-colors duration-250 hover:text-cream"
+                  [href]="c.homePath + '#project-' + p.key"
+                  >{{ p.title }}</a
+                >
+                @if (!last) {
+                  <span>{{ c.experience.relatedSeparator }}</span>
+                }
+              }
+            </p>
+          }
+          @let stories = storiesOf(job);
+          @if (stories.length) {
+            <p class="mt-0.5 text-[.86rem] text-faint">
+              <span>{{ c.experience.storiesLabel }}</span>
+              @for (s of stories; track s.key; let last = $last) {
+                <a
+                  class="text-accent-soft underline decoration-accent-dim/50 underline-offset-4 transition-colors duration-250 hover:text-cream"
+                  [href]="c.homePath + '#story-' + s.key"
+                  >{{ s.short }}</a
+                >
+                @if (!last) {
+                  <span>{{ c.experience.relatedSeparator }}</span>
+                }
+              }
+            </p>
+          }
 
           <p class="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span class="font-serif text-[1.65rem] leading-tight text-accent">{{
@@ -350,6 +386,83 @@
       </article>
     </li>
   </ng-template>
+
+  <!-- ============ Stories ============ -->
+  <!-- 解題故事：接在經歷之後；卡片放摘要，完整過程在對話框，並與對應的經歷互相連結 -->
+  <section id="stories" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
+    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Approach</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.stories.title }}</h2>
+        <p class="mt-4 text-[.93rem]">{{ c.stories.intro }}</p>
+      </div>
+
+      @for (g of storyGroups; track g.kind; let first = $first) {
+        <div [class.mt-16]="!first">
+          <div class="reveal mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <h3 class="font-mono text-[.86rem] tracking-[.08em] text-accent-soft">
+              {{ g.text.title }}
+            </h3>
+            <p class="text-[.86rem] text-faint">{{ g.text.note }}</p>
+          </div>
+          <div
+            class="grid grid-cols-1 gap-[22px]"
+            [class]="g.kind === 'workflow' ? 'min-[901px]:grid-cols-2' : 'min-[901px]:grid-cols-3'"
+          >
+            @for (s of g.items; track s.key; let i = $index) {
+              <app-story-card
+                class="reveal scroll-mt-6"
+                [class.delay-100]="i % 3 === 1"
+                [class.delay-200]="i % 3 === 2"
+                [id]="'story-' + s.key"
+                [story]="s"
+                [jobs]="storyJobs(s)"
+                [jobsLabel]="c.stories.jobsLabel"
+                [separator]="c.experience.relatedSeparator"
+                [readLabel]="c.stories.readLabel"
+                [closeLabel]="c.demo.close"
+                [stepLabels]="c.stories.stepLabels"
+              />
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ============ Projects ============ -->
+  <!-- 仍在線上的網站，接在解題故事之後並與對應的經歷互相連結；示範動畫由 scripts/record-project-demos.py 錄製 -->
+  <section
+    id="projects"
+    class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
+  >
+    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Projects</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.projects.title }}</h2>
+        <p class="mt-4 text-[.93rem]">{{ c.projects.intro }}</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-[22px] min-[901px]:grid-cols-2">
+        @for (p of c.projects.items; track p.key; let i = $index) {
+          <app-project-card
+            class="reveal scroll-mt-6"
+            [class.delay-100]="i === 1"
+            [id]="'project-' + p.key"
+            [project]="p"
+            [jobLabel]="job(p.job)?.company ?? ''"
+            [jobHref]="c.homePath + '#job-' + p.job"
+            [tryLabel]="c.projects.tryLabel"
+            [demoLabel]="c.demo.label"
+            [closeLabel]="c.demo.close"
+            [visitLabel]="c.projects.visitLabel"
+            [stackLabel]="c.projects.stackLabel"
+            [newTabLabel]="c.newTab"
+          />
+        }
+      </div>
+    </div>
+  </section>
 
   <!-- ============ Skills ============ -->
   <!-- 熟悉度不用自評分數：分層依履歷，年資與段數由 stack.ts 從任職期間計算 -->
@@ -458,6 +571,7 @@
     </div>
   </section>
   <!-- ============ CTA ============ -->
+  <!-- 區塊背景交錯：Tech Stack 之後輪到 bg-ink-alt -->
   <section
     id="contact"
     class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"

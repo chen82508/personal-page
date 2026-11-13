@@ -67,6 +67,19 @@ export const KaitoPreset = definePreset(Aura, {
       },
       body: { padding: '1.875rem 1.625rem', gap: '0' },
     },
+    // 作品集的示範動畫對話框；Aura 預設取淺色 overlay（白底），這裡改成深色
+    dialog: {
+      root: {
+        background: '{surface.800}', // --color-surface-solid
+        borderColor: '{surface.700}', // --color-line
+        color: '{surface.50}', // --color-cream（標題）
+        borderRadius: '1rem',
+        shadow: '0 30px 80px -24px rgb(0 0 0 / 0.75)',
+      },
+      header: { padding: '1.25rem 1.5rem 0.75rem' },
+      title: { fontSize: '1.06rem', fontWeight: '600' },
+      content: { padding: '0 1.5rem 1.5rem' },
+    },
     tag: {
       root: {
         fontSize: '0.68rem',

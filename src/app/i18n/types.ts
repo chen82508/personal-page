@@ -1,5 +1,6 @@
 import { DOCUMENT, InjectionToken, inject } from '@angular/core';
 import { ContactIcon } from '../ui/contact-icon';
+import { DemoMedia } from '../ui/demo-button';
 import { HighlightIcon, HighlightLink } from '../ui/highlight-card';
 import { Status } from '../ui/status-tag';
 import { Employment, JobKey, TechTier } from './stack';
@@ -14,6 +15,8 @@ export interface Highlight {
   title: string;
   body: string;
   delay: string;
+  /** 示範動畫：按下按鈕才在對話框中載入 */
+  demo?: DemoMedia;
   links?: HighlightLink[];
 }
 
@@ -27,6 +30,60 @@ export interface Job {
   /** 這段經歷最具代表性的成果數字，例如「2 週 → 3 天」 */
   headline: { value: string; label: string };
   points: string[];
+}
+
+export interface Project {
+  key: string;
+  title: string;
+  /** 委託單位；任職公司從 job 對應的經歷取得 */
+  client: string;
+  body: string;
+  /** 在網站上可以親自操作的路徑 */
+  tryIt: string;
+  /** 對應的正職經歷：專案卡片與經歷互相以錨點連結 */
+  job: JobKey;
+  /** 示範動畫（public/projects/），按下按鈕才在對話框中載入 */
+  media: DemoMedia;
+  href: string;
+  tech: string[];
+}
+
+/** 解題故事的兩類：跨經歷反覆用到的作法，以及在產業裡學到的規則 */
+export type StoryKind = 'workflow' | 'domain';
+
+export const STORY_KINDS: StoryKind[] = ['workflow', 'domain'];
+
+export interface Story {
+  key: string;
+  kind: StoryKind;
+  title: string;
+  /** 經歷下方「解題故事」連結用的短名 */
+  short: string;
+  /** 卡片上的一句話摘要 */
+  summary: string;
+  /** 代表性成果；沒有可查證的數字時為 null，卡片不顯示 */
+  metric: { value: string; label: string } | null;
+  /** 對應的經歷：卡片與經歷互相以錨點連結 */
+  jobs: JobKey[];
+  /** 對話框中的完整過程 */
+  steps: StorySteps;
+  /** 對話框中的前、後對照圖（public/stories/，模擬影像，非客戶資料）；沒有時為 null */
+  figure: StoryFigure | null;
+}
+
+export interface StoryFigure {
+  width: number;
+  height: number;
+  images: { src: string; label: string; alt: string }[];
+  /** 圖說，例如說明這是模擬的示意圖 */
+  note: string;
+}
+
+export interface StorySteps {
+  context: string;
+  judgment: string;
+  options: string;
+  result: string;
 }
 
 /** 單複數不同的單位（中文兩者相同） */
@@ -52,6 +109,8 @@ export interface SiteContent {
   /** 本頁相對於 base href 的路徑，用來組出頁內錨點 */
   homePath: string;
   newTab: string;
+  /** 開啟示範動畫對話框的按鈕，以及對話框的關閉按鈕 */
+  demo: { label: string; close: string };
   hero: {
     status: string;
     /** 每一行由不可斷開的片段組成，片段之間不加空白 */
@@ -71,11 +130,37 @@ export interface SiteContent {
     clearLabel: string;
     /** 每段經歷技術清單的 aria-label */
     stackLabel: string;
+    /** 經歷下方連到作品集的前綴，例如「相關作品：」 */
+    relatedLabel: string;
+    /** 相關作品之間的分隔，例如「、」 */
+    relatedSeparator: string;
+    /** 經歷下方連到解題故事的前綴，例如「解題故事：」 */
+    storiesLabel: string;
     /** 甘特總覽：aria-label 與圖例 */
     timeline: { label: string } & Record<Employment, string>;
     jobs: Job[];
     education: { school: string; years: string };
     languages: { name: string; level: string }[];
+  };
+  projects: {
+    title: string;
+    intro: string;
+    /** 「試試看：」等前綴 */
+    tryLabel: string;
+    visitLabel: string;
+    stackLabel: string;
+    items: Project[];
+  };
+  stories: {
+    title: string;
+    intro: string;
+    groups: Record<StoryKind, { title: string; note: string }>;
+    /** 開啟完整過程對話框的按鈕 */
+    readLabel: string;
+    stepLabels: StorySteps;
+    /** 卡片上對應經歷的 aria-label */
+    jobsLabel: string;
+    items: Story[];
   };
   skills: {
     title: string;

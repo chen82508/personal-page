@@ -3,6 +3,7 @@ import {
   DOCUMENT,
   DestroyRef,
   ElementRef,
+  Injector,
   afterNextRender,
   computed,
   inject,
@@ -23,14 +24,24 @@ import {
   TechStat,
   techStats,
 } from './i18n/stack';
-import { CONTACTS, Job, SITE_LANG, Unit } from './i18n/types';
+import { CONTACTS, Job, Project, SITE_LANG, STORY_KINDS, Story, Unit } from './i18n/types';
 import { ContactIconView } from './ui/contact-icon';
 import { Eyebrow } from './ui/eyebrow';
 import { HighlightCard } from './ui/highlight-card';
+import { ProjectCard } from './ui/project-card';
+import { StoryCard, StoryJobLink } from './ui/story-card';
 
 @Component({
   selector: 'app-root',
-  imports: [ButtonDirective, ContactIconView, Eyebrow, HighlightCard, NgTemplateOutlet],
+  imports: [
+    ButtonDirective,
+    ContactIconView,
+    Eyebrow,
+    HighlightCard,
+    NgTemplateOutlet,
+    ProjectCard,
+    StoryCard,
+  ],
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
@@ -88,6 +99,46 @@ export class App {
 
   private readonly jobsByKey = new Map(this.c.experience.jobs.map((j) => [j.key, j]));
 
+  /** 經歷 → 作品集：與專案卡片上的經歷連結互相對應 */
+  protected projectsOf(job: Job): Project[] {
+    return this.c.projects.items.filter((p) => p.job === job.key);
+  }
+
+  /** 解題故事依類別分組：Solution workflow 在前，Domain know-how 在後 */
+  protected readonly storyGroups = STORY_KINDS.map((kind) => ({
+    kind,
+    text: this.c.stories.groups[kind],
+    items: this.c.stories.items.filter((s) => s.kind === kind),
+  }));
+
+  /** 經歷 → 解題故事：與故事卡片上的經歷連結互相對應 */
+  protected storiesOf(job: Job): Story[] {
+    return this.c.stories.items.filter((s) => s.jobs.includes(job.key));
+  }
+
+  protected storyJobs(story: Story): StoryJobLink[] {
+    return story.jobs.map((key) => ({
+      label: this.job(key)?.company ?? '',
+      href: this.c.homePath + '#job-' + key,
+    }));
+  }
+
+  /**
+   * 錨點指向收合在「更早的經歷」裡的經歷時（作品集或甘特長條的連結），
+   * 先展開再捲過去；收合時目標元素不會顯示，瀏覽器原本的捲動會落空。
+   */
+  private revealJob(hash: string): void {
+    const key = /^#job-(.+)$/.exec(hash)?.[1] as JobKey | undefined;
+    if (!key || !ROLE_STACKS[key]?.earlier || this.earlierOpen()) return;
+    this.earlierToggled.set(true);
+    // 等 [open] 綁定套用到 <details> 之後再捲動
+    afterNextRender(
+      () =>
+        this.host.nativeElement.querySelector(`#job-${key}`)?.scrollIntoView({ block: 'start' }),
+      { injector: this.injector },
+    );
+  }
+
   protected toggleTech(name: TechName): void {
     this.selected.update((cur) => (cur === name ? null : name));
   }
@@ -119,6 +170,7 @@ export class App {
   }
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly injector = inject(Injector);
 
   constructor() {
     const destroyRef = inject(DestroyRef);
@@ -130,6 +182,11 @@ export class App {
 
     // 捲動淡入：偏好減少動畫或不支援 IntersectionObserver 時直接全部顯示
     afterNextRender(() => {
+      const onHash = () => this.revealJob(window.location.hash);
+      window.addEventListener('hashchange', onHash);
+      destroyRef.onDestroy(() => window.removeEventListener('hashchange', onHash));
+      onHash();
+
       const els = this.host.nativeElement.querySelectorAll<HTMLElement>('.reveal');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

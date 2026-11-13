@@ -33,10 +33,25 @@ function shape(c: SiteContent) {
       label: h.label,
       icon: h.icon,
       delay: h.delay,
+      demo: h.demo?.src,
       links: (h.links ?? []).map((l) => l.href),
     })),
     jobs: c.experience.jobs.map((j) => ({ key: j.key, points: j.points.length })),
     languages: c.experience.languages.length,
+    projects: c.projects.items.map((p) => ({
+      key: p.key,
+      href: p.href,
+      media: p.media.src,
+      job: p.job,
+      tech: p.tech,
+    })),
+    stories: c.stories.items.map((s) => ({
+      key: s.key,
+      kind: s.kind,
+      jobs: s.jobs,
+      metric: s.metric !== null,
+      figure: s.figure?.images.map((i) => i.src) ?? null,
+    })),
     tiers: Object.keys(c.skills.tiers),
   };
 }
