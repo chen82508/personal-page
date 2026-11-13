@@ -67,6 +67,16 @@ export interface Story {
   jobs: JobKey[];
   /** 對話框中的完整過程 */
   steps: StorySteps;
+  /** 對話框中的前、後對照圖（public/stories/）；沒有時為 null */
+  figure: StoryFigure | null;
+}
+
+export interface StoryFigure {
+  width: number;
+  height: number;
+  images: { src: string; label: string; alt: string }[];
+  /** 圖說，例如說明這是模擬的示意圖 */
+  note: string;
 }
 
 export interface StorySteps {

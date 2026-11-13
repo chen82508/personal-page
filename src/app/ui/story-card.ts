@@ -79,6 +79,28 @@ export interface StoryJobLink {
         [style]="{ width: '720px' }"
         [breakpoints]="{ '800px': '94vw' }"
       >
+        <!-- 前、後對照圖只在對話框開啟時放入，沒開過就不下載 -->
+        @if (open() && story().figure; as fig) {
+          <figure class="mb-6">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              @for (img of fig.images; track img.src) {
+                <div>
+                  <img
+                    class="block h-auto w-full rounded-md"
+                    [src]="img.src"
+                    [alt]="img.alt"
+                    [width]="fig.width"
+                    [height]="fig.height"
+                  />
+                  <p class="mt-2 font-mono text-[.74rem] tracking-[.06em] text-faint">
+                    {{ img.label }}
+                  </p>
+                </div>
+              }
+            </div>
+            <figcaption class="mt-3 text-[.8rem] text-faint">{{ fig.note }}</figcaption>
+          </figure>
+        }
         <dl class="space-y-5">
           @for (s of steps; track s) {
             <div>

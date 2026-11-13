@@ -119,6 +119,21 @@ describe('App', () => {
     expect(labels).toEqual(['背景', '判斷', '考慮過的做法', '結果']);
   });
 
+  it('should show the before/after figure only in the colorization story dialog', async () => {
+    const fixture = await setup();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelectorAll('#stories img').length).toBe(0);
+    compiled.querySelector<HTMLButtonElement>('#story-defect-colormap button')!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const imgs = Array.from(document.querySelectorAll<HTMLImageElement>('.p-dialog figure img'));
+    expect(imgs.map((i) => i.getAttribute('src'))).toEqual([
+      'stories/defect-gray.webp',
+      'stories/defect-jet.webp',
+    ]);
+    expect(imgs.every((i) => i.getAttribute('alt'))).toBe(true);
+  });
+
   it('should cross-link stories and their jobs, including earlier roles', async () => {
     const compiled = await render();
     const zeroDowntime = compiled.querySelector('#story-zero-downtime')!;

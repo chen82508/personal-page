@@ -50,6 +50,7 @@ function shape(c: SiteContent) {
       kind: s.kind,
       jobs: s.jobs,
       metric: s.metric !== null,
+      figure: s.figure?.images.map((i) => i.src) ?? null,
     })),
     tiers: Object.keys(c.skills.tiers),
   };

@@ -1,7 +1,8 @@
 import { SiteContent } from './types';
 
-// Copy selected from the master resume (陳凱樺｜履歷主檔, English tab). Third-party client names stay
-// anonymised to match the Chinese page until disclosure is confirmed (see docs/TODO.md).
+// Copy selected from the master resume (陳凱樺｜履歷主檔, English tab). Confirmed clients (ASML, CPC,
+// KGI Bank, Bank of Taiwan, LINE Pay, the Ministry of the Interior, Hualien County Government) are
+// named; other third-party clients stay anonymized to match the Chinese page (see docs/TODO.md).
 export const EN: SiteContent = {
   htmlLang: 'en',
   meta: {
@@ -21,7 +22,7 @@ export const EN: SiteContent = {
   },
   about: {
     title: 'About Me',
-    html: "I'm <strong>Kaito</strong>, a <strong>senior backend &amp; infrastructure engineer</strong> with <strong>9+ years</strong> of experience building data-intensive and financial systems. I started out on payment and bank lending systems, moved on to public-sector data integration, and spent over two years on site at <strong>ASML</strong>, working on .NET development and test automation for an e-Beam inspection system. Most recently, I built the ingestion pipeline behind a <strong>prediction-market data platform</strong> on AWS: 9 exchanges, production monitoring and alerting, and benchmark-driven performance work. When the product wound down, I carried out its shutdown too. I work <strong>AI-natively</strong>, designing the context and workflows (CLAUDE.md, SKILL.md) that let AI agents produce code I can trust. That cut new data-source integration from about two weeks to three days. Now I'm focused on <strong>Forward Deployed Engineer (FDE)</strong> roles and <strong>freelance work</strong>: sitting down with customers, pinning down what they actually need, building something that works, and staying with it until it runs reliably in the field. To me, software isn't done when it runs. It's done when it solves someone's problem.",
+    html: "I'm <strong>Kaito</strong>, a <strong>senior backend &amp; infrastructure engineer</strong> with <strong>9+ years</strong> of experience building data-intensive and financial systems. I started out on payment and bank lending systems, moved on to public-sector data integration, and spent over two years on site at <strong>ASML</strong>, working on .NET development and test automation for an e-Beam inspection system. Most recently, I built the ingestion pipeline behind a <strong>prediction-market data platform</strong> on AWS: 9 exchanges, production monitoring and alerting, and benchmark-driven performance work. When the product wound down, I carried out its shutdown too. I work <strong>AI-natively</strong>, designing the context and workflows (CLAUDE.md, SKILL.md) that let AI agents produce code I can trust. That cut new data-source integration from about two weeks to three days. Now I'm focused on <strong>Forward Deployed Engineer (FDE)</strong> roles and <strong>freelance work</strong>: starting where the problem is, sitting down with customers, pinning down what they actually need, building something that works, and staying with it until it runs reliably in the field. To me, software isn't done when it runs. It's done when it solves someone's problem.",
   },
   highlights: {
     title: "What's next, and what I've done",
@@ -41,7 +42,7 @@ export const EN: SiteContent = {
         label: 'SHIPPED',
         icon: 'project',
         title: 'Prediction-Market Data Platform',
-        body: 'Built the ingestion pipeline for a platform aggregating 9 prediction-market exchanges, sustaining 12.7M–17.9M price snapshots a day and cutting missing index-input fields from 33% to 10%, with 4.5M records filled through cross-source reconciliation. I profiled the archive pipeline and traced its bottleneck to the Google Drive API write limit; the fix cut transfer volume 17x, and each run after the initial archive finished in under 3 hours. At shutdown I decommissioned 16 services and archived 213 GB with zero data loss, then open-sourced a snapshot of the work with permission.',
+        body: 'Built the ingestion pipeline for a platform aggregating 9 prediction-market exchanges, sustaining 12.7M–17.9M price snapshots a day and cutting missing index-input fields from 33% to 10%, with 4.5M records filled through cross-source reconciliation. I profiled the archive pipeline and traced its bottleneck to the Google Drive API write limit; the fix cut transfer volume 17x, and each run after the initial archive covered only new data and finished in under 3 hours. At shutdown I decommissioned 16 services and archived 213 GB with zero data loss, then open-sourced a snapshot of the work with permission.',
         delay: 'delay-100',
         demo: {
           src: 'projects/pmi-platform.webp',
@@ -90,7 +91,7 @@ export const EN: SiteContent = {
         points: [
           'Built and owned scrapers and API ingestion for 9 prediction-market exchanges, sustaining 12.7M–17.9M price snapshots a day. Cut missing index-input fields from 33% to 10% with multi-key rotation, background API backfill and reconciliation by external contract ID (4.5M records filled).',
           'Ran 16 ingestion sidecars and several worker queues on Docker Compose on AWS EC2, and managed PostgreSQL migrations with Alembic. Set up 5 CloudWatch alarms with Slack alerts at launch that caught 30+ resource incidents before they reached users.',
-          'Profiled the archive pipeline, benchmarked gzip, zstd, xz and columnar formats, and traced the bottleneck to the Google Drive API per-file write limit. Compression with larger chunks cut transfer volume 17x; after the initial bulk archive, each run finished in under 3 hours.',
+          "Profiled the archive pipeline, benchmarked gzip, zstd, xz and columnar formats, and traced the bottleneck to Google Drive's ~3 writes per second, counted per file rather than per byte. Gzip compression cut upload traffic 17x; after the initial bulk archive, each run archived only new data and finished in under 3 hours.",
           'Wrote 5 SKILL.md workflows that cut integration of each of the first 7 exchanges from ~2 weeks to 3 days. Executed the CEO-decided shutdown: 16 services decommissioned, 213 GB archived, zero data loss.',
         ],
       },
@@ -156,7 +157,7 @@ export const EN: SiteContent = {
         points: [
           "Integrated PTX and ArcGIS APIs into Hualien's real-time bus-tracking portal and built its front end in ASP.NET Web Forms from Figma designs; scheduled caching cut peak-hour external API calls by 53%.",
           "Built ETL pipelines merging hundreds of thousands of records from multiple agencies for the Ministry of the Interior's shared platform, saving 3.5 hours of work a day.",
-          "Led a state-owned enterprise's parallel SharePoint migration, reaching 100% data consistency through cross-platform mapping and validation. Built a multi-format export engine (XLSX, ODS, PDF) and decoupled its mobile-office APIs with the Factory pattern and DI, making exports 41% faster.",
+          "Led CPC Corporation's parallel SharePoint migration, reaching 100% data consistency through cross-platform mapping and validation. Built a multi-format export engine (XLSX, ODS, PDF) and decoupled its mobile-office APIs with the Factory pattern and DI, making exports 41% faster.",
         ],
       },
       {
@@ -179,8 +180,8 @@ export const EN: SiteContent = {
         project: 'Banking solutions',
         headline: { value: '2 banks', label: 'Collateral, credit and lending systems' },
         points: [
-          "Developed core modules of a bank's collateral management system in ASP.NET Web Forms (C#), enforcing credit-assessment data accuracy with MSSQL validation rules.",
-          "Maintained another bank's credit and lending systems (ASP.NET Web Forms with VB.NET, Oracle): ran data migrations and resolved client-reported incidents through root-cause analysis and patch delivery.",
+          "Developed core modules of KGI Bank's collateral management system in ASP.NET Web Forms (C#), enforcing credit-assessment data accuracy with MSSQL validation rules.",
+          "Maintained Bank of Taiwan's credit and lending systems (ASP.NET Web Forms with VB.NET, Oracle): ran data migrations and resolved client-reported incidents through root-cause analysis and patch delivery.",
         ],
       },
     ],
@@ -242,7 +243,7 @@ export const EN: SiteContent = {
   stories: {
     title: 'How I solve problems',
     intro:
-      'What I learned from the work itself: how I size up a problem and decide what to do. Open a card for the context, diagnosis, options and outcome.',
+      'Start where the problem is, then decide what to do. Here is how that played out in past work. Open a card for the context, diagnosis, options and outcome.',
     groups: {
       workflow: { title: 'Solution workflow', note: 'Methods I keep reusing across roles' },
       domain: { title: 'Domain know-how', note: 'Rules and constraints I learned on the job' },
@@ -275,6 +276,7 @@ export const EN: SiteContent = {
           result:
             'Cut upload traffic and Drive usage about 17x. The initial archive took 3–4 days; after that, each run archived only new data and finished in under 3 hours, alongside other services.',
         },
+        figure: null,
       },
       {
         key: 'data-quality',
@@ -295,6 +297,7 @@ export const EN: SiteContent = {
           result:
             'Cut missing fields from 33% to 10% and filled 4.5M records through cross-source matching. The remaining 10% is data the sources never provide.',
         },
+        figure: null,
       },
       {
         key: 'zero-downtime',
@@ -315,6 +318,7 @@ export const EN: SiteContent = {
           result:
             'Migrated to GUIDs with zero data loss. At the Micah shutdown, decommissioned 16 services and archived 213 GB, also with zero data loss.',
         },
+        figure: null,
       },
       {
         key: 'skill-gates',
@@ -335,6 +339,7 @@ export const EN: SiteContent = {
           result:
             'Cut integration time for each of the first 7 exchanges from ~2 weeks to 3 days, reaching 9 exchanges in all.',
         },
+        figure: null,
       },
       {
         key: 'reconciliation',
@@ -349,12 +354,13 @@ export const EN: SiteContent = {
           context:
             'The e-payment system settled tens of millions of transactions a month and sent reconciliation reports to the banks and merchants that requested them.',
           judgment:
-            'Two incidents were classed as security issues. First, a .NET DataSet used as a buffer was not cleared before querying and reporting the next merchant. Second, when a mobile-payment partner moved settlement from monthly to weekly, our test cases missed scenarios and our totals did not match theirs.',
+            "Two incidents were classed as security issues. First, a .NET DataSet used as a buffer was not cleared before querying and reporting the next merchant. Second, when LINE Pay moved settlement from monthly to weekly, our test cases missed scenarios and our totals did not match LINE Pay's.",
           options:
             'For the first, I moved "clear the buffer before each merchant query" into a base class with the Factory pattern and required related features to implement a matching interface, so one merchant\'s records could never reach another\'s report. For the second, I reviewed the stored procedure line by line with my mentor, added broader weekly-settlement cases including destructive tests, and checked each against expected results. We filed the deployment only after every item on the checklist passed.',
           result:
             'Clearing the buffer became a fixed step in the base class, and weekly settlement shipped only after passing the expanded test checklist.',
         },
+        figure: null,
       },
       {
         key: 'scorecard',
@@ -375,6 +381,7 @@ export const EN: SiteContent = {
           result:
             "Per the appraisers' weekly reports, assessment efficiency rose 27% and review time fell 50%.",
         },
+        figure: null,
       },
       {
         key: 'defect-colormap',
@@ -393,6 +400,23 @@ export const EN: SiteContent = {
             'A histogram shows how many pixels the current image has at each gray level from 0 to 255, with a default jet color scale below it. Users can apply it as is, or click points on the x-axis to define their own scale, and the color mapping below updates right away. OxyPlot was hard to extend, and I worked out a fix for each limit.',
           result:
             "The client did not share quantitative results on defect review. On the same assignment, I built test automation from the SQA team's manual test cases, raising code coverage from 11% to 32% and cutting regression runs from over 1 hour to ~20 minutes.",
+        },
+        figure: {
+          width: 640,
+          height: 400,
+          images: [
+            {
+              src: 'stories/defect-gray.webp',
+              label: 'Original grayscale (0–255)',
+              alt: 'Simulated e-Beam grayscale image: evenly spaced dark lines with a dark bridging defect between two of them, above a 0–255 gray ramp',
+            },
+            {
+              src: 'stories/defect-jet.webp',
+              label: 'With the jet color scale',
+              alt: 'The same image with the jet color scale: blue lines on a yellow-green background, the defect deep blue with a red halo, above the matching jet color bar',
+            },
+          ],
+          note: 'Illustration only: a simulated image generated in code, not real ASML inspection data.',
         },
       },
     ],
