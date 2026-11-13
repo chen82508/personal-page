@@ -94,6 +94,63 @@ describe('App', () => {
     }
   });
 
+  it('should group the problem-solving stories into workflow and domain cards', async () => {
+    const compiled = await render();
+    const groups = compiled.querySelectorAll('#stories h3.font-mono');
+    expect(Array.from(groups).map((h) => h.textContent?.trim())).toEqual([
+      'Solution workflow',
+      'Domain know-how',
+    ]);
+    expect(compiled.querySelectorAll('#stories app-story-card').length).toBe(7);
+    // 完整過程只在對話框裡，卡片上只有開啟按鈕
+    expect(compiled.querySelectorAll('#stories button[aria-haspopup="dialog"]').length).toBe(7);
+    expect(compiled.querySelector('#stories dl')).toBeNull();
+  });
+
+  it('should open a story dialog with the four steps', async () => {
+    const fixture = await setup();
+    const compiled = fixture.nativeElement as HTMLElement;
+    compiled.querySelector<HTMLButtonElement>('#stories button[aria-haspopup="dialog"]')!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const labels = Array.from(document.querySelectorAll('.p-dialog dt')).map((dt) =>
+      dt.textContent?.trim(),
+    );
+    expect(labels).toEqual(['背景', '判斷', '考慮過的做法', '結果']);
+  });
+
+  it('should show the before/after figure only in the colorization story dialog', async () => {
+    const fixture = await setup();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelectorAll('#stories img').length).toBe(0);
+    compiled.querySelector<HTMLButtonElement>('#story-defect-colormap button')!.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const imgs = Array.from(document.querySelectorAll<HTMLImageElement>('.p-dialog figure img'));
+    expect(imgs.map((i) => i.getAttribute('src'))).toEqual([
+      'stories/defect-gray.webp',
+      'stories/defect-jet.webp',
+    ]);
+    expect(imgs.every((i) => i.getAttribute('alt'))).toBe(true);
+  });
+
+  it('should cross-link stories and their jobs, including earlier roles', async () => {
+    const compiled = await render();
+    const zeroDowntime = compiled.querySelector('#story-zero-downtime')!;
+    expect(
+      Array.from(zeroDowntime.querySelectorAll('a')).map((a) => a.getAttribute('href')),
+    ).toEqual(['#job-ipass', '#job-micah']);
+    const fromMicah = Array.from(compiled.querySelectorAll('#job-micah a[href^="#story-"]'));
+    expect(fromMicah.map((a) => a.getAttribute('href'))).toEqual([
+      '#story-measure-first',
+      '#story-data-quality',
+      '#story-zero-downtime',
+      '#story-skill-gates',
+    ]);
+    // iPASS 收在「更早的經歷」裡，連結仍要存在
+    expect(compiled.querySelector('#job-ipass a[href="#story-reconciliation"]')).toBeTruthy();
+  });
+
   it('should render PrimeNG components for highlights and CTA', async () => {
     const compiled = await render();
     expect(compiled.querySelectorAll('#highlights p-card').length).toBe(3);
