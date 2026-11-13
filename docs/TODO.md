@@ -107,10 +107,10 @@
 
 ### 🟡 Medium
 
-- [x] **專案作品集區塊** **（done）**：放上花蓮交通e點通（公車動態）與內政部全球資訊網，附實際操作的示範 GIF（按鈕開啟對話框觀看；`public/projects/`，錄製腳本 `scripts/record-project-demos.py`），放在經歷與技術棧之間，並與哈瑪星的經歷互相連結
+- [x] **專案作品集區塊** **（done）**：放上花蓮交通e點通（公車動態）與內政部全球資訊網，附實際操作的示範 GIF（按鈕開啟對話框觀看；`public/projects/`，錄製腳本 `scripts/record-project-demos.py`），放在解題故事與技術棧之間，並與哈瑪星的經歷互相連結
   - [x] **內政部全球資訊網卡片的敘述** **（done）**：你已確認沿用主檔的「為內政部共用平台建構 ETL，每日節省 3.5 小時」
   - [x] 兩個專案寫進主檔的專案清單 **（done）**
-- [x] **解題故事區塊（Approach）** **（done）**：依 Claude Doc「Domain know-how 與 Solution workflow 盤點」，放上 4 則 Solution workflow 與 3 則 Domain know-how，點開看完整過程，並與經歷互相連結
+- [x] **解題故事區塊（Approach）** **（done）**：依 Claude Doc「Domain know-how 與 Solution workflow 盤點」，放上 4 則 Solution workflow 與 3 則 Domain know-how，放在經歷與專案作品集之間，點開看完整過程，並與經歷互相連結
   - [ ] 缺口：缺陷影像為什麼需要彩色化（一句）；兩次對帳事件之後是否再發生、週結是否與合作業者對齊（一句）
   - [x] 履歷主檔與查證不一致 **（done）**：封存「壓縮＋較大區塊」與「單檔寫入限制」、API −61%、權重調整 3 天 → 2 天，已在主檔的中文與 English 分頁以建議的形式提出修正，待你逐張接受；網站經歷與 Highlights 的封存敘述已改為「每秒約 3 次寫入、gzip 壓縮使上傳流量減少 17 倍、之後每次只封存新增資料」
 - [ ] **更多可以公開的專案作品**（參考網站有 39 個專案，你目前只有 1 個）。每個專案請提供：

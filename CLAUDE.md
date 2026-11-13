@@ -20,7 +20,7 @@ npm run build         # 正式版 build → dist/kaito-angular/browser
 
 ## 架構
 
-- **單一頁面、單一元件**：`src/app/app.ts` + `app.html` 就是整個頁面（Hero → About → Highlights → Experience → Projects → Stories → Tech Stack → Contact → footer）。沒有使用 router；語言切換是一般的連結，會重新載入頁面。
+- **單一頁面、單一元件**：`src/app/app.ts` + `app.html` 就是整個頁面（Hero → About → Highlights → Experience → Stories → Projects → Tech Stack → Contact → footer）。沒有使用 router；語言切換是一般的連結，會重新載入頁面。
 - **內容與版型分離**：所有文案都在 `src/app/i18n/<lang>.ts`，型別是 `types.ts` 的 `SiteContent`；`app.html` 只透過 `c.*` 讀取。`CONTACTS`（Email、GitHub、LinkedIn）各語言共用。
 - **語言判斷**：`detectLang` 取網址在 base href 之後的路徑，`en/` 開頭就是英文，其餘是中文（基準語言 `zh`）。結果透過 `SITE_LANG` injection token 提供；測試裡可以直接 provide 指定語言。`App` 會依語言設定 `<html lang>`、`document.title` 與 meta description。
 - **頁內錨點**：`index.html` 有 `<base href>`，所以 `href="#id"` 會回到根路徑（中文版）。頁內錨點一律寫成 `c.homePath + '#id'`。

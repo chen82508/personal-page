@@ -387,43 +387,9 @@
     </li>
   </ng-template>
 
-  <!-- ============ Projects ============ -->
-  <!-- 仍在線上的網站，接在經歷之後並與對應的經歷互相連結；示範動畫由 scripts/record-project-demos.py 錄製 -->
-  <section id="projects" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
-    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
-      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
-        <app-eyebrow>Projects</app-eyebrow>
-        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.projects.title }}</h2>
-        <p class="mt-4 text-[.93rem]">{{ c.projects.intro }}</p>
-      </div>
-
-      <div class="grid grid-cols-1 gap-[22px] min-[901px]:grid-cols-2">
-        @for (p of c.projects.items; track p.key; let i = $index) {
-          <app-project-card
-            class="reveal scroll-mt-6"
-            [class.delay-100]="i === 1"
-            [id]="'project-' + p.key"
-            [project]="p"
-            [jobLabel]="job(p.job)?.company ?? ''"
-            [jobHref]="c.homePath + '#job-' + p.job"
-            [tryLabel]="c.projects.tryLabel"
-            [demoLabel]="c.demo.label"
-            [closeLabel]="c.demo.close"
-            [visitLabel]="c.projects.visitLabel"
-            [stackLabel]="c.projects.stackLabel"
-            [newTabLabel]="c.newTab"
-          />
-        }
-      </div>
-    </div>
-  </section>
-
   <!-- ============ Stories ============ -->
-  <!-- 解題故事：卡片放摘要，完整過程在對話框；與對應的經歷互相連結 -->
-  <section
-    id="stories"
-    class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
-  >
+  <!-- 解題故事：接在經歷之後；卡片放摘要，完整過程在對話框，並與對應的經歷互相連結 -->
+  <section id="stories" class="relative scroll-mt-6 py-[100px] max-sm:py-[72px]">
     <div class="relative z-1 mx-auto max-w-[1040px] px-6">
       <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
         <app-eyebrow>Approach</app-eyebrow>
@@ -461,6 +427,40 @@
           </div>
         </div>
       }
+    </div>
+  </section>
+
+  <!-- ============ Projects ============ -->
+  <!-- 仍在線上的網站，接在解題故事之後並與對應的經歷互相連結；示範動畫由 scripts/record-project-demos.py 錄製 -->
+  <section
+    id="projects"
+    class="relative scroll-mt-6 border-y border-line-soft bg-ink-alt py-[100px] max-sm:py-[72px]"
+  >
+    <div class="relative z-1 mx-auto max-w-[1040px] px-6">
+      <div class="reveal mx-auto mb-14 max-w-[560px] text-center">
+        <app-eyebrow>Projects</app-eyebrow>
+        <h2 class="text-[clamp(1.4rem,2.4vw,1.9rem)]">{{ c.projects.title }}</h2>
+        <p class="mt-4 text-[.93rem]">{{ c.projects.intro }}</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-[22px] min-[901px]:grid-cols-2">
+        @for (p of c.projects.items; track p.key; let i = $index) {
+          <app-project-card
+            class="reveal scroll-mt-6"
+            [class.delay-100]="i === 1"
+            [id]="'project-' + p.key"
+            [project]="p"
+            [jobLabel]="job(p.job)?.company ?? ''"
+            [jobHref]="c.homePath + '#job-' + p.job"
+            [tryLabel]="c.projects.tryLabel"
+            [demoLabel]="c.demo.label"
+            [closeLabel]="c.demo.close"
+            [visitLabel]="c.projects.visitLabel"
+            [stackLabel]="c.projects.stackLabel"
+            [newTabLabel]="c.newTab"
+          />
+        }
+      </div>
     </div>
   </section>
 
