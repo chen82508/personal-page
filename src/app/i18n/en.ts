@@ -1,6 +1,6 @@
 import { SiteContent } from './types';
 
-// Copy adapted from docs/reference/resume_en.pdf. Third-party client names stay
+// Copy selected from the master resume (陳凱樺｜履歷主檔, English tab). Third-party client names stay
 // anonymised to match the Chinese page until disclosure is confirmed (see docs/TODO.md).
 export const EN: SiteContent = {
   htmlLang: 'en',
@@ -20,7 +20,7 @@ export const EN: SiteContent = {
   },
   about: {
     title: 'About Me',
-    html: "I'm <strong>Kaito</strong>, a <strong>senior backend &amp; infrastructure engineer</strong> with <strong>9+ years</strong> of experience building data-intensive and financial systems. I started out on payment and bank lending systems, moved on to public-sector data integration, and spent over two years on site at <strong>ASML</strong>, working on .NET development and test automation for an e-Beam inspection system. Most recently, I built the ingestion pipeline behind a <strong>prediction-market data platform</strong> on AWS: 9 exchanges, production monitoring and alerting, and benchmark-driven performance work. When the product wound down, I led its shutdown too. I work <strong>AI-natively</strong>, designing the context and workflows (CLAUDE.md, SKILL.md) that let AI agents produce code I can trust. That cut new data-source integration from about two weeks to three days. Now I'm focused on <strong>Forward Deployed Engineer (FDE)</strong> roles and <strong>freelance work</strong>: sitting down with customers, pinning down what they actually need, building something that works, and staying with it until it runs reliably in the field. To me, software isn't done when it runs. It's done when it solves someone's problem.",
+    html: "I'm <strong>Kaito</strong>, a <strong>senior backend &amp; infrastructure engineer</strong> with <strong>9+ years</strong> of experience building data-intensive and financial systems. I started out on payment and bank lending systems, moved on to public-sector data integration, and spent over two years on site at <strong>ASML</strong>, working on .NET development and test automation for an e-Beam inspection system. Most recently, I built the ingestion pipeline behind a <strong>prediction-market data platform</strong> on AWS: 9 exchanges, production monitoring and alerting, and benchmark-driven performance work. When the product wound down, I carried out its shutdown too. I work <strong>AI-natively</strong>, designing the context and workflows (CLAUDE.md, SKILL.md) that let AI agents produce code I can trust. That cut new data-source integration from about two weeks to three days. Now I'm focused on <strong>Forward Deployed Engineer (FDE)</strong> roles and <strong>freelance work</strong>: sitting down with customers, pinning down what they actually need, building something that works, and staying with it until it runs reliably in the field. To me, software isn't done when it runs. It's done when it solves someone's problem.",
   },
   highlights: {
     title: "What's next, and what I've done",
@@ -40,7 +40,7 @@ export const EN: SiteContent = {
         label: 'SHIPPED',
         icon: 'project',
         title: 'Prediction-Market Data Platform',
-        body: 'Built the ingestion pipeline for a platform aggregating 9 prediction-market exchanges, sustaining 12.7–17.9M price snapshots a day, lifting data completeness by 23% and filling 4.5M data gaps. I led the archive-pipeline performance investigation; my proposal was projected to cut uploads from 3–4 days to under 2 hours. At sunset I archived 213 GB and retired 16 services with zero data loss, then open-sourced a snapshot of the work with permission.',
+        body: 'Built the ingestion pipeline for a platform aggregating 9 prediction-market exchanges, sustaining 12.7M–17.9M price snapshots a day and cutting missing index-input fields from 33% to 10%, with 4.5M records filled through cross-source reconciliation. I profiled the archive pipeline and traced its bottleneck to the Google Drive API write limit; the fix cut transfer volume 17x, and each run after the initial archive finished in under 3 hours. At shutdown I decommissioned 16 services and archived 213 GB with zero data loss, then open-sourced a snapshot of the work with permission.',
         delay: 'delay-100',
         links: [
           { label: 'Live demo', href: 'https://chen82508.github.io/pmi-platform/' },
@@ -53,7 +53,7 @@ export const EN: SiteContent = {
         label: 'DEPLOYED',
         icon: 'stack',
         title: 'ASML Experience',
-        body: 'On site at ASML, I worked on the modular .NET architecture of an e-Beam inspection system and led core modules through the move from .NET Framework to .NET Core. I built a Python and TestComplete automation framework that raised test coverage from 11% to 32% across machine configurations, and wrote the UML design docs that got PMs, FAEs and QA aligned on requirements.',
+        body: 'On site at ASML, I designed and maintained modular .NET components for an e-Beam inspection system with complex hardware integration. I built a Python and TestComplete automation framework that added 70+ test cases, raised code coverage from 11% to 32% and cut regression runs from over 1 hour to ~20 minutes, and wrote the UML design docs that aligned PMs, FAEs and QA on requirements.',
         delay: 'delay-200',
       },
     ],
@@ -79,11 +79,12 @@ export const EN: SiteContent = {
         company: 'Micah Group',
         role: 'Senior Backend & Infrastructure Engineer',
         project: 'Prediction-market aggregate index platform',
-        headline: { value: '2 wks → 3 days', label: 'New-exchange integration time' },
+        headline: { value: '2 wks → 3 days', label: 'Integration time per exchange' },
         points: [
-          'Built ingestion for 9 prediction-market exchanges across web and API sources, sustaining 12.7–17.9M price snapshots a day. Multi-key rotation and background API backfills lifted data completeness by 23%.',
-          'Ran the platform on Docker Compose with 16 ingest sidecars and several worker queue lanes, managed PostgreSQL migrations with Alembic, and set up CloudWatch monitoring with Slack alerts at launch.',
-          'Wrote 5 SKILL.md workflows that cut new-exchange integration from ~2 weeks to 3 days, then led the product sunset: 213 GB archived, 16 services retired, zero data loss.',
+          'Built and owned scrapers and API ingestion for 9 prediction-market exchanges, sustaining 12.7M–17.9M price snapshots a day. Cut missing index-input fields from 33% to 10% with multi-key rotation, background API backfill and reconciliation by external contract ID (4.5M records filled).',
+          'Ran 16 ingestion sidecars and several worker queues on Docker Compose on AWS EC2, and managed PostgreSQL migrations with Alembic. Set up 5 CloudWatch alarms with Slack alerts at launch that caught 30+ resource incidents before they reached users.',
+          'Profiled the archive pipeline, benchmarked gzip, zstd, xz and columnar formats, and traced the bottleneck to the Google Drive API per-file write limit. Compression with larger chunks cut transfer volume 17x; after the initial bulk archive, each run finished in under 3 hours.',
+          'Wrote 5 SKILL.md workflows that cut integration of each of the first 7 exchanges from ~2 weeks to 3 days. Executed the CEO-decided shutdown: 16 services decommissioned, 213 GB archived, zero data loss.',
         ],
       },
       {
@@ -92,11 +93,11 @@ export const EN: SiteContent = {
         company: 'GoCode Pte Ltd',
         role: 'Senior Backend Developer (Node.js, contract)',
         project: 'B2B/B2C interactive game platform',
-        headline: { value: '+26%', label: 'Performance of high-throughput services' },
+        headline: { value: '3 platforms', label: 'Served by the game-engine layer' },
         points: [
-          'Built NestJS REST services for platform integrations and designed a game-engine layer for gameplay logic, state transitions and rule validation, supporting 3 integrations.',
-          'Used Redis for caching and session state and Kafka for async event streaming, decoupling high-throughput services and improving performance by 26%.',
-          'Led a refactor around standard module templates and architecture guidelines, and ran regular code reviews for the team.',
+          'Built NestJS REST services and a game-engine layer (game logic, state transitions, rule validation) serving 3 internal platforms: admin dashboard, real-time game computation, and wallet debit and refund.',
+          'Added Redis caching and session state, implemented Kafka event-streaming interfaces for service decoupling (not yet deployed at handover), documented API contracts in Swagger (OpenAPI), and unit-tested with Jest.',
+          'Took on tech-lead duties in a 6-person team: led a refactor onto 7 standardized module templates and reviewed 10–20 pull requests a month.',
         ],
       },
       {
@@ -105,23 +106,24 @@ export const EN: SiteContent = {
         company: 'Freelance',
         role: 'Backend Developer (part-time)',
         project: 'ESG consulting platform',
-        headline: { value: '+23%', label: 'Across 7 key service metrics' },
+        headline: { value: '−23%', label: 'Avg. processing time across 7 features' },
         points: [
-          'Built FastAPI services with Pydantic validation, centralized logging, unified error handling and secure auth, improving 7 key service metrics by 23%.',
-          'Processed millions of ESG records with GCP BigQuery, improving processing efficiency by 17%, and designed PostgreSQL schemas and indexes on Cloud SQL that cut dashboard queries from 1.1s to 0.7s, with an Alembic workflow adopted by 5 developers.',
+          'Built FastAPI REST services behind 7 platform features (survey entry, scoring, ESG analysis, peer benchmarking, improvement Q&A, report generation, historical comparison), cutting their average processing time by 23% with all acceptance criteria met.',
+          'Added Pydantic validation, centralized logging middleware, unified exception handling and auth. Designed PostgreSQL schemas and indexes on GCP Cloud SQL, set up an Alembic migration workflow adopted by 5 developers, and integrated BigQuery for million-row ESG datasets.',
+          'Built WebSocket notifications on a message queue that fan out new articles to subscribers by category (many-to-many), an estimated few hundred a day.',
         ],
       },
       {
         key: 'zealogics',
-        period: 'May 2023 – Sep 2025',
-        company: 'Zealogics Taiwan',
+        period: 'May 2023 – Jul 2025',
+        company: 'Zealogics',
         role: 'Senior C# Developer',
         project: 'ASML e-Beam inspection system (on site at client)',
-        headline: { value: '11% → 32%', label: 'Test coverage across machine configurations' },
+        headline: { value: '11% → 32%', label: 'Code coverage' },
         points: [
-          'Designed and maintained the modular .NET architecture of a high-precision e-Beam inspection system, and led core modules through the migration from .NET Framework to .NET Core.',
-          'Built a Python and TestComplete automation framework with a reusable simulation library, raising test coverage from 11% to 32% across machine configurations.',
-          "Delivered 3 UML design documents that aligned PMs, FAEs and QA on feasibility and requirements; test validation reports shortened the client's UAT cycle.",
+          'Designed and maintained modular .NET components for a high-precision e-Beam inspection system with complex hardware integration, unit-tested with NUnit.',
+          'Built a Python and TestComplete automation framework with reusable simulation libraries: 70+ new automated test cases, machine configurations covered from ~10 to 30+, code coverage from 11% to 32%, and regression runs for stable features from over 1 hour to ~20 minutes.',
+          'Wrote UML design documents that aligned PMs, FAEs and QA on feasibility and customer requirements (3 documented designs), and produced test validation reports for customer UAT.',
         ],
       },
       {
@@ -132,22 +134,22 @@ export const EN: SiteContent = {
         project: 'Enterprise and financial platforms',
         headline: { value: '−50%', label: 'Loan review time' },
         points: [
-          'Built a collateral scorecard engine that automated credit-risk assessment for loan approvals, making assessments 27% more efficient and halving review time.',
-          'Built an HR and statistics SPA (ASP.NET Core, Vue.js) with MSSQL tuning and automated reports, cutting processing time from 1.5 weeks to 4 days.',
-          'Implemented SSO between ESP and ERP platforms through cross-system Oracle views and unified permissions, covering 3 integrated systems.',
+          "Developed a collateral scorecard engine that automated credit-risk assessment for loan approvals; appraisers' weekly reports showed 27% higher assessment efficiency and 50% less review time.",
+          'Built an HR and statistics SPA end to end (ASP.NET Core API, Vue.js front end), replacing ad-hoc Excel sheets with standardized .docx, .xlsx and .pdf reports. Tuned MSSQL queries from 0.9s to 0.55s and cut HR processing time from 1.5 weeks to 4 days.',
+          'Built NestJS APIs with strict validation pipes for high-volume asset-valuation data sync, and implemented SSO across ArgoERP, a Vitals/KM system and a case-workflow system via cross-system Oracle views and unified permissions.',
         ],
       },
       {
         key: 'hamastar',
         period: 'Aug 2019 – Jan 2022',
-        company: 'Hamastar',
+        company: 'Hamastar Technology',
         role: 'Software Engineer',
         project: 'Public-sector and enterprise projects',
         headline: { value: '−53%', label: 'External API calls at traffic peaks' },
         points: [
-          "Integrated PTX and ArcGIS APIs into Hualien's real-time bus tracking portal, with scheduled caching that cut external API calls by 53% during traffic peaks.",
-          'Led a parallel SharePoint migration for a state-owned enterprise, reaching 100% data consistency through cross-platform mapping and validation.',
-          'Built ETL pipelines consolidating datasets from multiple agencies for a government data platform, and rebuilt a multi-format export engine with the Factory pattern and DI for 41% faster exports.',
+          "Integrated PTX and ArcGIS APIs into Hualien's real-time bus-tracking portal and built its front end in ASP.NET Web Forms from Figma designs; scheduled caching cut peak-hour external API calls by 53%.",
+          'Built ETL pipelines merging hundreds of thousands of records from multiple agencies for a government shared platform, saving 3.5 hours of work a day.',
+          "Led a state-owned enterprise's parallel SharePoint migration, reaching 100% data consistency through cross-platform mapping and validation. Built a multi-format export engine (XLSX, ODS, PDF) and decoupled its mobile-office APIs with the Factory pattern and DI, making exports 41% faster.",
         ],
       },
       {
@@ -158,8 +160,8 @@ export const EN: SiteContent = {
         project: 'Electronic payment systems',
         headline: { value: 'Tens of millions', label: 'Records in monthly settlement runs' },
         points: [
-          'Integrated secure payment APIs with multiple banks and merchants, owning design docs, load testing and reconciliation for 24/7 transaction stability at 99.9% availability.',
-          'Led the move of transaction IDs from serial values to GUIDs for distributed growth, and built monthly settlement procedures handling tens of millions of records.',
+          'Integrated payment APIs with a bank and multiple merchants (duty-free, taxi, coffee and convenience chains) in the six months before launch, with design documents, load testing and reconciliation for 24/7 transactions.',
+          'Proposed moving transaction record IDs from serial values to GUIDs for distributed growth, then co-executed it with the team lead after DBA review, with no records lost. Built monthly settlement stored procedures processing tens of millions of records.',
         ],
       },
       {
@@ -168,10 +170,10 @@ export const EN: SiteContent = {
         company: 'Azion Corporation',
         role: 'Software Engineer',
         project: 'Banking solutions',
-        headline: { value: '+13%', label: 'Credit and lending system reliability' },
+        headline: { value: '2 banks', label: 'Collateral, credit and lending systems' },
         points: [
-          "Developed core modules of a bank's collateral management system, with MSSQL validation rules that kept credit-appraisal data accurate.",
-          "Maintained a bank's credit and lending system through Oracle data migrations and daily root-cause analysis, improving reliability by 13%.",
+          "Developed core modules of a bank's collateral management system in ASP.NET Web Forms (C#), enforcing credit-assessment data accuracy with MSSQL validation rules.",
+          "Maintained another bank's credit and lending systems (ASP.NET Web Forms with VB.NET, Oracle): ran data migrations and resolved client-reported incidents through root-cause analysis and patch delivery.",
         ],
       },
     ],
@@ -180,9 +182,10 @@ export const EN: SiteContent = {
       years: '2011 – 2016',
     },
     languages: [
-      { name: 'Chinese', level: 'Native' },
+      { name: 'Mandarin Chinese', level: 'Native' },
+      { name: 'Taiwanese Hokkien', level: 'Native' },
       { name: 'English', level: 'Intermediate' },
-      { name: 'Japanese', level: 'Intermediate' },
+      { name: 'Japanese', level: 'Basic' },
     ],
   },
   skills: {
